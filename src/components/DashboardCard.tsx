@@ -23,7 +23,7 @@ export default function DashboardCard({
     >
       {(title || badge) && (
         <div
-          className={`flex items-center justify-between ${noPadding ? "" : "px-5 pt-5 pb-0"}`}
+          className={`flex items-center justify-between ${noPadding ? "" : "px-4 md:px-5 pt-5 pb-0"}`}
         >
           <div className="flex items-center gap-2">
             {icon}
@@ -32,7 +32,7 @@ export default function DashboardCard({
           {badge}
         </div>
       )}
-      <div className={noPadding ? "" : "p-5 pt-3"}>{children}</div>
+      <div className={noPadding ? "" : "p-4 md:p-5 pt-3"}>{children}</div>
     </div>
   );
 }

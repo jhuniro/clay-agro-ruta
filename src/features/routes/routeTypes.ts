@@ -18,6 +18,16 @@ export interface RouteCoordinates {
   destination: Coordinate
 }
 
+export interface AlternativeRoute {
+  id: string
+  name: string
+  distance: string
+  estimatedTime: string
+  status: RouteStatus
+  waypoints: Coordinate[]
+  recommendation?: string
+}
+
 export interface Route {
   id: string
   name: string
@@ -29,6 +39,8 @@ export interface Route {
   incidentType?: IncidentType
   recommendation: string
   coordinates: RouteCoordinates
+  waypoints: Coordinate[]
+  alternativeRoutes: AlternativeRoute[]
 }
 
 export interface Incident {
@@ -40,6 +52,7 @@ export interface Incident {
   description: string
   reportedAt: string
   recommendation: string
+  coordinate: Coordinate
 }
 
 export interface RouteTip {

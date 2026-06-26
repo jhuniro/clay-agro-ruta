@@ -1,4 +1,4 @@
-import type { Route, RouteStatus, Coordinate } from './routeTypes'
+import type { Route, RouteStatus, Coordinate, Incident } from './routeTypes'
 
 const ROUTE_COLORS: Record<RouteStatus, string> = {
   LIBRE: '#22c55e',
@@ -37,4 +37,39 @@ export function getZoomForRoute(a: Coordinate, b: Coordinate): number {
   if (maxDiff > 0.1) return 12
   if (maxDiff > 0.05) return 13
   return 14
+}
+
+export function getRouteBounds(waypoints: Coordinate[]): { center: Coordinate; zoom: number } {
+  if (waypoints.length === 0) return { center: [-76.24, -9.93], zoom: 12 }
+  if (waypoints.length === 1) return { center: waypoints[0], zoom: 14 }
+
+  let minLng = Infinity, maxLng = -Infinity
+  let minLat = Infinity, maxLat = -Infinity
+
+  for (const [lng, lat] of waypoints) {
+    if (lng < minLng) minLng = lng
+    if (lng > maxLng) maxLng = lng
+    if (lat < minLat) minLat = lat
+    if (lat > maxLat) maxLat = lat
+  }
+
+  const center: Coordinate = [(minLng + maxLng) / 2, (minLat + maxLat) / 2]
+  const lngDiff = maxLng - minLng
+  const latDiff = maxLat - minLat
+  const maxDiff = Math.max(lngDiff, latDiff)
+
+  let zoom = 12
+  if (maxDiff > 1.0) zoom = 8
+  else if (maxDiff > 0.5) zoom = 9
+  else if (maxDiff > 0.2) zoom = 10
+  else if (maxDiff > 0.1) zoom = 11
+  else if (maxDiff > 0.05) zoom = 12
+  else if (maxDiff > 0.02) zoom = 13
+  else zoom = 14
+
+  return { center, zoom }
+}
+
+export function getIncidentsForRoute(incidents: Incident[], routeId: string): Incident[] {
+  return incidents.filter((i) => i.routeId === routeId)
 }

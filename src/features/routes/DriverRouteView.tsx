@@ -1,18 +1,30 @@
 import { useState, useEffect, useCallback } from 'react'
-import { mockRoutes } from './routeMockData'
-import { getRoutesForDriver } from './routeService'
+import { mockRoutes, mockIncidents } from './routeMockData'
+import { getRoutesForDriver, getIncidentsForRoute } from './routeService'
 import { generateArc, animateMarker } from './trackingService'
 import RouteStatusBadge from './RouteStatusBadge'
+import RouteSelector from './RouteSelector'
+import ReplanificationModal from './ReplanificationModal'
 import MapView from './MapView'
 import type { Coordinate } from './routeTypes'
 
 export default function DriverRouteView() {
   const { pickup, delivery } = getRoutesForDriver(mockRoutes)
   const [activeRoute, setActiveRoute] = useState<'pickup' | 'delivery'>('pickup')
+  const [selectedRouteId, setSelectedRouteId] = useState<string>(pickup.id)
   const [truckPos, setTruckPos] = useState<Coordinate | undefined>()
   const [isMoving, setIsMoving] = useState(false)
+  const [showReplanification, setShowReplanification] = useState(false)
 
   const currentRoute = activeRoute === 'pickup' ? pickup : delivery
+  const routeIncidents = getIncidentsForRoute(mockIncidents, currentRoute.id)
+
+  useEffect(() => {
+    setSelectedRouteId(currentRoute.id)
+    if (currentRoute.status === 'BLOQUEADA' && currentRoute.alternativeRoutes.length > 0) {
+      setShowReplanification(true)
+    }
+  }, [currentRoute.id])
 
   const startTracking = useCallback(() => {
     if (!currentRoute.coordinates) return
@@ -39,7 +51,7 @@ export default function DriverRouteView() {
 
   return (
     <div className="bg-[#0c1a0e] border border-[rgba(0,230,118,0.08)] rounded-2xl overflow-hidden shadow-lg shadow-black/20">
-      <div className="px-5 pt-5 pb-0">
+      <div className="px-4 md:px-5 pt-5 pb-0">
         <div className="flex gap-2 mb-3">
           <button
             onClick={() => { setActiveRoute('pickup'); setTruckPos(undefined); setIsMoving(false) }}
@@ -76,16 +88,26 @@ export default function DriverRouteView() {
         </div>
       </div>
 
-      <div className="px-5 pt-3">
+      <div className="px-4 md:px-5 pt-3">
         <MapView
           route={currentRoute}
+          incidents={routeIncidents}
+          showAlternatives
+          selectedAlternativeId={selectedRouteId}
           showTruck
           truckPosition={truckPos}
           height={300}
+          onAlternativeSelect={setSelectedRouteId}
         />
       </div>
 
-      <div className="px-5 pt-4 pb-5 space-y-3">
+      <div className="px-4 md:px-5 pt-4 space-y-3">
+        <RouteSelector
+          route={currentRoute}
+          selectedId={selectedRouteId}
+          onSelect={setSelectedRouteId}
+        />
+
         <button
           onClick={startTracking}
           disabled={isMoving}
@@ -98,17 +120,17 @@ export default function DriverRouteView() {
           {isMoving ? 'En ruta...' : 'Iniciar ruta'}
         </button>
 
-        <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Distancia</span>
+        <div className="flex gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Distancia</span>
             <p className="text-sm font-bold text-white mt-0.5">{currentRoute.distance}</p>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Tiempo</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Tiempo</span>
             <p className="text-sm font-bold text-white mt-0.5">{currentRoute.estimatedTime}</p>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Ganancia</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Ganancia</span>
             <p className="text-sm font-extrabold text-[#ffab00] mt-0.5">S/ 120.00</p>
           </div>
         </div>
@@ -119,6 +141,19 @@ export default function DriverRouteView() {
           </p>
         )}
       </div>
+
+      <div className="pb-5" />
+
+      {showReplanification && currentRoute.status === 'BLOQUEADA' && (
+        <ReplanificationModal
+          route={currentRoute}
+          onAccept={(altId) => {
+            setSelectedRouteId(altId)
+            setShowReplanification(false)
+          }}
+          onDismiss={() => setShowReplanification(false)}
+        />
+      )}
     </div>
   )
 }

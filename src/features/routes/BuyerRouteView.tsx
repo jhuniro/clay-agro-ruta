@@ -1,5 +1,5 @@
-import { mockRoutes } from './routeMockData'
-import { getRouteForBuyer } from './routeService'
+import { mockRoutes, mockIncidents } from './routeMockData'
+import { getRouteForBuyer, getIncidentsForRoute } from './routeService'
 import RouteStatusBadge from './RouteStatusBadge'
 import MapView from './MapView'
 
@@ -7,9 +7,11 @@ export default function BuyerRouteView() {
   const route = getRouteForBuyer(mockRoutes)
   if (!route) return null
 
+  const routeIncidents = getIncidentsForRoute(mockIncidents, route.id)
+
   return (
     <div className="bg-[#0c1a0e] border border-[rgba(0,230,118,0.08)] rounded-2xl overflow-hidden shadow-lg shadow-black/20">
-      <div className="flex items-center justify-between px-5 pt-5 pb-0">
+      <div className="flex items-center justify-between px-4 md:px-5 pt-5 pb-0">
         <div>
           <span className="text-[11px] uppercase font-bold tracking-wider text-[#66bb6a]">
             Monitoreo en Tiempo Real
@@ -21,22 +23,22 @@ export default function BuyerRouteView() {
         <RouteStatusBadge status={route.status} />
       </div>
 
-      <div className="px-5 pt-3">
-        <MapView route={route} height={300} />
+      <div className="px-4 md:px-5 pt-3">
+        <MapView route={route} incidents={routeIncidents} height={300} />
       </div>
 
-      <div className="px-5 pt-4 pb-5 space-y-3">
-        <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Origen</span>
+      <div className="px-4 md:px-5 pt-4 pb-5 space-y-3">
+        <div className="flex gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Origen</span>
             <p className="text-sm font-bold text-white truncate mt-0.5">{route.origin}</p>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Destino</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Destino</span>
             <p className="text-sm font-bold text-[#00e676] truncate mt-0.5">{route.destination}</p>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Estado</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Estado</span>
             <p className="text-sm font-bold text-white truncate mt-0.5">{route.status}</p>
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { mockRoutes } from './routeMockData'
-import { getRouteForFarmer } from './routeService'
+import { mockRoutes, mockIncidents } from './routeMockData'
+import { getRouteForFarmer, getIncidentsForRoute } from './routeService'
 import RouteStatusBadge from './RouteStatusBadge'
 import MapView from './MapView'
 
@@ -7,29 +7,31 @@ export default function FarmerRouteView() {
   const route = getRouteForFarmer(mockRoutes)
   if (!route) return null
 
+  const routeIncidents = getIncidentsForRoute(mockIncidents, route.id)
+
   return (
     <div className="bg-[#0c1a0e] border border-[rgba(0,230,118,0.08)] rounded-2xl overflow-hidden shadow-lg shadow-black/20">
-      <div className="flex items-center justify-between px-5 pt-5 pb-0">
+      <div className="flex items-center justify-between px-4 md:px-5 pt-5 pb-0">
         <h3 className="text-base font-bold text-white">Tu ruta de envío</h3>
         <RouteStatusBadge status={route.status} />
       </div>
 
-      <div className="px-5 pt-3">
-        <MapView route={route} height={300} />
+      <div className="px-4 md:px-5 pt-3">
+        <MapView route={route} incidents={routeIncidents} height={300} />
       </div>
 
-      <div className="px-5 pt-4 pb-5 space-y-3">
-        <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Distancia</span>
+      <div className="px-4 md:px-5 pt-4 pb-5 space-y-3">
+        <div className="flex gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Distancia</span>
             <p className="text-sm font-bold text-white mt-0.5">{route.distance}</p>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Tiempo</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Tiempo</span>
             <p className="text-sm font-bold text-white mt-0.5">{route.estimatedTime}</p>
           </div>
-          <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Estado</span>
+          <div className="min-w-0 flex-1">
+            <span className="text-xs uppercase font-bold tracking-wider text-[#81c784]">Estado</span>
             <p className="text-sm font-bold text-white mt-0.5">{route.status}</p>
           </div>
         </div>
