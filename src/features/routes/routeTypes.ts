@@ -1,3 +1,5 @@
+export type Coordinate = [number, number]
+
 export type RouteStatus = 'LIBRE' | 'RIESGO' | 'BLOQUEADA'
 
 export type IncidentType =
@@ -11,6 +13,11 @@ export type IncidentType =
 
 export type Severity = 'LOW' | 'MEDIUM' | 'HIGH'
 
+export interface RouteCoordinates {
+  origin: Coordinate
+  destination: Coordinate
+}
+
 export interface Route {
   id: string
   name: string
@@ -21,6 +28,7 @@ export interface Route {
   distance: string
   incidentType?: IncidentType
   recommendation: string
+  coordinates: RouteCoordinates
 }
 
 export interface Incident {

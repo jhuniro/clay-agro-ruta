@@ -10,6 +10,10 @@ export const mockRoutes: Route[] = [
     estimatedTime: '25 min',
     distance: '8 km',
     recommendation: 'Ruta disponible para traslado agrícola.',
+    coordinates: {
+      origin: [-76.2433, -9.9300],
+      destination: [-76.2027, -9.9160],
+    },
   },
   {
     id: 'route-002',
@@ -20,6 +24,10 @@ export const mockRoutes: Route[] = [
     estimatedTime: '20 min',
     distance: '6 km',
     recommendation: 'Ruta disponible para traslado agrícola.',
+    coordinates: {
+      origin: [-76.2433, -9.9300],
+      destination: [-76.2200, -9.9050],
+    },
   },
   {
     id: 'route-003',
@@ -31,6 +39,10 @@ export const mockRoutes: Route[] = [
     distance: '120 km',
     incidentType: 'LLUVIA',
     recommendation: 'Conducir con precaución por lluvia intensa.',
+    coordinates: {
+      origin: [-76.2433, -9.9300],
+      destination: [-75.9900, -9.3000],
+    },
   },
   {
     id: 'route-004',
@@ -42,6 +54,10 @@ export const mockRoutes: Route[] = [
     distance: '95 km',
     incidentType: 'HUAICO',
     recommendation: 'Evitar esta ruta hasta nueva actualización.',
+    coordinates: {
+      origin: [-76.2433, -9.9300],
+      destination: [-76.2400, -10.6800],
+    },
   },
   {
     id: 'route-005',
@@ -53,6 +69,10 @@ export const mockRoutes: Route[] = [
     distance: '4 km',
     incidentType: 'VIA_LENTA',
     recommendation: 'Tránsito lento por alta afluencia de vehículos.',
+    coordinates: {
+      origin: [-76.2027, -9.9160],
+      destination: [-76.2400, -9.9380],
+    },
   },
 ]
 

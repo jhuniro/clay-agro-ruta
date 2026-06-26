@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { mockRoutes } from './features/routes/routeMockData'
-import RouteMap from './features/routes/RouteMap'
+import MapView from './features/routes/MapView'
 import RouteAlerts from './features/routes/RouteAlerts'
 import RouteStatusBadge from './features/routes/RouteStatusBadge'
 import FarmerDashboard from './features/farmer/FarmerDashboard'
@@ -98,7 +98,7 @@ function App() {
             </header>
 
             {selectedRoute ? (
-              <RouteMap route={selectedRoute} />
+              <MapView route={selectedRoute} />
             ) : (
               <div className="route-list">
                 {mockRoutes.map((route) => (
@@ -171,14 +171,6 @@ function App() {
             </button>
           ))}
         </nav>
-
-        <div className="welcome-card__divider" aria-hidden="true">
-          <span className="welcome-card__divider-text">Demo de rutas</span>
-        </div>
-
-        <button className="route-demo-btn" onClick={() => setView('routes')} type="button">
-          🗺️  Ver módulo de rutas
-        </button>
 
         <p className="welcome-card__footer">
           Región Huánuco · Perú &nbsp;·&nbsp; <span>Hackathon Clay 2026</span>
