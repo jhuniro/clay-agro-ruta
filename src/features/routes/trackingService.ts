@@ -19,19 +19,24 @@ export function generateArc(
 export function animateMarker(
   arc: Coordinate[],
   onPosition: (pos: Coordinate) => void,
-  speed: number = 20
+  speed: number = 20,
+  onComplete?: () => void
 ): () => void {
   let counter = 0
   let timerId: ReturnType<typeof setTimeout>
+  let cancelled = false
 
   function tick() {
+    if (cancelled) return
     onPosition(arc[counter])
     counter++
     if (counter < arc.length) {
       timerId = setTimeout(tick, speed)
+    } else {
+      onComplete?.()
     }
   }
 
   tick()
-  return () => clearTimeout(timerId)
+  return () => { cancelled = true; clearTimeout(timerId) }
 }

@@ -26,12 +26,7 @@ export default function DriverRouteView() {
     setIsMoving(true)
     const stop = animateMarker(arc, (pos) => {
       setTruckPos(pos)
-    }, 30)
-
-    setTimeout(() => {
-      setIsMoving(false)
-      stop()
-    }, 150 * 30)
+    }, 30, () => setIsMoving(false))
 
     return stop
   }, [currentRoute])
