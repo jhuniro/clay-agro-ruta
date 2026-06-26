@@ -48,6 +48,12 @@ export default function MapView({
       "top-right",
     );
 
+    map.on("styleimagemissing", (e) => {
+      if (!map.hasImage(e.id)) {
+        map.addImage(e.id, { width: 0, height: 0, data: new Uint8Array(0) });
+      }
+    });
+
     map.on("load", () => {
       // Línea de ruta
       map.addSource("route", {

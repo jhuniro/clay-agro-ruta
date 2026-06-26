@@ -124,3 +124,37 @@ body {
     white-space: nowrap;
     border: 0;
 }
+
+/* =============================================
+   MAPLIBRE POPUP — Dark Theme
+   ============================================= */
+.maplibregl-popup-content {
+    background: #0c1a0e !important;
+    color: #e8f5e9 !important;
+    border: 1px solid rgba(0, 230, 118, 0.15) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+    padding: 8px 14px !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+    border-top-color: #0c1a0e !important;
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+    border-bottom-color: #0c1a0e !important;
+}
+
+.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+    border-right-color: #0c1a0e !important;
+}
+
+.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+    border-left-color: #0c1a0e !important;
+}
