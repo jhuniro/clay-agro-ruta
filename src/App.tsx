@@ -1,13 +1,10 @@
-import { useState } from 'react'
 import './App.css'
-import FarmerDashboard from './features/farmer/FarmerDashboard'
-import BuyerDashboard from './features/buyer/BuyerDashboard'
-import TransporterDashboard from './features/transporter/TransporterDashboard'
-
-type UserRole = 'farmer' | 'buyer' | 'transporter'
+import { AppProvider, useApp } from './context/AppContext'
+import AppLayout from './layouts/AppLayout'
+import ModuleRouter from './modules/ModuleRouter'
 
 interface RoleOption {
-  id: UserRole
+  id: 'farmer' | 'buyer' | 'transporter'
   label: string
   hint: string
   icon: string
@@ -38,12 +35,16 @@ const ROLES: RoleOption[] = [
   },
 ]
 
-function App() {
-  const [role, setRole] = useState<UserRole | null>(null)
+function AppRouter() {
+  const { role, setRole } = useApp()
 
-  if (role === 'farmer') return <FarmerDashboard />
-  if (role === 'buyer') return <BuyerDashboard />
-  if (role === 'transporter') return <TransporterDashboard />
+  if (role) {
+    return (
+      <AppLayout>
+        <ModuleRouter />
+      </AppLayout>
+    )
+  }
 
   return (
     <main className="app" aria-label="AgroRuta Huánuco — Selección de rol">
@@ -96,4 +97,10 @@ function App() {
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <AppProvider>
+      <AppRouter />
+    </AppProvider>
+  )
+}
