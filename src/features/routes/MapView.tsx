@@ -3,7 +3,7 @@ import maplibregl from "maplibre-gl";
 import type { Route, Coordinate } from "./routeTypes";
 import { getRouteColor, getCenter, getZoomForRoute } from "./routeService";
 
-const TILE_STYLE = "https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png";
+const TILE_STYLE = "https://tiles.openfreemap.org/styles/dark";
 
 interface Props {
   route: Route;
