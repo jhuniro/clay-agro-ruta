@@ -1,38 +1,53 @@
-/* =============================================
-   AgroRuta Huánuco — Global Styles
-   Mobile-first design system
-   ============================================= */
+@import "tailwindcss";
 
-/* --- Google Fonts are loaded via index.html --- */
-
-/* --- CSS Custom Properties (Design Tokens) --- */
 :root {
-  /* Brand Colors */
-  --color-primary:       #2d7a3a;
-  --color-primary-light: #3da64f;
-  --color-primary-dark:  #1e5528;
-  --color-accent:        #f5a623;
-  --color-accent-dark:   #c97d0a;
+  /* Brand Colors - más vibrantes */
+  --color-primary:       #00e676;
+  --color-primary-light: #69f0ae;
+  --color-primary-dark:  #00a84d;
+  --color-accent:        #ffab00;
+  --color-accent-dark:   #ff6d00;
+
+  /* Neon accents */
+  --color-neon-green:  #00ff88;
+  --color-neon-blue:   #0088ff;
+  --color-neon-purple: #bb44ff;
+  --color-neon-red:    #ff3355;
+  --color-neon-amber:  #ffbb00;
 
   /* Roles */
-  --color-farmer:     #2d7a3a;
-  --color-buyer:      #1a6b9a;
-  --color-transporter:#7b3fa0;
+  --color-farmer:      #00e676;
+  --color-buyer:       #0088ff;
+  --color-transporter: #bb44ff;
 
-  /* Neutral / Backgrounds */
-  --color-bg:         #0a150b;
-  --color-bg-card:    #111e12;
-  --color-bg-surface: #162217;
-  --color-border:     rgba(45, 122, 58, 0.25);
+  /* Backgrounds - más profundos */
+  --color-bg:          #050b06;
+  --color-bg-card:     #0c1a0e;
+  --color-bg-surface:  #112413;
+  --color-border:      rgba(0, 230, 118, 0.15);
 
   /* Text */
-  --color-text:       #e8f5e9;
-  --color-text-muted: #8aad8e;
-  --color-text-dim:   #4d6b50;
+  --color-text:        #e8f5e9;
+  --color-text-muted:  #80cbc4;
+  --color-text-dim:    #3d6b4f;
+
+  /* Route status - neón */
+  --color-libre:       #00ff88;
+  --color-libre-bg:    rgba(0, 255, 136, 0.1);
+  --color-riesgo:      #ffbb00;
+  --color-riesgo-bg:   rgba(255, 187, 0, 0.1);
+  --color-bloqueada:   #ff3355;
+  --color-bloqueada-bg:rgba(255, 51, 85, 0.1);
+
+  /* Severity */
+  --color-low:         #6b7280;
+  --color-medium:      #ffbb00;
+  --color-high:        #ff3355;
 
   /* Typography */
   --font-body:    'Inter', system-ui, sans-serif;
   --font-display: 'Outfit', 'Inter', sans-serif;
+  --font-gps:     'Orbitron', 'Inter', monospace;
 
   /* Spacing */
   --space-xs:  0.25rem;
@@ -49,31 +64,31 @@
   --radius-xl: 2rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-glow-green:  0 0 32px rgba(45, 122, 58, 0.35);
-  --shadow-glow-accent: 0 0 24px rgba(245, 166, 35, 0.4);
-  --shadow-card:        0 8px 32px rgba(0, 0, 0, 0.5);
+  /* 3D Shadows */
+  --shadow-3d-sm:   0 2px 4px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.6);
+  --shadow-3d-md:   0 4px 12px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.6);
+  --shadow-3d-lg:   0 8px 32px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.5);
+  --shadow-3d-xl:   0 12px 48px rgba(0,0,0,0.7), 0 6px 16px rgba(0,0,0,0.5);
+
+  /* Glow shadows */
+  --shadow-glow-green:  0 0 20px rgba(0, 255, 136, 0.25), 0 0 60px rgba(0, 255, 136, 0.1);
+  --shadow-glow-blue:   0 0 20px rgba(0, 136, 255, 0.25), 0 0 60px rgba(0, 136, 255, 0.1);
+  --shadow-glow-purple: 0 0 20px rgba(187, 68, 255, 0.25), 0 0 60px rgba(187, 68, 255, 0.1);
+  --shadow-glow-amber:  0 0 20px rgba(255, 187, 0, 0.25), 0 0 60px rgba(255, 187, 0, 0.1);
+  --shadow-glow-red:    0 0 20px rgba(255, 51, 85, 0.25), 0 0 60px rgba(255, 51, 85, 0.1);
+  --shadow-glow-card:   0 0 30px rgba(0, 230, 118, 0.08);
+
+  /* Glassmorphism */
+  --glass-bg:      linear-gradient(145deg, rgba(12, 26, 14, 0.75), rgba(17, 36, 19, 0.85));
+  --glass-border:  1px solid rgba(0, 230, 118, 0.12);
+  --glass-blur:    blur(20px);
 
   /* Transitions */
-  --transition-fast:   150ms ease;
-  --transition-base:   250ms ease;
-  --transition-slow:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  /* Route status colors */
-  --color-libre:       #22c55e;
-  --color-libre-bg:    rgba(34,197,94,0.12);
-  --color-riesgo:      #eab308;
-  --color-riesgo-bg:   rgba(234,179,8,0.12);
-  --color-bloqueada:   #ef4444;
-  --color-bloqueada-bg:rgba(239,68,68,0.12);
-
-  /* Severity colors */
-  --color-low:         #6b7280;
-  --color-medium:      #eab308;
-  --color-high:        #ef4444;
+  --transition-fast:   150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-base:   300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-slow:   500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* --- Reset & Base --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -103,7 +118,6 @@ body {
   flex-direction: column;
 }
 
-/* --- Utility: visually hidden --- */
 .sr-only {
   position: absolute;
   width: 1px;

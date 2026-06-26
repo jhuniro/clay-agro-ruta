@@ -4,6 +4,9 @@ import { mockRoutes } from './features/routes/routeMockData'
 import RouteMap from './features/routes/RouteMap'
 import RouteAlerts from './features/routes/RouteAlerts'
 import RouteStatusBadge from './features/routes/RouteStatusBadge'
+import FarmerDashboard from './features/farmer/FarmerDashboard'
+import BuyerDashboard from './features/buyer/BuyerDashboard'
+import TransporterDashboard from './features/transporter/TransporterDashboard'
 import type { Route } from './features/routes/routeTypes'
 
 // ─── Role definitions ────────────────────────────────────────────────────────
@@ -43,22 +46,38 @@ const ROLES: RoleOption[] = [
 
 // ─── Component ───────────────────────────────────────────────────────────────
 function App() {
-  const [view, setView] = useState<'home' | 'routes'>('home')
+  const [view, setView] = useState<'home' | 'routes' | 'dashboard'>('home')
+  const [role, setRole] = useState<UserRole | null>(null)
   const [selectedRoute, setSelectedRoute] = useState<Route | null>(null)
 
-  const handleRoleSelect = (role: UserRole) => {
-    console.log('[AgroRuta] Rol seleccionado:', role)
-    alert(`Rol seleccionado: ${role}\n\n(Próximamente: pantalla de ${role})`)
+  const handleRoleSelect = (selected: UserRole) => {
+    setRole(selected)
+    setView('dashboard')
   }
 
   const handleRouteClick = (route: Route) => {
     setSelectedRoute(route)
   }
 
+  if (view === 'dashboard' && role === 'farmer') {
+    return <FarmerDashboard />
+  }
+
+  if (view === 'dashboard' && role === 'buyer') {
+    return <BuyerDashboard />
+  }
+
+  if (view === 'dashboard' && role === 'transporter') {
+    return <TransporterDashboard />
+  }
+
   if (view === 'routes') {
     return (
       <main className="app" aria-label="AgroRuta Huánuco — Módulo de Rutas">
         <div className="app__orb" aria-hidden="true" />
+        <div className="app__orb" aria-hidden="true" />
+        <div className="app__orb" aria-hidden="true" />
+        <div className="scan-line" aria-hidden="true" />
         <div className="routes-view">
           <button className="routes-view__back" onClick={() => { setView('home'); setSelectedRoute(null) }} type="button">
             ← Volver
@@ -68,18 +87,19 @@ function App() {
 
           <RouteAlerts />
 
-          {selectedRoute ? (
-            <section>
-              <button className="routes-view__back" onClick={() => setSelectedRoute(null)} type="button">
-                ← Ver todas las rutas
-              </button>
+          <section className="routes-section">
+            <header className="routes-section__header">
+              <h2 className="routes-section__title">Todas las rutas</h2>
+              {selectedRoute && (
+                <button className="routes-section__back" onClick={() => setSelectedRoute(null)} type="button">
+                  ← Volver
+                </button>
+              )}
+            </header>
+
+            {selectedRoute ? (
               <RouteMap route={selectedRoute} />
-            </section>
-          ) : (
-            <>
-              <h2 className="route-alerts__title route-alerts__title--list">
-                Todas las rutas
-              </h2>
+            ) : (
               <div className="route-list">
                 {mockRoutes.map((route) => (
                   <button
@@ -98,8 +118,8 @@ function App() {
                   </button>
                 ))}
               </div>
-            </>
-          )}
+            )}
+          </section>
         </div>
       </main>
     )
@@ -108,6 +128,9 @@ function App() {
   return (
     <main className="app" aria-label="AgroRuta Huánuco — Selección de rol">
       <div className="app__orb" aria-hidden="true" />
+      <div className="app__orb" aria-hidden="true" />
+      <div className="app__orb" aria-hidden="true" />
+      <div className="scan-line" aria-hidden="true" />
 
       <div className="welcome-card" role="region" aria-labelledby="app-title">
 
