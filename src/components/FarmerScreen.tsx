@@ -1,10 +1,16 @@
+import { useState } from 'react'
+import FarmerMap from './FarmerMap'
 import './RoleScreens.css'
 
 interface Props {
   onBack: () => void
 }
 
+type SubView = 'dashboard' | 'map'
+
 export default function FarmerScreen({ onBack }: Props) {
+  const [subView, setSubView] = useState<SubView>('dashboard')
+
   return (
     <div className="role-screen" aria-label="Pantalla del Agricultor">
       <div className="role-topbar">
@@ -19,6 +25,39 @@ export default function FarmerScreen({ onBack }: Props) {
       </h1>
       <p className="role-subtitle">Gestiona tus cosechas y revisa el estado de las rutas</p>
 
+      {/* Content */}
+      <div className="farmer-content">
+        {subView === 'dashboard' && <FarmerDashboard />}
+        {subView === 'map' && <FarmerMap />}
+      </div>
+
+      {/* Bottom Navigation */}
+      <nav className="buyer-bottomnav">
+        <button
+          className={`buyer-bottomnav__btn ${subView === 'dashboard' ? 'buyer-bottomnav__btn--active' : ''}`}
+          onClick={() => setSubView('dashboard')}
+          type="button"
+        >
+          <span className="buyer-bottomnav__icon">🏠</span>
+          <span className="buyer-bottomnav__label">Inicio</span>
+        </button>
+        <button
+          className={`buyer-bottomnav__btn ${subView === 'map' ? 'buyer-bottomnav__btn--active' : ''}`}
+          onClick={() => setSubView('map')}
+          type="button"
+        >
+          <span className="buyer-bottomnav__icon">🗺️</span>
+          <span className="buyer-bottomnav__label">Mapa GPS</span>
+        </button>
+      </nav>
+    </div>
+  )
+}
+
+// ─── Farmer Dashboard (extracted from old FarmerScreen) ───────────────────────
+function FarmerDashboard() {
+  return (
+    <>
       {/* Alerta vial */}
       <div className="alert-banner alert-banner--warning">
         <svg className="alert-banner__bg" fill="none" viewBox="0 0 342 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,6 +149,6 @@ export default function FarmerScreen({ onBack }: Props) {
           </span>
         </div>
       </div>
-    </div>
+    </>
   )
 }

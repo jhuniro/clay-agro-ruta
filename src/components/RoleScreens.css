@@ -301,6 +301,14 @@
   line-height: 1.5;
 }
 
+/* ---- Farmer Content ---- */
+.farmer-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-md);
+}
+
 /* ---- Active Trip Card ---- */
 .trip-card {
   position: relative;
