@@ -28,15 +28,15 @@ export default function BuyerRouteView() {
       <div className="px-5 pt-4 pb-5 space-y-3">
         <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Origen</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Origen</span>
             <p className="text-sm font-bold text-white truncate mt-0.5">{route.origin}</p>
           </div>
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Destino</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Destino</span>
             <p className="text-sm font-bold text-[#00e676] truncate mt-0.5">{route.destination}</p>
           </div>
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Estado</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Estado</span>
             <p className="text-sm font-bold text-white truncate mt-0.5">{route.status}</p>
           </div>
         </div>

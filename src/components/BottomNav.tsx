@@ -17,7 +17,7 @@ export default function BottomNav() {
             key={item.label}
             type="button"
             className={`flex flex-col items-center gap-0.5 py-3 px-4 transition-colors ${
-              item.active ? 'text-[#00e676]' : 'text-[#3d6b4f]'
+              item.active ? 'text-[#00e676]' : 'text-[#5a9e6f]'
             }`}
           >
             <Icon size={22} />

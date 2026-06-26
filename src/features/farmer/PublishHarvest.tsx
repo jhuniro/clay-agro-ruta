@@ -35,7 +35,7 @@ export default function PublishHarvest() {
                 <input
                   type="text"
                   placeholder="Ej: Papas, Zanahorias, Maíz..."
-                  className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#66bb6a] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
+                  className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#81c784] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
                 />
               </div>
 
@@ -47,7 +47,7 @@ export default function PublishHarvest() {
                   <input
                     type="text"
                     placeholder="Ej: 50 kg"
-                    className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#66bb6a] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
+                    className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#81c784] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
                   />
                 </div>
                 <div>
@@ -57,7 +57,7 @@ export default function PublishHarvest() {
                   <input
                     type="text"
                     placeholder="Ej: 80.00"
-                    className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#66bb6a] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
+                    className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#81c784] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
                   />
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default function PublishHarvest() {
                 <input
                   type="text"
                   placeholder="Ej: Parcela Los Olivos, Huánuco"
-                  className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#66bb6a] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
+                  className="w-full bg-[rgba(0,0,0,0.3)] border border-[rgba(0,230,118,0.08)] rounded-xl px-4 py-3 text-sm text-white placeholder-[#81c784] outline-none focus:border-[#00e676]/30 focus:shadow-[0_0_12px_rgba(230,118,0,0.06)] transition-all"
                 />
               </div>
 

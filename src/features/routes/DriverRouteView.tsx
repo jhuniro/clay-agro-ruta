@@ -100,15 +100,15 @@ export default function DriverRouteView() {
 
         <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Distancia</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Distancia</span>
             <p className="text-sm font-bold text-white mt-0.5">{currentRoute.distance}</p>
           </div>
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Tiempo</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Tiempo</span>
             <p className="text-sm font-bold text-white mt-0.5">{currentRoute.estimatedTime}</p>
           </div>
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Ganancia</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#81c784]">Ganancia</span>
             <p className="text-sm font-extrabold text-[#ffab00] mt-0.5">S/ 120.00</p>
           </div>
         </div>
