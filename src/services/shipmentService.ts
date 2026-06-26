@@ -1,5 +1,7 @@
+// src/services/shipmentService.ts
+
 import { db, isFirebaseConfigured } from '../lib/firebase';
-import { doc, getDoc, setDoc, collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, query, where, getDocs, updateDoc, onSnapshot } from 'firebase/firestore';
 import { Shipment, ShipmentStatus } from '../types/shipmentTypes';
 import { mockShipments } from '../data/mockShipments';
 
@@ -79,11 +81,11 @@ export const createShipmentFromOrder = async (orderId: string): Promise<Shipment
     buyerId: order.buyerId,
     productName: order.productName,
     quantity: order.quantity,
-    unit: order.unit,
+    unit: order.unit as 'KG' | 'TON' | 'SACOS' | 'CAJAS',
     origin: order.origin,
     destination: order.destination || order.origin, // Fallback en caso de que no tenga destino explícito
     status: 'PENDIENTE_TRANSPORTE',
-    routeStatus: order.routeStatus,
+    routeStatus: order.routeStatus as any,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
@@ -124,7 +126,7 @@ export const assignDriverToShipment = async (shipmentId: string, driverId: strin
     const shipments = getSimulatedShipments();
     const index = shipments.findIndex((s) => s.id === shipmentId);
     if (index === -1) throw new Error('Envío no encontrado');
-    
+
     shipments[index].driverId = driverId;
     shipments[index].status = 'TRANSPORTISTA_ASIGNADO';
     shipments[index].updatedAt = new Date().toISOString();
@@ -139,6 +141,7 @@ export const assignDriverToShipment = async (shipmentId: string, driverId: strin
   }
 };
 
+// Actualizar el estado de un envío (y sincronizar el estado de la orden correspondiente)
 // Actualizar el estado de un envío (y sincronizar el estado de la orden correspondiente)
 export const updateShipmentStatus = async (shipmentId: string, status: ShipmentStatus): Promise<void> => {
   let orderId: string | undefined;
@@ -171,16 +174,74 @@ export const updateShipmentStatus = async (shipmentId: string, status: ShipmentS
 
   // Mapeo e inicio de la sincronización con el estado de la orden
   if (orderId) {
-    const { updateOrderStatus } = await import('./orderService');
-    
+    const orderService = await import('./orderService');
     if (status === 'TRANSPORTISTA_ASIGNADO') {
-      await updateOrderStatus(orderId, 'TRANSPORTISTA_ASIGNADO');
+      await orderService.updateOrderStatus(orderId, 'TRANSPORTISTA_ASIGNADO');
     } else if (status === 'EN_RUTA_RECOJO' || status === 'CARGA_RECOGIDA' || status === 'EN_RUTA_ENTREGA' || status === 'ALERTA_RUTA') {
-      await updateOrderStatus(orderId, 'EN_RUTA');
+      await orderService.updateOrderStatus(orderId, 'EN_RUTA');
     } else if (status === 'ENTREGADO') {
-      await updateOrderStatus(orderId, 'ENTREGADO');
+      await orderService.updateOrderStatus(orderId, 'ENTREGADO');
     } else if (status === 'CANCELADO') {
-      await updateOrderStatus(orderId, 'CANCELADO');
+      await orderService.updateOrderStatus(orderId, 'CANCELADO');
     }
   }
+};
+
+/**
+ * PARTE 4: Escuchar cambios de un envío específico en tiempo real
+ */
+export const subscribeToShipment = (
+  shipmentId: string,
+  callback: (shipment: Shipment | null) => void
+): (() => void) => {
+  if (isFirebaseConfigured && db) {
+    const docRef = doc(db, 'shipments', shipmentId);
+
+    return onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        callback(docSnap.data() as Shipment);
+      } else {
+        callback(null);
+      }
+    }, (error) => {
+      console.error('Error en tiempo real en shipments:', error);
+    });
+  }
+
+  // Fallback simulado
+  const shipments = getSimulatedShipments();
+  const found = shipments.find((s) => s.id === shipmentId) || null;
+  callback(found);
+
+  return () => console.log('[AgroRuta Mock] Desuscripción inactiva');
+};
+
+/**
+ * PARTE 4 (Extra): Escuchar todos los envíos de un usuario en tiempo real (Para el Dashboard)
+ */
+export const subscribeToUserShipments = (
+  userId: string,
+  role: 'FARMER' | 'BUYER' | 'DRIVER',
+  callback: (shipments: Shipment[]) => void
+): (() => void) => {
+  if (isFirebaseConfigured && db) {
+    // Determinar qué campo buscar según el rol
+    const fieldToQuery = role === 'FARMER' ? 'farmerId' : role === 'BUYER' ? 'buyerId' : 'driverId';
+    const q = query(collection(db, 'shipments'), where(fieldToQuery, '==', userId));
+
+    return onSnapshot(q, (snapshot) => {
+      const userShipments = snapshot.docs.map(doc => doc.data() as Shipment);
+      callback(userShipments);
+    }, (error) => {
+      console.error('Error en tiempo real (user shipments):', error);
+    });
+  }
+
+  // Fallback simulado
+  const allShipments = getSimulatedShipments();
+  const field = role === 'FARMER' ? 'farmerId' : role === 'BUYER' ? 'buyerId' : 'driverId';
+  const filtered = allShipments.filter(s => (s as any)[field] === userId);
+  callback(filtered);
+
+  return () => console.log('[AgroRuta Mock] Desuscripción de lista de envíos inactiva');
 };
