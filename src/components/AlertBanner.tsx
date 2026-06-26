@@ -8,16 +8,18 @@ export default function AlertBanner({ status, message }: Props) {
 
   return (
     <div
-      className={`rounded-xl px-4 py-3 flex items-center gap-3 text-sm font-semibold transition-all ${
+      className={`rounded-xl px-4 py-3 flex items-center gap-3 transition-all ${
         isAlerta
-          ? 'bg-red-600/15 border border-red-500/25 text-red-400 shadow-[0_0_20px_rgba(255,51,85,0.08)]'
-          : 'bg-[#00e676]/10 border border-[#00e676]/15 text-[#00e676]'
+          ? 'bg-red-600/15 border border-red-500/25 shadow-[0_0_20px_rgba(255,51,85,0.08)]'
+          : 'bg-[#00e676]/10 border border-[#00e676]/15'
       }`}
     >
       <span className={`text-lg ${isAlerta ? 'animate-pulse' : ''}`}>
         {isAlerta ? '⚠️' : '✅'}
       </span>
-      <span className="text-xs leading-relaxed">
+      <span className={`text-sm font-semibold leading-relaxed ${
+        isAlerta ? 'text-red-400' : 'text-white'
+      }`}>
         {message ?? (isAlerta
           ? 'Alerta: Huaico reportado en ruta cercana'
           : 'No hay alertas activas en tu zona')}
