@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import FarmerMap from './FarmerMap'
+import FarmerAlerts from './FarmerAlerts'
 import './FarmerScreen.css'
 
 interface Props {
@@ -167,6 +168,9 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
           </div>
         </div>
       </div>
+
+      {/* ─── Alert & Match Transportistas ─── */}
+      <FarmerAlerts />
 
       {/* ─── Shipments ─── */}
       <div className="fd-shipments">
