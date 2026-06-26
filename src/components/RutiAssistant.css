@@ -1,0 +1,223 @@
+/* =============================================
+   RutiAssistant.css — Floating assistant Ruti
+   ============================================= */
+
+/* ---- Avatar ---- */
+.ruti-avatar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e5528, #2d7a3a);
+  border: 2px solid rgba(45, 122, 58, 0.6);
+  box-shadow:
+    0 4px 20px rgba(45, 122, 58, 0.4),
+    0 0 0 0 rgba(45, 122, 58, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  animation: rutiPulse 2s ease-in-out infinite;
+}
+
+.ruti-avatar:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 6px 28px rgba(45, 122, 58, 0.5),
+    0 0 0 4px rgba(45, 122, 58, 0.15);
+}
+
+.ruti-avatar:active {
+  transform: scale(0.95);
+}
+
+@keyframes rutiPulse {
+  0%, 100% {
+    box-shadow:
+      0 4px 20px rgba(45, 122, 58, 0.4),
+      0 0 0 0 rgba(45, 122, 58, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 4px 20px rgba(45, 122, 58, 0.4),
+      0 0 0 8px rgba(45, 122, 58, 0);
+  }
+}
+
+.ruti-avatar__ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(45, 122, 58, 0.2);
+  pointer-events: none;
+}
+
+.ruti-avatar__emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* ---- Panel ---- */
+.ruti-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  background: linear-gradient(145deg, rgba(22, 34, 23, 0.97), rgba(14, 26, 15, 0.99));
+  border: 1px solid rgba(45, 122, 58, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(45, 122, 58, 0.15),
+    var(--shadow-glow-green);
+  z-index: 9998;
+  overflow: hidden;
+  animation: panelSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes panelSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- Panel Header ---- */
+.ruti-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(45, 122, 58, 0.08);
+  border-bottom: 1px solid rgba(45, 122, 58, 0.15);
+}
+
+.ruti-panel__emoji {
+  font-size: 1.3rem;
+}
+
+.ruti-panel__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #a8e6b0;
+  flex: 1;
+}
+
+.ruti-panel__actions {
+  display: flex;
+  gap: 2px;
+}
+
+.ruti-panel__btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+  color: var(--color-text-muted);
+}
+
+.ruti-panel__btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ruti-panel__btn--close:hover {
+  background: rgba(220, 53, 69, 0.2);
+  color: #f5a0a8;
+}
+
+/* ---- Panel Body ---- */
+.ruti-panel__body {
+  padding: var(--space-md);
+}
+
+.ruti-panel__message {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+/* ---- Controls ---- */
+.ruti-panel__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.ruti-panel__action-btn {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid rgba(45, 122, 58, 0.3);
+  border-radius: var(--radius-sm);
+  background: rgba(45, 122, 58, 0.08);
+  color: #a8e6b0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.ruti-panel__action-btn:hover {
+  background: rgba(45, 122, 58, 0.18);
+  border-color: rgba(45, 122, 58, 0.5);
+}
+
+/* ---- FAQ List ---- */
+.ruti-panel__faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.ruti-panel__faq-item {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid rgba(45, 122, 58, 0.2);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.ruti-panel__faq-item:hover {
+  background: rgba(45, 122, 58, 0.1);
+  border-color: rgba(45, 122, 58, 0.4);
+  color: var(--color-text);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 380px) {
+  .ruti-panel {
+    right: 12px;
+    bottom: 84px;
+    width: calc(100vw - 24px);
+  }
+
+  .ruti-avatar {
+    bottom: 16px;
+    right: 16px;
+  }
+}
