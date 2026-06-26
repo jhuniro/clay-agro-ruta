@@ -1,4 +1,10 @@
+import { useState } from 'react'
 import './App.css'
+import { mockRoutes } from './features/routes/routeMockData'
+import RouteMap from './features/routes/RouteMap'
+import RouteAlerts from './features/routes/RouteAlerts'
+import RouteStatusBadge from './features/routes/RouteStatusBadge'
+import type { Route } from './features/routes/routeTypes'
 
 // ─── Role definitions ────────────────────────────────────────────────────────
 type UserRole = 'farmer' | 'buyer' | 'transporter'
@@ -37,35 +43,86 @@ const ROLES: RoleOption[] = [
 
 // ─── Component ───────────────────────────────────────────────────────────────
 function App() {
+  const [view, setView] = useState<'home' | 'routes'>('home')
+  const [selectedRoute, setSelectedRoute] = useState<Route | null>(null)
+
   const handleRoleSelect = (role: UserRole) => {
-    // TODO: navigate to role-specific dashboard
     console.log('[AgroRuta] Rol seleccionado:', role)
     alert(`Rol seleccionado: ${role}\n\n(Próximamente: pantalla de ${role})`)
   }
 
+  const handleRouteClick = (route: Route) => {
+    setSelectedRoute(route)
+  }
+
+  if (view === 'routes') {
+    return (
+      <main className="app" aria-label="AgroRuta Huánuco — Módulo de Rutas">
+        <div className="app__orb" aria-hidden="true" />
+        <div className="routes-view">
+          <button className="routes-view__back" onClick={() => { setView('home'); setSelectedRoute(null) }} type="button">
+            ← Volver
+          </button>
+          <h1 className="routes-view__title">Rutas agrícolas</h1>
+          <p className="routes-view__subtitle">Estado actual de las rutas en la región Huánuco</p>
+
+          <RouteAlerts />
+
+          {selectedRoute ? (
+            <section>
+              <button className="routes-view__back" onClick={() => setSelectedRoute(null)} type="button">
+                ← Ver todas las rutas
+              </button>
+              <RouteMap route={selectedRoute} />
+            </section>
+          ) : (
+            <>
+              <h2 className="route-alerts__title route-alerts__title--list">
+                Todas las rutas
+              </h2>
+              <div className="route-list">
+                {mockRoutes.map((route) => (
+                  <button
+                    key={route.id}
+                    className="route-list__item"
+                    onClick={() => handleRouteClick(route)}
+                    type="button"
+                  >
+                    <div className="route-list__item-info">
+                      <div className="route-list__item-name">{route.name}</div>
+                      <div className="route-list__item-detail">
+                        {route.distance} · {route.estimatedTime}
+                      </div>
+                    </div>
+                    <RouteStatusBadge status={route.status} />
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </main>
+    )
+  }
+
   return (
     <main className="app" aria-label="AgroRuta Huánuco — Selección de rol">
-      {/* Decorative background orb */}
       <div className="app__orb" aria-hidden="true" />
 
       <div className="welcome-card" role="region" aria-labelledby="app-title">
 
-        {/* Logo */}
         <div className="welcome-card__icon" aria-hidden="true">🌿</div>
 
-        {/* Title */}
         <h1 id="app-title" className="welcome-card__title">
           AgroRuta Huánuco
         </h1>
         <p className="welcome-card__subtitle">Plataforma Agrícola · Hackathon 2026</p>
 
-        {/* Description */}
         <p className="welcome-card__description">
           Conectamos agricultores, compradores y transportistas para reducir
           pérdidas por bloqueos, huaicos y retrasos en rutas agrícolas.
         </p>
 
-        {/* Role selection */}
         <div className="welcome-card__divider" aria-hidden="true">
           <span className="welcome-card__divider-text">Selecciona tu rol</span>
         </div>
@@ -92,7 +149,14 @@ function App() {
           ))}
         </nav>
 
-        {/* Footer */}
+        <div className="welcome-card__divider" aria-hidden="true">
+          <span className="welcome-card__divider-text">Demo de rutas</span>
+        </div>
+
+        <button className="route-demo-btn" onClick={() => setView('routes')} type="button">
+          🗺️  Ver módulo de rutas
+        </button>
+
         <p className="welcome-card__footer">
           Región Huánuco · Perú &nbsp;·&nbsp; <span>Hackathon Clay 2026</span>
         </p>
