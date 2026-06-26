@@ -19,18 +19,18 @@ export default function FarmerRouteView() {
       </div>
 
       <div className="px-5 pt-4 pb-5 space-y-3">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Distancia</span>
-            <p className="text-sm font-bold text-white">{route.distance}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Distancia</span>
+            <p className="text-sm font-bold text-white mt-0.5">{route.distance}</p>
           </div>
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Tiempo</span>
-            <p className="text-sm font-bold text-white">{route.estimatedTime}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Tiempo</span>
+            <p className="text-sm font-bold text-white mt-0.5">{route.estimatedTime}</p>
           </div>
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Estado</span>
-            <p className="text-sm font-bold text-white">{route.status}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Estado</span>
+            <p className="text-sm font-bold text-white mt-0.5">{route.status}</p>
           </div>
         </div>
 

@@ -1,35 +1,32 @@
 import { useState } from 'react'
 import { Truck, Route } from 'lucide-react'
-import DriverRouteView from '../routes/DriverRouteView'
 import DashboardHeader from '../../components/DashboardHeader'
 import AlertBanner from '../../components/AlertBanner'
 import BottomNav from '../../components/BottomNav'
 import DashboardCard from '../../components/DashboardCard'
+import DriverRouteView from '../routes/DriverRouteView'
 
 export default function TransporterDashboard() {
-  const [alerta] = useState<'ok' | 'alerta'>('ok')
+  const [alerta] = useState<'ok' | 'alerta'>('alerta')
 
   return (
-    <div className="min-h-dvh bg-[#050b06] text-[#e8f5e9] flex flex-col pb-20">
-      <div className="flex-1 overflow-y-auto px-4 pt-6 pb-4 space-y-4">
-        <DashboardHeader name="Carlos" role="Transportista" />
-        <AlertBanner status={alerta} />
+    <div className="min-h-dvh bg-[#050b06] text-[#e8f5e9] flex flex-col pb-24">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 pt-6 pb-6 space-y-5 max-w-7xl mx-auto w-full">
+        <div className="space-y-4">
+          <DashboardHeader name="Mariano" role="Transportista" />
+          <AlertBanner
+            status={alerta}
+            message="Alerta: Restricción por lluvia pesada en la Carretera Central"
+          />
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
           <div className="lg:col-span-2">
             <DriverRouteView />
           </div>
 
-          <div className="space-y-4">
-            <DashboardCard
-              title="Resumen del día"
-              icon={<Route size={16} className="text-[#66bb6a]" />}
-              badge={
-                <span className="text-[10px] font-bold text-[#00e676] bg-[#00e676]/10 px-2.5 py-1 rounded-full">
-                  2 rutas
-                </span>
-              }
-            >
+          <div className="space-y-5">
+            <DashboardCard title="Resumen del día" icon={<Route size={16} className="text-[#66bb6a]" />}>
               <p className="text-sm text-[#b2dfdb] leading-relaxed">
                 Recoge en Huánuco y entrega en el Mercado de Productores
               </p>
@@ -45,6 +42,15 @@ export default function TransporterDashboard() {
                   <p className="text-xl font-extrabold text-white tracking-tight">S/ 120.00</p>
                 </div>
               </div>
+            </DashboardCard>
+
+            <DashboardCard title="Reportar Incidente">
+              <p className="text-sm text-[#b2dfdb] mb-3">
+                ¿Encontraste un bloqueo o huaico nuevo? Avísale a la comunidad.
+              </p>
+              <button className="w-full py-3 bg-[#ff3355]/15 text-[#ff3355] border border-[#ff3355]/25 rounded-xl text-sm font-bold hover:bg-[#ff3355]/25 transition-all">
+                Reportar Bloqueo en Vivo
+              </button>
             </DashboardCard>
           </div>
         </div>

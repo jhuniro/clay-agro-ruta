@@ -10,7 +10,14 @@ export default function BuyerRouteView() {
   return (
     <div className="bg-[#0c1a0e] border border-[rgba(0,230,118,0.08)] rounded-2xl overflow-hidden shadow-lg shadow-black/20">
       <div className="flex items-center justify-between px-5 pt-5 pb-0">
-        <h3 className="text-base font-bold text-white">Ruta de recepción</h3>
+        <div>
+          <span className="text-[11px] uppercase font-bold tracking-wider text-[#66bb6a]">
+            Monitoreo en Tiempo Real
+          </span>
+          <h3 className="text-base font-bold text-white mt-0.5">
+            Ruta de recepción
+          </h3>
+        </div>
         <RouteStatusBadge status={route.status} />
       </div>
 
@@ -19,18 +26,18 @@ export default function BuyerRouteView() {
       </div>
 
       <div className="px-5 pt-4 pb-5 space-y-3">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Origen</span>
-            <p className="text-sm font-bold text-white">{route.origin}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Origen</span>
+            <p className="text-sm font-bold text-white truncate mt-0.5">{route.origin}</p>
           </div>
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Destino</span>
-            <p className="text-sm font-bold text-white">{route.destination}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Destino</span>
+            <p className="text-sm font-bold text-[#00e676] truncate mt-0.5">{route.destination}</p>
           </div>
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Estado</span>
-            <p className="text-sm font-bold text-white">{route.status}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Estado</span>
+            <p className="text-sm font-bold text-white truncate mt-0.5">{route.status}</p>
           </div>
         </div>
 

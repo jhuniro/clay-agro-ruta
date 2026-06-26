@@ -45,7 +45,7 @@ export default function DriverRouteView() {
   return (
     <div className="bg-[#0c1a0e] border border-[rgba(0,230,118,0.08)] rounded-2xl overflow-hidden shadow-lg shadow-black/20">
       <div className="px-5 pt-5 pb-0">
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-3">
           <button
             onClick={() => { setActiveRoute('pickup'); setTruckPos(undefined); setIsMoving(false) }}
             className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
@@ -67,23 +67,26 @@ export default function DriverRouteView() {
             Entrega
           </button>
         </div>
-      </div>
 
-      <div className="px-5 pt-3">
-        <div className="flex items-center justify-between mb-0">
-          <h3 className="text-base font-bold text-white">
-            {activeRoute === 'pickup' ? 'Ruta de recogida' : 'Ruta de entrega'}
-          </h3>
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[11px] uppercase font-bold tracking-wider text-[#66bb6a]">
+              Navegación GPS
+            </span>
+            <h3 className="text-base font-bold text-white mt-0.5">
+              {activeRoute === 'pickup' ? 'Ruta de recogida' : 'Ruta de entrega'}
+            </h3>
+          </div>
           <RouteStatusBadge status={currentRoute.status} />
         </div>
       </div>
 
-      <div className="px-5 pt-2">
+      <div className="px-5 pt-3">
         <MapView
           route={currentRoute}
           showTruck
           truckPosition={truckPos}
-          height={320}
+          height={300}
         />
       </div>
 
@@ -100,24 +103,24 @@ export default function DriverRouteView() {
           {isMoving ? 'En ruta...' : 'Iniciar ruta'}
         </button>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 bg-[#112216] p-3 rounded-xl border border-[rgba(0,230,118,0.06)]">
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Distancia</span>
-            <p className="text-sm font-bold text-white">{currentRoute.distance}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Distancia</span>
+            <p className="text-sm font-bold text-white mt-0.5">{currentRoute.distance}</p>
           </div>
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Tiempo</span>
-            <p className="text-sm font-bold text-white">{currentRoute.estimatedTime}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Tiempo</span>
+            <p className="text-sm font-bold text-white mt-0.5">{currentRoute.estimatedTime}</p>
           </div>
           <div>
-            <span className="text-xs font-semibold text-[#66bb6a]">Estado</span>
-            <p className="text-sm font-bold text-white">{currentRoute.status}</p>
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#66bb6a]">Ganancia</span>
+            <p className="text-sm font-extrabold text-[#ffab00] mt-0.5">S/ 120.00</p>
           </div>
         </div>
 
         {currentRoute.recommendation && (
           <p className="text-sm text-[#a5d6a7] bg-[rgba(255,171,0,0.04)] border border-[rgba(255,171,0,0.08)] rounded-xl px-4 py-2.5 leading-relaxed">
-            {currentRoute.recommendation}
+            <span className="font-bold text-[#ffab00]">Indicación:</span> {currentRoute.recommendation}
           </p>
         )}
       </div>
