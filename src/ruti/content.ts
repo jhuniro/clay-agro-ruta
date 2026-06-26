@@ -1,17 +1,55 @@
-export type RutiMood = 'inactive' | 'happy' | 'thinking' | 'explaining' | 'waiting' | 'excited'
+import durmiendo from './assets/durmiendo.svg'
+import saludando from './assets/saludando.svg'
+import pensando from './assets/pensando.svg'
+import ideaInnovadora from './assets/con una idea innovadora.svg'
+import pulgar from './assets/levantando el pulgar.svg'
+import festejando from './assets/Festejando.svg'
+import leyendo from './assets/leyendo.svg'
+import mamadisimo from './assets/mamadisimo.svg'
+import enamorado from './assets/enamorado xd.svg'
+import triste from './assets/triste.svg'
+
+export type RutiMood =
+  | 'inactive'
+  | 'happy'
+  | 'thinking'
+  | 'explaining'
+  | 'waiting'
+  | 'excited'
+  | 'reading'
+  | 'loving'
+  | 'sad'
+  | 'strong'
+
+export const MOOD_SVG: Record<RutiMood, string> = {
+  inactive: durmiendo,
+  happy: saludando,
+  thinking: pensando,
+  explaining: ideaInnovadora,
+  waiting: pulgar,
+  excited: festejando,
+  reading: leyendo,
+  loving: enamorado,
+  sad: triste,
+  strong: mamadisimo,
+}
+
+export const MOOD_ALT: Record<RutiMood, string> = {
+  inactive: 'Ruti durmiendo',
+  happy: 'Ruti saludando',
+  thinking: 'Ruti pensando',
+  explaining: 'Ruti con una idea',
+  waiting: 'Ruti levantando el pulgar',
+  excited: 'Ruti festejando',
+  reading: 'Ruti leyendo',
+  loving: 'Ruti enamorado',
+  sad: 'Ruti triste',
+  strong: 'Ruti mamadísimo',
+}
 
 export interface RutiMessage {
   mood: RutiMood
   text: string
-}
-
-export const MOOD_EMOJI: Record<RutiMood, string> = {
-  inactive: '🤖',
-  happy: '😊',
-  thinking: '🤔',
-  explaining: '💡',
-  waiting: '👋',
-  excited: '🚀',
 }
 
 export const GREETING: RutiMessage = {
@@ -24,19 +62,19 @@ export const INACTIVE_MSG: RutiMessage = {
   text: 'Estoy aquí si necesitas ayuda.',
 }
 
+export const MINIMIZE_MSG: RutiMessage = {
+  mood: 'inactive',
+  text: 'Me quedo aquí por si necesitas ayuda.',
+}
+
 export const TUTORIAL_INTRO: RutiMessage = {
   mood: 'explaining',
   text: 'Voy a guiarte por esta pantalla paso a paso. Presiona "Siguiente" cuando estés listo.',
 }
 
-export const QUESTION_PROMPT: RutiMessage = {
-  mood: 'waiting',
-  text: 'Escribe tu duda y te responderé con una explicación rápida.',
-}
-
-export const MINIMIZE_MSG: RutiMessage = {
-  mood: 'inactive',
-  text: 'Me quedo aquí por si necesitas ayuda.',
+export const THINKING_MSG: RutiMessage = {
+  mood: 'thinking',
+  text: 'Déjame pensarlo...',
 }
 
 export const DONT_UNDERSTAND: RutiMessage = {
@@ -86,6 +124,15 @@ export const FAQ: Record<string, { q: string; a: string }[]> = {
     { q: '¿Qué significa ruta bloqueada?', a: 'Significa que hay un huaico, derrumbe, bloqueo o problema que puede retrasar el traslado.' },
     { q: '¿Puedo contactar por WhatsApp?', a: 'Sí. AgroRuta permite abrir WhatsApp para coordinar directamente con agricultor, comprador o transportista.' },
   ],
+}
+
+export const WHATSAPP_NUMBER = '51999999999'
+
+export const WHATSAPP_MSGS: Record<string, string> = {
+  home: 'Hola, necesito ayuda con AgroRuta.',
+  farmer: 'Hola, soy agricultor y necesito ayuda con AgroRuta.',
+  buyer: 'Hola, soy comprador y necesito ayuda con AgroRuta.',
+  transporter: 'Hola, soy transportista y necesito ayuda con AgroRuta.',
 }
 
 export const TUTORIAL_STEPS: Record<string, string[]> = {

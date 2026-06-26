@@ -2,7 +2,7 @@ import { useState } from 'react'
 import FarmerScreen from './components/FarmerScreen'
 import BuyerScreen from './components/BuyerScreen'
 import TransporterScreen from './components/TransporterScreen'
-import RutiAssistant from './components/RutiAssistant'
+import { RutiCopilot } from './ruti'
 import './App.css'
 
 // ─── Role definitions ────────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ function App() {
       {view === 'buyer' && <BuyerScreen onBack={handleBack} />}
       {view === 'transporter' && <TransporterScreen onBack={handleBack} />}
 
-      <RutiAssistant currentView={view} />
+      <RutiCopilot currentView={view} />
     </>
   )
 }
