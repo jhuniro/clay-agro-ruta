@@ -20,8 +20,8 @@ L.Icon.Default.mergeOptions({
 const HUANUCO_CENTER: L.LatLngTuple = [-9.9333, -76.25]
 
 // ─── Route points (Agricultor → Comprador, shared with buyer) ────────────────
-const ROUTE_ORIGIN: L.LatLngTuple = [-9.9833, -76.2167] // Zone south of Huánuco city
-const ROUTE_DEST: L.LatLngTuple = [-9.9333, -76.25] // Huánuco city center
+const ROUTE_ORIGIN: L.LatLngTuple = [-9.9833, -76.2167]
+const ROUTE_DEST: L.LatLngTuple = [-9.9333, -76.25]
 
 function createMarkerIcon(color: string, label: string): L.DivIcon {
   return L.divIcon({
@@ -72,10 +72,11 @@ function createTruckIcon(): L.DivIcon {
 }
 
 interface FarmerMapProps {
+  compact?: boolean
   className?: string
 }
 
-export default function FarmerMap({ className = '' }: FarmerMapProps) {
+export default function FarmerMap({ compact = false, className = '' }: FarmerMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<L.Map | null>(null)
   const truckMarker = useRef<L.Marker | null>(null)
@@ -98,7 +99,7 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
 
     const map = L.map(mapRef.current, {
       center: HUANUCO_CENTER,
-      zoom: 12,
+      zoom: compact ? 13 : 12,
       zoomControl: false,
     })
 
@@ -140,7 +141,7 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
       map.remove()
       mapInstance.current = null
     }
-  }, [])
+  }, [compact])
 
   // Handle GPS updates
   const handleGpsUpdate = useCallback(
@@ -151,7 +152,6 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
 
       const pos: L.LatLngTuple = [state.lat, state.lng]
 
-      // Move truck marker
       if (truckMarker.current) {
         truckMarker.current.setLatLng(pos)
         truckMarker.current.setPopupContent(
@@ -163,15 +163,12 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
         )
       }
 
-      // Add to history trail
       gpsHistory.current.push(pos)
 
-      // Update trail line
       if (routeLine.current) {
         routeLine.current.setLatLngs([ROUTE_ORIGIN, ...gpsHistory.current, ROUTE_DEST])
       }
 
-      // Center map on new position
       mapInstance.current.panTo(pos)
     },
     [],
@@ -207,15 +204,18 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
     return `${Math.floor(secs / 60)}m ${secs % 60}s`
   }
 
+  const wrapperClass = `farmer-map ${compact ? 'farmer-map--compact' : ''} ${className}`.trim()
+
   return (
-    <div className={`farmer-map ${className}`} style={{ position: 'relative', width: '100%' }}>
+    <div className={wrapperClass} style={{ position: 'relative', width: '100%' }}>
       {/* GPS Status Bar */}
       <div
+        className="farmer-map__statusbar"
         style={{
           position: 'absolute',
-          top: 8,
-          left: 8,
-          right: 8,
+          top: compact ? 6 : 8,
+          left: compact ? 6 : 8,
+          right: compact ? 6 : 8,
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
@@ -224,16 +224,15 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
             ? 'rgba(45,122,58,0.92)'
             : 'rgba(180,40,40,0.92)',
           color: 'white',
-          borderRadius: 10,
-          padding: '8px 12px',
-          fontSize: 12,
+          borderRadius: compact ? 8 : 10,
+          padding: compact ? '6px 10px' : '8px 12px',
+          fontSize: compact ? 11 : 12,
           fontFamily: 'system-ui, sans-serif',
           boxShadow: '0 2px 8px rgba(0,0,0,.3)',
-          backdropFilter: 'blur(4px)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 14 }}>{gpsState.isOnline ? '🟢' : '🔴'}</span>
+          <span style={{ fontSize: compact ? 12 : 14 }}>{gpsState.isOnline ? '🟢' : '🔴'}</span>
           <span style={{ fontWeight: 600 }}>
             {gpsState.isOnline ? 'En línea' : 'Sin conexión — GPS activo'}
           </span>
@@ -251,9 +250,11 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
               📦 {gpsState.pendingCount} pendiente{gpsState.pendingCount > 1 ? 's' : ''}
             </span>
           )}
-          <span style={{ fontSize: 11, opacity: 0.8 }}>
-            hace {timeSince(gpsState.timestamp)}
-          </span>
+          {!compact && (
+            <span style={{ fontSize: 11, opacity: 0.8 }}>
+              hace {timeSince(gpsState.timestamp)}
+            </span>
+          )}
         </div>
       </div>
 
@@ -262,50 +263,55 @@ export default function FarmerMap({ className = '' }: FarmerMapProps) {
         ref={mapRef}
         style={{
           width: '100%',
-          height: 320,
-          borderRadius: 12,
+          height: compact ? '100%' : 320,
+          borderRadius: compact ? 10 : 12,
           overflow: 'hidden',
-          border: '2px solid rgba(45,122,58,0.3)',
         }}
       />
 
       {/* Toggle GPS button */}
-      <button
-        onClick={toggleTracking}
-        type="button"
-        style={{
-          position: 'absolute',
-          bottom: 12,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-          background: trackingActive ? '#dc3545' : '#2d7a3a',
-          color: 'white',
-          border: '2px solid white',
-          borderRadius: 20,
-          padding: '8px 20px',
-          fontSize: 13,
-          fontWeight: 600,
-          cursor: 'pointer',
-          boxShadow: '0 2px 8px rgba(0,0,0,.3)',
-          fontFamily: 'system-ui, sans-serif',
-        }}
-      >
-        {trackingActive ? '⏹ Detener GPS' : '▶ Iniciar GPS'}
-      </button>
+      {!compact && (
+        <button
+          className="farmer-map__toggle"
+          onClick={toggleTracking}
+          type="button"
+          style={{
+            position: 'absolute',
+            bottom: 12,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1000,
+            background: trackingActive ? '#dc3545' : '#2d7a3a',
+            color: 'white',
+            border: '2px solid white',
+            borderRadius: 20,
+            padding: '8px 20px',
+            fontSize: 13,
+            fontWeight: 600,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,.3)',
+            fontFamily: 'system-ui, sans-serif',
+          }}
+        >
+          {trackingActive ? '⏹ Detener GPS' : '▶ Iniciar GPS'}
+        </button>
+      )}
 
-      {/* Coordinates footer */}
-      <div
-        style={{
-          marginTop: 6,
-          fontSize: 11,
-          color: '#888',
-          textAlign: 'center',
-          fontFamily: 'monospace',
-        }}
-      >
-        📍 {gpsState.lat.toFixed(5)}, {gpsState.lng.toFixed(5)} · Última actualización: {timeSince(gpsState.timestamp)}
-      </div>
+      {/* Coordinates footer — only full mode */}
+      {!compact && (
+        <div
+          className="farmer-map__coords"
+          style={{
+            marginTop: 6,
+            fontSize: 11,
+            color: '#888',
+            textAlign: 'center',
+            fontFamily: 'monospace',
+          }}
+        >
+          📍 {gpsState.lat.toFixed(5)}, {gpsState.lng.toFixed(5)} · Última actualización: {timeSince(gpsState.timestamp)}
+        </div>
+      )}
     </div>
   )
 }
