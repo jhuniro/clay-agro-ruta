@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import FarmerMap from './FarmerMap'
 import FarmerAlerts from './FarmerAlerts'
+import FarmerSidebar from './FarmerSidebar'
 import './FarmerScreen.css'
 
 interface Props {
@@ -11,6 +12,8 @@ type SubView = 'dashboard' | 'map'
 
 export default function FarmerScreen({ onBack }: Props) {
   const [subView, setSubView] = useState<SubView>('dashboard')
+
+  const handleGoMap = () => setSubView('map')
 
   return (
     <div className="farmer" aria-label="Pantalla del Agricultor">
@@ -26,9 +29,12 @@ export default function FarmerScreen({ onBack }: Props) {
         <div className="farmer-topbar__avatar">JG</div>
       </header>
 
+      {/* ─── Sidebar (desktop only) ─── */}
+      <FarmerSidebar onGoMap={handleGoMap} />
+
       {/* ─── Content ─── */}
       <div className="farmer-scroll">
-        {subView === 'dashboard' && <FarmerDashboard onGoMap={() => setSubView('map')} />}
+        {subView === 'dashboard' && <FarmerDashboard onGoMap={handleGoMap} />}
         {subView === 'map' && <FarmerMap />}
       </div>
 
