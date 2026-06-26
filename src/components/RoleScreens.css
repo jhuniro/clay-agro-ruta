@@ -1,0 +1,330 @@
+/* =============================================
+   RoleScreens.css — Shared role screen styles
+   ============================================= */
+
+/* ---- Role Screen Container ---- */
+.role-screen {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  padding-bottom: 100px;
+  animation: fadeIn 0.4s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Top Bar ---- */
+.role-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) 0;
+  margin-bottom: var(--space-md);
+}
+
+.role-topbar__back {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-md);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.role-topbar__back:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text);
+}
+
+.role-topbar__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Greeting ---- */
+.role-greeting {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5vw, 1.7rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: var(--space-xs);
+}
+
+.role-greeting--farmer { color: #a8e6b0; }
+.role-greeting--buyer  { color: #90caf9; }
+.role-greeting--transporter { color: #ce93d8; }
+
+.role-subtitle {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-lg);
+}
+
+/* ---- Alert Banner ---- */
+.alert-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.alert-banner--warning {
+  background: rgba(245, 166, 35, 0.12);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  color: #f5c86a;
+}
+
+.alert-banner--danger {
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: #f5a0a8;
+}
+
+.alert-banner--info {
+  background: rgba(45, 122, 58, 0.1);
+  border: 1px solid rgba(45, 122, 58, 0.25);
+  color: #a8e6b0;
+}
+
+.alert-banner__icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+/* ---- Section Title ---- */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  margin-bottom: var(--space-md);
+}
+
+/* ---- Action Button ---- */
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1.5px solid transparent;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-bottom: var(--space-sm);
+}
+
+.action-btn--primary {
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  color: #e8f5e9;
+  border-color: rgba(45, 122, 58, 0.5);
+  box-shadow: 0 4px 16px rgba(45, 122, 58, 0.3);
+}
+
+.action-btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(45, 122, 58, 0.4);
+}
+
+.action-btn--secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.action-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+}
+
+.action-btn--danger {
+  background: rgba(220, 53, 69, 0.1);
+  color: #f5a0a8;
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+.action-btn--danger:hover {
+  background: rgba(220, 53, 69, 0.18);
+}
+
+/* ---- Product / Shipment Card ---- */
+.item-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+  transition: all var(--transition-base);
+}
+
+.item-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(45, 122, 58, 0.4);
+}
+
+.item-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.item-card__product {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.item-card__status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.item-card__status--libre {
+  background: rgba(45, 122, 58, 0.15);
+  color: #a8e6b0;
+  border: 1px solid rgba(45, 122, 58, 0.3);
+}
+
+.item-card__status--riesgo {
+  background: rgba(245, 166, 35, 0.15);
+  color: #f5c86a;
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.item-card__status--bloqueada {
+  background: rgba(220, 53, 69, 0.15);
+  color: #f5a0a8;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.item-card__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.item-card__detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.item-card__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.item-card__actions .action-btn {
+  flex: 1;
+  margin-bottom: 0;
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.8rem;
+}
+
+/* ---- Route Status Badge ---- */
+.route-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.route-badge--libre {
+  background: rgba(45, 122, 58, 0.15);
+  color: #a8e6b0;
+}
+
+.route-badge--riesgo {
+  background: rgba(245, 166, 35, 0.15);
+  color: #f5c86a;
+}
+
+.route-badge--bloqueada {
+  background: rgba(220, 53, 69, 0.15);
+  color: #f5a0a8;
+}
+
+/* ---- Empty State ---- */
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  color: var(--color-text-dim);
+}
+
+.empty-state__icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+  opacity: 0.5;
+}
+
+.empty-state__text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* ---- Active Trip Card ---- */
+.trip-card {
+  background: linear-gradient(135deg, rgba(123, 63, 160, 0.08), rgba(123, 63, 160, 0.03));
+  border: 1px solid rgba(123, 63, 160, 0.3);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.trip-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #ce93d8;
+}
+
+.trip-card__route {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.trip-card__product {
+  font-size: 0.78rem;
+  color: var(--color-text-dim);
+}
