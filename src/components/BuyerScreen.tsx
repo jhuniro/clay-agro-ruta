@@ -31,6 +31,15 @@ export default function BuyerScreen({ onBack }: Props) {
       <h2 className="section-title">Productos disponibles</h2>
 
       <div className="item-card">
+        <svg className="item-card__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill="url(#card_blue)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
+          <defs>
+            <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
+              <stop stop-color="#1a6b9a"/>
+              <stop stop-color="#0d4f6e" offset="1"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <div className="item-card__header">
           <span className="item-card__product">🥔 Papa huayro X 500 kg</span>
           <span className="item-card__status item-card__status--libre">Disponible</span>
@@ -50,6 +59,15 @@ export default function BuyerScreen({ onBack }: Props) {
       </div>
 
       <div className="item-card">
+        <svg className="item-card__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill="url(#card_orange)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
+          <defs>
+            <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
+              <stop stop-color="#f5a623"/>
+              <stop stop-color="#c97d0a" offset="1"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <div className="item-card__header">
           <span className="item-card__product">🌽 Maíz amarillo X 300 kg</span>
           <span className="item-card__status item-card__status--riesgo">Último lote</span>
@@ -69,6 +87,15 @@ export default function BuyerScreen({ onBack }: Props) {
       </div>
 
       <div className="item-card">
+        <svg className="item-card__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill="url(#card_red)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
+          <defs>
+            <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
+              <stop stop-color="#dc3545"/>
+              <stop stop-color="#a71d2a" offset="1"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <div className="item-card__header">
           <span className="item-card__product">🥑 Aguacate X 150 kg</span>
           <span className="item-card__status item-card__status--bloqueada">No disponible</span>
@@ -88,6 +115,15 @@ export default function BuyerScreen({ onBack }: Props) {
       </div>
 
       <div className="item-card">
+        <svg className="item-card__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill="url(#card_blue)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
+          <defs>
+            <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
+              <stop stop-color="#1a6b9a"/>
+              <stop stop-color="#0d4f6e" offset="1"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <div className="item-card__header">
           <span className="item-card__product">☕ Café arábica X 100 kg</span>
           <span className="item-card__status item-card__status--libre">Disponible</span>
