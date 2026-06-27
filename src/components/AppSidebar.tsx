@@ -25,6 +25,9 @@ const NAV_ITEMS: Record<Module, NavItem[]> = {
   buyer: [
     { icon: '🏠', label: 'Inicio', tab: 'inicio' },
     { icon: '🛒', label: 'Mercado', tab: 'mercado' },
+    { icon: '📦', label: 'Mis Compras', tab: 'compras' },
+    { icon: '👤', label: 'Perfil', tab: 'perfil' },
+    { icon: '⚙️', label: 'Config', tab: 'config' },
   ],
   transporter: [
     { icon: '🏠', label: 'Inicio', tab: 'inicio' },
@@ -283,49 +286,27 @@ function BuyerSections() {
   return (
     <>
       <div className="fsb-section">
-        <h3 className="fsb-section__title">📋 Mis Pedidos</h3>
+        <h3 className="fsb-section__title">📋 Resumen</h3>
         <div className="fsb-section__items">
           <div className="fsb-item fsb-item--blue">
             <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Papa 500kg — En ruta</span>
-            <span className="fsb-item__badge">🚚</span>
+            <span className="fsb-item__txt">Pedidos activos</span>
+            <span className="fsb-item__badge">3</span>
           </div>
-          <div className="fsb-item fsb-item--yellow">
+          <div className="fsb-item fsb-item--green">
             <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Maíz 300kg — Esperando</span>
-            <span className="fsb-item__badge">⏳</span>
+            <span className="fsb-item__txt">Entregados</span>
+            <span className="fsb-item__badge">12</span>
           </div>
         </div>
       </div>
       <div className="fsb-section">
-        <h3 className="fsb-section__title">🛣️ Rutas</h3>
-        <div className="fsb-section__items">
-          <div className="fsb-route">
-            <span className="fsb-route__name">Huamalíes → Tingo María</span>
-            <span className="fsb-route__status fsb-route__status--libre">● Libre</span>
-          </div>
-          <div className="fsb-route">
-            <span className="fsb-route__name">Lauricocha → Hco. centro</span>
-            <span className="fsb-route__status fsb-route__status--riesgo">● Riesgo</span>
-          </div>
-          <div className="fsb-route">
-            <span className="fsb-route__name">Leoncio Prado → Aucayacu</span>
-            <span className="fsb-route__status fsb-route__status--bloqueada">● Bloqueada</span>
-          </div>
-        </div>
-      </div>
-      <div className="fsb-section">
-        <h3 className="fsb-section__title">🛒 Mercado</h3>
+        <h3 className="fsb-section__title">🛒 Última compra</h3>
         <div className="fsb-section__items">
           <div className="fsb-item fsb-item--green">
             <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Productos disponibles</span>
-            <span className="fsb-item__badge">12</span>
-          </div>
-          <div className="fsb-item fsb-item--blue">
-            <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Rutas activas</span>
-            <span className="fsb-item__badge">8</span>
+            <span className="fsb-item__txt">Papa 500kg</span>
+            <span className="fsb-item__badge">🚚</span>
           </div>
         </div>
       </div>
@@ -333,8 +314,7 @@ function BuyerSections() {
         <h3 className="fsb-section__title">⚡ Acciones</h3>
         <div className="fsb-actions">
           <button className="fsb-action" type="button"><span>🛒</span> Comprar</button>
-          <button className="fsb-action" type="button"><span>🗺️</span> Rastrear</button>
-          <button className="fsb-action" type="button"><span>📊</span> Historial</button>
+          <button className="fsb-action" type="button"><span>📦</span> Historial</button>
         </div>
       </div>
     </>

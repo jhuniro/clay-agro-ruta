@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Order } from '../types'
+import { MY_ORDERS } from '../data/mockData'
 import BuyerDashboard from './BuyerDashboard'
 import BuyerMarketplace from './BuyerMarketplace'
 import BuyerBuyFlow from './BuyerBuyFlow'
@@ -61,6 +62,100 @@ export default function BuyerScreen({ onBack }: Props) {
           )}
           {tab === 'mercado' && (
             <BuyerMarketplace onBuyProduct={handleBuy} />
+          )}
+          {tab === 'compras' && (
+            <div className="bd">
+              <div className="bd-greeting">
+                <div>
+                  <h1 className="bd-greeting__title">Mis Compras 📦</h1>
+                  <p className="bd-greeting__sub">Historial de tus pedidos y compras realizadas</p>
+                </div>
+              </div>
+              <div className="bd-orders">
+                <div className="bd-orders__grid">
+                  {MY_ORDERS.map(order => (
+                    <div key={order.id} className="bd-order">
+                      <div className="bd-order__row bd-order__row--top">
+                        <span className="bd-order__emoji">{order.emoji}</span>
+                        <div>
+                          <span className="bd-order__product">{order.product}</span>
+                          <span className="bd-order__qty">{order.quantity}{order.unit}</span>
+                        </div>
+                        <span className={`bd-badge bd-badge--${order.routeStatus === 'libre' ? 'green' : order.routeStatus === 'riesgo' ? 'yellow' : 'red'}`}>
+                          {order.status === 'ENTREGADO' ? 'Recibido' : 'En proceso'}
+                        </span>
+                      </div>
+                      <div className="bd-order__row">
+                        <span className="bd-order__route">📍 {order.origin} → {order.destination}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          {tab === 'perfil' && (
+            <div className="bd">
+              <div className="bd-greeting">
+                <div>
+                  <h1 className="bd-greeting__title">Mi Perfil 👤</h1>
+                  <p className="bd-greeting__sub">Gestiona tu cuenta y preferencias</p>
+                </div>
+              </div>
+              <div className="bd-orders">
+                <div className="bd-order">
+                  <div className="bd-order__row bd-order__row--top">
+                    <span className="bd-order__emoji">👤</span>
+                    <div>
+                      <span className="bd-order__product">Carlos García</span>
+                      <span className="bd-order__qty">carlos@agroruta.com</span>
+                    </div>
+                  </div>
+                  <div className="bd-order__row">
+                    <span className="bd-order__route">📍 Huánuco, Perú</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {tab === 'config' && (
+            <div className="bd">
+              <div className="bd-greeting">
+                <div>
+                  <h1 className="bd-greeting__title">Configuración ⚙️</h1>
+                  <p className="bd-greeting__sub">Ajustes de la aplicación</p>
+                </div>
+              </div>
+              <div className="bd-orders">
+                <div className="bd-order">
+                  <div className="bd-order__row bd-order__row--top">
+                    <span className="bd-order__emoji">🔔</span>
+                    <div>
+                      <span className="bd-order__product">Notificaciones</span>
+                      <span className="bd-order__qty">Activadas</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="bd-order">
+                  <div className="bd-order__row bd-order__row--top">
+                    <span className="bd-order__emoji">🌙</span>
+                    <div>
+                      <span className="bd-order__product">Modo oscuro</span>
+                      <span className="bd-order__qty">Activado</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="bd-order">
+                  <div className="bd-order__row bd-order__row--top">
+                    <span className="bd-order__emoji">🌍</span>
+                    <div>
+                      <span className="bd-order__product">Idioma</span>
+                      <span className="bd-order__qty">Español</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </main>
