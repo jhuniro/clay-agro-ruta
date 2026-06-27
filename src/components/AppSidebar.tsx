@@ -121,7 +121,7 @@ export default function AppSidebar({ module, activeTab, onTabChange, onGoMap }: 
           showFaqItem={showFaqItem}
         />
         {module === 'farmer' && <FarmerSections onGoMap={onGoMap} />}
-        {module === 'buyer' && <BuyerSections />}
+        {module === 'buyer' && <BuyerSections activeTab={activeTab} />}
         {module === 'transporter' && <TransporterSections />}
       </aside>
 
@@ -282,42 +282,37 @@ function FarmerSections({ onGoMap }: { onGoMap?: () => void }) {
 /* ═══════════════════════════════════════════════════════════════════════════════
    BUYER SECTIONS
    ═══════════════════════════════════════════════════════════════════════════════ */
-function BuyerSections() {
+function BuyerSections({ activeTab }: { activeTab: string }) {
+  const items = [
+    { icon: '🏠', label: 'Inicio', tab: 'inicio' },
+    { icon: '🛒', label: 'Mercado', tab: 'mercado' },
+    { icon: '📦', label: 'Mis Compras', tab: 'compras' },
+    { icon: '👤', label: 'Perfil', tab: 'perfil' },
+    { icon: '⚙️', label: 'Configuración', tab: 'config' },
+  ]
+
   return (
-    <>
-      <div className="fsb-section">
-        <h3 className="fsb-section__title">📋 Resumen</h3>
-        <div className="fsb-section__items">
-          <div className="fsb-item fsb-item--blue">
-            <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Pedidos activos</span>
-            <span className="fsb-item__badge">3</span>
-          </div>
-          <div className="fsb-item fsb-item--green">
-            <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Entregados</span>
-            <span className="fsb-item__badge">12</span>
-          </div>
+    <div className="fsb-buyer-nav">
+      <div className="fsb-buyer-nav__brand">
+        <span className="fsb-buyer-nav__logo">🛒</span>
+        <div>
+          <span className="fsb-buyer-nav__name">AgroRuta</span>
+          <span className="fsb-buyer-nav__role">Comprador Mayorista</span>
         </div>
       </div>
-      <div className="fsb-section">
-        <h3 className="fsb-section__title">🛒 Última compra</h3>
-        <div className="fsb-section__items">
-          <div className="fsb-item fsb-item--green">
-            <span className="fsb-item__dot" />
-            <span className="fsb-item__txt">Papa 500kg</span>
-            <span className="fsb-item__badge">🚚</span>
-          </div>
-        </div>
+      <div className="fsb-buyer-nav__items">
+        {items.map(item => (
+          <button
+            key={item.tab}
+            className={`fsb-buyer-nav__item ${activeTab === item.tab ? 'fsb-buyer-nav__item--active' : ''}`}
+            type="button"
+          >
+            <span className="fsb-buyer-nav__icon">{item.icon}</span>
+            <span className="fsb-buyer-nav__label">{item.label}</span>
+          </button>
+        ))}
       </div>
-      <div className="fsb-section">
-        <h3 className="fsb-section__title">⚡ Acciones</h3>
-        <div className="fsb-actions">
-          <button className="fsb-action" type="button"><span>🛒</span> Comprar</button>
-          <button className="fsb-action" type="button"><span>📦</span> Historial</button>
-        </div>
-      </div>
-    </>
+    </div>
   )
 }
 

@@ -603,6 +603,93 @@
 }
 
 /* =============================================
+   BUYER SIDEBAR NAV — clean style
+   ============================================= */
+.buyer-layout .fsb-ruti {
+  display: none;
+}
+
+.fsb-buyer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 16px;
+}
+
+.fsb-buyer-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  margin-bottom: 8px;
+}
+
+.fsb-buyer-nav__logo {
+  font-size: 1.6rem;
+}
+
+.fsb-buyer-nav__name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #1d9bf0;
+  letter-spacing: -0.02em;
+}
+
+.fsb-buyer-nav__role {
+  display: block;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 1px;
+}
+
+.fsb-buyer-nav__items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fsb-buyer-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 2px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.fsb-buyer-nav__item:hover {
+  background: rgba(29, 155, 240, 0.06);
+  color: rgba(255,255,255,0.85);
+}
+
+.fsb-buyer-nav__item--active {
+  background: rgba(29, 155, 240, 0.15);
+  color: #1d9bf0;
+  font-weight: 700;
+}
+
+.fsb-buyer-nav__icon {
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.fsb-buyer-nav__label {
+  font-family: var(--font-body);
+}
+
+/* =============================================
    BUYER DASHBOARD — bd-* prefix
    ============================================= */
 .bd {
