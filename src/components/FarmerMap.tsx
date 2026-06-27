@@ -115,14 +115,7 @@ function createTruckIcon(): L.DivIcon {
         box-shadow:0 0 12px rgba(37,99,235,.6);
         display:flex;align-items:center;justify-content:center;
         font-size:18px;
-        animation:pulse 2s infinite;
       ">🚛</div>
-      <style>
-        @keyframes pulse {
-          0%,100%{box-shadow:0 0 12px rgba(37,99,235,.6)}
-          50%{box-shadow:0 0 24px rgba(37,99,235,.9)}
-        }
-      </style>
     `,
     iconSize: [42, 42],
     iconAnchor: [21, 21],

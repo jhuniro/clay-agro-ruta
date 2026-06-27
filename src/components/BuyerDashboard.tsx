@@ -2,7 +2,6 @@ import type { Order } from '../types'
 import { MY_ORDERS, WEATHER, ROAD_ALERTS } from '../data/mockData'
 
 interface Props {
-  onShowMap: (order: Order) => void
 }
 
 function getStatusText(status: Order['status']): string {
@@ -14,7 +13,7 @@ function getStatusText(status: Order['status']): string {
   }
 }
 
-export default function BuyerDashboard({ onShowMap }: Props) {
+export default function BuyerDashboard({}: Props) {
   const activeOrders = MY_ORDERS.filter(o => o.status !== 'ENTREGADO')
 
   return (
@@ -92,8 +91,15 @@ export default function BuyerDashboard({ onShowMap }: Props) {
           </div>
           {order.status === 'EN_RUTA' && (
             <div className="item-card__actions">
-              <button className="action-btn action-btn--primary" onClick={() => onShowMap(order)} type="button">
-                🗺️ Ver en mapa
+              <button 
+                className="action-btn action-btn--primary" 
+                onClick={() => {
+                  window.history.pushState({}, '', `/tracking/${order.id}`);
+                  window.dispatchEvent(new Event('popstate'));
+                }} 
+                type="button"
+              >
+                Rastrear Pedido
               </button>
             </div>
           )}

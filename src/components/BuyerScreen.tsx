@@ -1,85 +1,70 @@
 import { useState } from 'react'
 import type { Order } from '../types'
+import { useBuyerStore } from '../store/buyerStore'
+import BuyerSidebar from './BuyerSidebar'
 import BuyerDashboard from './BuyerDashboard'
 import BuyerMarketplace from './BuyerMarketplace'
 import BuyerBuyFlow from './BuyerBuyFlow'
-import BuyerMap from './BuyerMap'
 import './BuyerScreen.css'
 
 interface Props {
   onBack: () => void
 }
 
-type SubView = 'dashboard' | 'marketplace'
-
 export default function BuyerScreen({ onBack }: Props) {
-  const [subView, setSubView] = useState<SubView>('dashboard')
+  const activeTab = useBuyerStore(s => s.activeTab)
   const [showBuyModal, setShowBuyModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Order | null>(null)
-  const [showMap, setShowMap] = useState(false)
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
   const handleBuy = (product: Order) => {
     setSelectedProduct(product)
     setShowBuyModal(true)
   }
 
-  const handleShowMap = (order: Order) => {
-    setSelectedOrder(order)
-    setShowMap(true)
-  }
-
   return (
-    <div className="buyer-screen" aria-label="Pantalla del Comprador">
-      {/* Header */}
-      <div className="role-topbar">
-        <button className="role-topbar__back" onClick={onBack} type="button">
-          ← Volver
-        </button>
-        <span className="role-topbar__title" style={{ color: '#90caf9' }}>🛒 Comprador</span>
-      </div>
+    <div className="buyer-layout" aria-label="Pantalla del Comprador">
+      {/* Sidebar Navigation */}
+      <BuyerSidebar onBack={onBack} />
 
-      <h1 className="role-greeting role-greeting--buyer">
-        Hola, Carlos 👋
-      </h1>
-      <p className="role-subtitle">Busca productos y verifica rutas antes de comprar</p>
+      {/* Main Content Area */}
+      <main className="buyer-main">
+        {/* Top Header (Optional: Can be extracted to BuyerHeader.tsx if it grows) */}
+        <header style={{ padding: '24px 24px 0 24px' }}>
+          <h1 style={{ margin: 0, fontSize: '1.8rem' }}>
+            Hola, Carlos 👋
+          </h1>
+          <p style={{ margin: '4px 0 0 0', color: 'var(--color-text-muted)', fontSize: '0.95rem' }}>
+            Busca productos y verifica rutas antes de comprar
+          </p>
+        </header>
 
-      {/* Contenido */}
-      <div className="buyer-content">
-        {subView === 'dashboard' && (
-          <BuyerDashboard onShowMap={handleShowMap} />
-        )}
-        {subView === 'marketplace' && (
-          <BuyerMarketplace onBuyProduct={handleBuy} />
-        )}
-      </div>
+        <div className="buyer-content">
+          {activeTab === 'dashboard' && <BuyerDashboard />}
+          {activeTab === 'marketplace' && <BuyerMarketplace onBuyProduct={handleBuy} />}
+          {activeTab === 'purchases' && (
+            <div style={{ padding: 24 }}>
+              <h2>Mis Compras</h2>
+              <p>Historial de compras en desarrollo...</p>
+            </div>
+          )}
+          {activeTab === 'profile' && (
+            <div style={{ padding: 24 }}>
+              <h2>Perfil</h2>
+              <p>Datos del perfil en desarrollo...</p>
+            </div>
+          )}
+          {activeTab === 'config' && (
+            <div style={{ padding: 24 }}>
+              <h2>Configuración</h2>
+              <p>Ajustes del comprador en desarrollo...</p>
+            </div>
+          )}
+        </div>
+      </main>
 
-      {/* Bottom Navigation */}
-      <nav className="buyer-bottomnav">
-        <button
-          className={`buyer-bottomnav__btn ${subView === 'dashboard' ? 'buyer-bottomnav__btn--active' : ''}`}
-          onClick={() => setSubView('dashboard')}
-          type="button"
-        >
-          <span className="buyer-bottomnav__icon">🏠</span>
-          <span className="buyer-bottomnav__label">Inicio</span>
-        </button>
-        <button
-          className={`buyer-bottomnav__btn ${subView === 'marketplace' ? 'buyer-bottomnav__btn--active' : ''}`}
-          onClick={() => setSubView('marketplace')}
-          type="button"
-        >
-          <span className="buyer-bottomnav__icon">🛒</span>
-          <span className="buyer-bottomnav__label">Mercado</span>
-        </button>
-      </nav>
-
-      {/* Modales */}
+      {/* Modals */}
       {showBuyModal && selectedProduct && (
         <BuyerBuyFlow product={selectedProduct} onClose={() => setShowBuyModal(false)} />
-      )}
-      {showMap && selectedOrder && (
-        <BuyerMap order={selectedOrder} onClose={() => setShowMap(false)} />
       )}
     </div>
   )
