@@ -12,6 +12,7 @@ type SubView = 'dashboard' | 'map'
 
 export default function FarmerScreen({ onBack }: Props) {
   const [subView, setSubView] = useState<SubView>('dashboard')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleGoMap = () => setSubView('map')
 
@@ -26,11 +27,17 @@ export default function FarmerScreen({ onBack }: Props) {
           <span className="farmer-topbar__icon">🌱</span>
           <span className="farmer-topbar__name">Agricultor</span>
         </div>
+        <button className="farmer-topbar__menu" onClick={() => setSidebarOpen(!sidebarOpen)} type="button">
+          ☰
+        </button>
         <div className="farmer-topbar__avatar">JG</div>
       </header>
 
-      {/* ─── Sidebar (desktop only) ─── */}
-      <AppSidebar module="farmer" onGoMap={handleGoMap} />
+      {/* ─── Sidebar ─── */}
+      {sidebarOpen && <div className="fsb-overlay" onClick={() => setSidebarOpen(false)} />}
+      <div className={`fsb-wrapper ${sidebarOpen ? 'fsb-wrapper--open' : ''}`}>
+        <AppSidebar module="farmer" onGoMap={handleGoMap} />
+      </div>
 
       {/* ─── Content ─── */}
       <div className="farmer-scroll">

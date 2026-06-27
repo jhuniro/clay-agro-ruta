@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import AppSidebar from './AppSidebar'
 import './RoleScreens.css'
 
@@ -6,6 +7,8 @@ interface Props {
 }
 
 export default function TransporterScreen({ onBack }: Props) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
     <div className="role-screen transporter-screen" aria-label="Pantalla del Transportista">
       <div className="role-topbar">
@@ -13,10 +16,16 @@ export default function TransporterScreen({ onBack }: Props) {
           ← Volver
         </button>
         <span className="role-topbar__title" style={{ color: '#ce93d8' }}>🚛 Transportista</span>
+        <button className="role-topbar__menu" onClick={() => setSidebarOpen(!sidebarOpen)} type="button">
+          ☰
+        </button>
       </div>
 
-      {/* Sidebar (desktop only) */}
-      <AppSidebar module="transporter" />
+      {/* Sidebar */}
+      {sidebarOpen && <div className="fsb-overlay" onClick={() => setSidebarOpen(false)} />}
+      <div className={`fsb-wrapper fsb-wrapper--transporter ${sidebarOpen ? 'fsb-wrapper--open' : ''}`}>
+        <AppSidebar module="transporter" />
+      </div>
 
       {/* Main content */}
       <div className="transporter-main">

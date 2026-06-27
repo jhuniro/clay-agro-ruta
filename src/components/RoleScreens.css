@@ -388,7 +388,7 @@
 }
 
 /* =============================================
-   Transporter Sidebar Layout — Desktop
+   Transporter Sidebar Layout — Mobile Drawer + Desktop Grid
    ============================================= */
 .transporter-main {
   flex: 1;
@@ -397,12 +397,53 @@
   padding-bottom: 100px;
 }
 
-/* Sidebar: hidden on mobile */
-.transporter-screen .fsb {
-  display: none;
+/* ─── Menu button ─── */
+.transporter-screen .role-topbar__menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(245, 166, 35, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.15);
+  border-radius: 2px;
+  color: #f5a623;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  flex-shrink: 0;
+}
+.transporter-screen .role-topbar__menu:hover {
+  background: rgba(245, 166, 35, 0.15);
 }
 
+/* ─── Sidebar: transporter amber brick ─── */
+.transporter-screen .fsb {
+  background:
+    linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
+    #0f0d08;
+  background-size: 64px 64px;
+  border-right: 1px solid rgba(245, 166, 35, 0.1);
+}
+
+/* ─── Desktop: sidebar in grid ─── */
 @media (min-width: 960px) {
+  .fsb-overlay {
+    display: none;
+  }
+  .fsb-wrapper--transporter {
+    position: static;
+    transform: none;
+    width: auto;
+    z-index: auto;
+  }
+  .transporter-screen .role-topbar__menu {
+    display: none;
+  }
+
   .transporter-screen {
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -416,19 +457,7 @@
   }
 
   .transporter-screen .fsb {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: var(--space-md);
-    padding-top: var(--space-sm);
-    background:
-      linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
-      linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
-      linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
-      linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
-      #0f0d08;
-    background-size: 64px 64px;
-    border-right: 1px solid rgba(245, 166, 35, 0.1);
+    height: 100%;
     overflow-y: auto;
     grid-row: 2;
     grid-column: 1;

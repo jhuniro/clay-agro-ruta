@@ -19,6 +19,7 @@ export default function BuyerScreen({ onBack }: Props) {
   const [selectedProduct, setSelectedProduct] = useState<Order | null>(null)
   const [showMap, setShowMap] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleBuy = (product: Order) => {
     setSelectedProduct(product)
@@ -38,10 +39,16 @@ export default function BuyerScreen({ onBack }: Props) {
           ← Volver
         </button>
         <span className="role-topbar__title" style={{ color: '#90caf9' }}>🛒 Comprador</span>
+        <button className="role-topbar__menu" onClick={() => setSidebarOpen(!sidebarOpen)} type="button">
+          ☰
+        </button>
       </div>
 
-      {/* Sidebar (desktop only) */}
-      <AppSidebar module="buyer" />
+      {/* Sidebar */}
+      {sidebarOpen && <div className="fsb-overlay" onClick={() => setSidebarOpen(false)} />}
+      <div className={`fsb-wrapper fsb-wrapper--buyer ${sidebarOpen ? 'fsb-wrapper--open' : ''}`}>
+        <AppSidebar module="buyer" />
+      </div>
 
       {/* Main content */}
       <div className="buyer-main">
