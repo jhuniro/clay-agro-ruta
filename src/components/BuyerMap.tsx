@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import type { Order } from '../types'
+import { MY_ORDERS } from '../data/mockData'
 
 const OSRM_BASE = 'https://router.project-osrm.org'
+const HUANUCO_CENTER = { lat: -9.9306, lng: -76.2415 }
 
 async function fetchOsrmGeometry(
   origin: { lat: number; lng: number },
@@ -30,14 +32,20 @@ function fmtDur(s: number) {
 }
 
 interface Props {
-  order: Order
-  onClose: () => void
+  order?: Order
+  height?: number | string
 }
 
-export default function BuyerMap({ order, onClose }: Props) {
+export default function BuyerMap({ order, height = '100%' }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
   const [routeInfo, setRouteInfo] = useState<{ distance: number; duration: number } | null>(null)
+
+  const centerMap = () => {
+    if (mapRef.current) {
+      mapRef.current.flyTo({ center: [HUANUCO_CENTER.lng, HUANUCO_CENTER.lat], zoom: 9 })
+    }
+  }
 
   useEffect(() => {
     if (!mapContainer.current) return
@@ -45,121 +53,143 @@ export default function BuyerMap({ order, onClose }: Props) {
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
-      center: [order.originCoord.lng, order.originCoord.lat],
+      center: [HUANUCO_CENTER.lng, HUANUCO_CENTER.lat],
       zoom: 9,
     })
 
     mapRef.current = map
     map.addControl(new maplibregl.NavigationControl(), 'top-right')
 
-    const originMarker = new maplibregl.Marker({ color: '#2d7a3a' })
-      .setLngLat([order.originCoord.lng, order.originCoord.lat])
-      .setPopup(new maplibregl.Popup().setHTML(`<b>Origen:</b> ${order.origin}<br>${order.farmerName}`))
-      .addTo(map)
-
-    const destMarker = new maplibregl.Marker({ color: '#1a6b9a' })
-      .setLngLat([order.destinationCoord.lng, order.destinationCoord.lat])
-      .setPopup(new maplibregl.Popup().setHTML(`<b>Destino:</b> ${order.destination}`))
+    // Mi Ubicación (Mock)
+    new maplibregl.Marker({ color: '#1d9bf0' })
+      .setLngLat([HUANUCO_CENTER.lng, HUANUCO_CENTER.lat])
+      .setPopup(new maplibregl.Popup().setHTML(`<b>Mi Ubicación</b><br>Huánuco Centro`))
       .addTo(map)
 
     map.on('load', () => {
-      // Start with empty source, will be filled by OSRM
-      map.addSource('route', {
-        type: 'geojson',
-        data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] }, properties: {} },
-      })
+      // Función para pintar una ruta
+      const drawRoute = (ord: Order, index: string) => {
+        map.addSource(`route-${index}`, {
+          type: 'geojson',
+          data: { type: 'Feature', geometry: { type: 'LineString', coordinates: [] }, properties: {} },
+        })
 
-      map.addLayer({
-        id: 'route-line',
-        type: 'line',
-        source: 'route',
-        layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: {
-          'line-color': order.routeStatus === 'libre' ? '#2d7a3a' : order.routeStatus === 'riesgo' ? '#f5a623' : '#dc3545',
-          'line-width': 4,
-          'line-opacity': 0.8,
-        },
-      })
+        map.addLayer({
+          id: `route-line-${index}`,
+          type: 'line',
+          source: `route-${index}`,
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: {
+            'line-color': ord.routeStatus === 'libre' ? '#22c55e' : ord.routeStatus === 'riesgo' ? '#eab308' : '#ef4444',
+            'line-width': 4,
+            'line-opacity': 0.8,
+          },
+        })
 
-      if (order.truckCoord) {
-        new maplibregl.Marker({ color: '#f5a623' })
-          .setLngLat([order.truckCoord.lng, order.truckCoord.lat])
-          .setPopup(new maplibregl.Popup().setHTML(`<b>🚚 Camión:</b> ${order.truckPlate}`))
+        // Marcador Origen
+        new maplibregl.Marker({ color: '#10b981' })
+          .setLngLat([ord.originCoord.lng, ord.originCoord.lat])
+          .setPopup(new maplibregl.Popup().setHTML(`<b>Origen:</b> ${ord.origin}<br>${ord.farmerName}`))
           .addTo(map)
-      }
 
-      // Fetch OSRM road route
-      fetchOsrmGeometry(order.originCoord, order.destinationCoord).then((result) => {
-        if (!result) {
-          // Fallback: straight line
-          const src = map.getSource('route') as maplibregl.GeoJSONSource
+        // Marcador Destino (si es distinto a mi ubicación, pero suele ser la misma)
+        
+        if (ord.truckCoord) {
+          new maplibregl.Marker({ color: '#f5a623' })
+            .setLngLat([ord.truckCoord.lng, ord.truckCoord.lat])
+            .setPopup(new maplibregl.Popup().setHTML(`<b>🚚 Camión:</b> ${ord.truckPlate}`))
+            .addTo(map)
+        }
+
+        fetchOsrmGeometry(ord.originCoord, ord.destinationCoord).then((result) => {
+          if (!result) return
+          if (order && index === 'main') setRouteInfo({ distance: result.distance, duration: result.duration })
+
+          const src = map.getSource(`route-${index}`) as maplibregl.GeoJSONSource
           if (src) {
             src.setData({
               type: 'Feature',
-              geometry: {
-                type: 'LineString',
-                coordinates: [
-                  [order.originCoord.lng, order.originCoord.lat],
-                  [order.destinationCoord.lng, order.destinationCoord.lat],
-                ],
-              },
+              geometry: { type: 'LineString', coordinates: result.coordinates },
               properties: {},
             })
           }
-          return
-        }
 
-        setRouteInfo({ distance: result.distance, duration: result.duration })
+          if (order && index === 'main') {
+            const bounds = new maplibregl.LngLatBounds()
+            result.coordinates.forEach((c) => bounds.extend(c))
+            if (ord.truckCoord) bounds.extend([ord.truckCoord.lng, ord.truckCoord.lat])
+            map.fitBounds(bounds, { padding: 40 })
+          }
+        })
+      }
 
-        const src = map.getSource('route') as maplibregl.GeoJSONSource
-        if (src) {
-          src.setData({
-            type: 'Feature',
-            geometry: { type: 'LineString', coordinates: result.coordinates },
-            properties: {},
-          })
-        }
-
-        // Fit to route
-        const bounds = new maplibregl.LngLatBounds()
-        result.coordinates.forEach((c) => bounds.extend(c))
-        if (order.truckCoord) bounds.extend([order.truckCoord.lng, order.truckCoord.lat])
-        map.fitBounds(bounds, { padding: 60 })
-      })
+      if (order) {
+        drawRoute(order, 'main')
+      } else {
+        // Pintar todas las rutas activas si es la vista general
+        MY_ORDERS.filter(o => o.status !== 'ENTREGADO').forEach((o, i) => drawRoute(o, i.toString()))
+      }
     })
 
     return () => {
-      originMarker.remove()
-      destMarker.remove()
       map.remove()
     }
   }, [order])
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="map-card" onClick={e => e.stopPropagation()}>
-        <div className="map-card__header">
-          <h3>🗺️ Tracking de Pedido</h3>
-          <button className="map-card__close" onClick={onClose} type="button">✕</button>
-        </div>
+    <div style={{ position: 'relative', width: '100%', height }}>
+      {/* Mapa contenedor */}
+      <div ref={mapContainer} style={{ width: '100%', height: '100%' }} />
 
-        <div ref={mapContainer} className="map-container" />
-
-        <div className="map-card__info">
-          <p><strong>{order.emoji} {order.product}</strong> — {order.quantity} {order.unit}</p>
-          <p>📍 {order.origin} → 🏁 {order.destination}</p>
-          {routeInfo ? (
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
-              <span className="route-badge route-badge--libre">🛣️ {fmtDist(routeInfo.distance)}</span>
-              <span className="route-badge" style={{ background: 'rgba(37,99,235,0.2)', color: '#90caf9' }}>⏱️ {fmtDur(routeInfo.duration)}</span>
-            </div>
-          ) : (
-            <p>📏 {order.distanceKm} km (estimado)</p>
-          )}
-          {order.truckPlate && <p>🚚 Placa: {order.truckPlate}</p>}
-          <span className={`route-badge route-badge--${order.routeStatus}`}>● Ruta {order.routeStatus}</span>
+      {/* Controles Flotantes Arriba */}
+      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, display: 'flex', gap: 8, flexDirection: 'column' }}>
+        <button 
+          onClick={centerMap}
+          style={{ background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)', color: 'white', padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          📍 Centrar Mapa
+        </button>
+        
+        {/* Leyenda */}
+        <div style={{ background: 'var(--color-bg-elevated)', padding: 12, borderRadius: 8, border: '1px solid var(--color-border)', fontSize: '0.85rem' }}>
+          <div style={{ fontWeight: 'bold', marginBottom: 8 }}>Estado de Rutas</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}><span style={{ color: '#22c55e' }}>●</span> Libre</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}><span style={{ color: '#eab308' }}>●</span> En Riesgo</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}><span style={{ color: '#ef4444' }}>●</span> Bloqueada</div>
         </div>
       </div>
+
+      {/* Información de Ruta Flotante Abajo (Solo si hay una orden seleccionada) */}
+      {order && (
+        <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16, zIndex: 10 }}>
+          <div style={{ background: 'var(--color-bg-elevated)', padding: 16, borderRadius: 12, border: '1px solid var(--color-border)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+              <div>
+                <div style={{ fontWeight: 'bold' }}>{order.product}</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>📍 {order.origin} → 🏁 {order.destination}</div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {routeInfo && (
+                  <>
+                    <span style={{ background: 'rgba(34, 197, 94, 0.2)', color: '#4ade80', padding: '4px 12px', borderRadius: 16, fontSize: '0.85rem', fontWeight: 'bold' }}>
+                      🛣️ {fmtDist(routeInfo.distance)}
+                    </span>
+                    <span style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa', padding: '4px 12px', borderRadius: 16, fontSize: '0.85rem', fontWeight: 'bold' }}>
+                      ⏱️ {fmtDur(routeInfo.duration)}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+            
+            {order.routeStatus === 'bloqueada' && (
+              <div style={{ marginTop: 12, background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', color: '#ef4444', padding: '8px 12px', borderRadius: 8, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span>🚨</span> Ruta principal bloqueada. <strong>Alternativa sugerida:</strong> Desvío por vía regional sur (+45 min).
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

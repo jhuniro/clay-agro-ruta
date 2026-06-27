@@ -1,0 +1,83 @@
+/* =============================================
+   Pattern.css — Brick/Tile pattern backgrounds
+   Module-specific colors: farmer=green, buyer=blue, transporter=amber
+   ============================================= */
+
+/* ─── Farmer: Agriculture green brick ─── */
+.pattern-farmer {
+  background:
+    linear-gradient(135deg, transparent 20.5%, #0d2818 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0d2818 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0d2818 0 17%, transparent 0 58%, #0d2818 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0d2818 0 17%, transparent 0 58%, #0d2818 0 67%, transparent 0 83%, #0d2818 0 92%, transparent 0),
+    #080c09;
+  background-size: 64px 64px;
+}
+
+/* ─── Buyer: Commerce blue brick ─── */
+.pattern-buyer {
+  background:
+    linear-gradient(135deg, transparent 20.5%, #0c1a2a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0c1a2a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0c1a2a 0 17%, transparent 0 58%, #0c1a2a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0c1a2a 0 17%, transparent 0 58%, #0c1a2a 0 67%, transparent 0 83%, #0c1a2a 0 92%, transparent 0),
+    #080a10;
+  background-size: 64px 64px;
+}
+
+/* ─── Transporter: Road amber brick ─── */
+.pattern-transporter {
+  background:
+    linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
+    #0f0d08;
+  background-size: 64px 64px;
+}
+
+/* ─── Neutral (welcome, shared) brick ─── */
+.pattern-neutral {
+  background:
+    linear-gradient(135deg, transparent 20.5%, #1a1a1a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0 83%, #1a1a1a 0 92%, transparent 0),
+    #111111;
+  background-size: 64px 64px;
+}
+
+/* ─── Card base: shared structure ─── */
+.card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Module-specific card borders */
+.card--farmer {
+  border-color: rgba(0, 186, 124, 0.15);
+}
+.card--farmer:hover {
+  border-color: rgba(0, 186, 124, 0.3);
+}
+
+.card--buyer {
+  border-color: rgba(29, 155, 240, 0.15);
+}
+.card--buyer:hover {
+  border-color: rgba(29, 155, 240, 0.3);
+}
+
+.card--transporter {
+  border-color: rgba(245, 166, 35, 0.15);
+}
+.card--transporter:hover {
+  border-color: rgba(245, 166, 35, 0.3);
+}

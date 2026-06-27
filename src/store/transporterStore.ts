@@ -2,6 +2,7 @@ import { create } from 'zustand'
 
 export type TabId = 'dashboard' | 'rutas' | 'envios' | 'alertas' | 'historial' | 'perfil' | 'config'
 export type DriverStatus = 'en_ruta' | 'disponible' | 'fuera_servicio'
+export type TripState = 'NOT_STARTED' | 'EN_RUTA' | 'VIAJE_PAUSADO' | 'FINISHED'
 
 export interface MockAlert {
   id: string
@@ -20,8 +21,13 @@ export interface MockShipment {
   farmer: string
   buyer: string
   status: 'PENDIENTE_CARGA' | 'EN_TRANSITO' | 'ENTREGADO' | 'CON_INCIDENTE' | 'LLEGANDO'
+  routeStatus: 'libre' | 'riesgo' | 'bloqueada'
   eta?: string
   farmerLoaded?: boolean
+  price: number
+  origin: string
+  destination: string
+  date: string
 }
 
 interface TransporterState {
@@ -45,6 +51,20 @@ interface TransporterState {
 
   routeBlocked: boolean
   setRouteBlocked: (blocked: boolean) => void
+
+  // --- Gamificación ---
+  points: number
+  addPoints: (pts: number) => void
+
+  // --- Lógica de Viaje Realista ---
+  tripProgress: number // 0 to 100
+  tripState: TripState
+  setTripProgress: (progress: number) => void
+  setTripState: (state: TripState) => void
+  
+  // --- Simulación PWA Offline ---
+  isOffline: boolean
+  setIsOffline: (offline: boolean) => void
 
   // Demo actions
   simulateFarmerLoaded: () => void
@@ -72,6 +92,7 @@ const INITIAL_ALERTS: MockAlert[] = [
   }
 ]
 
+// Cargas de la Bolsa
 const INITIAL_SHIPMENTS: MockShipment[] = [
   {
     id: 'sh1',
@@ -79,8 +100,12 @@ const INITIAL_SHIPMENTS: MockShipment[] = [
     weight: 1500,
     farmer: 'Juan Pérez',
     buyer: 'Supermercados Metro',
-    status: 'EN_TRANSITO',
-    eta: '2h 15m'
+    status: 'PENDIENTE_CARGA',
+    routeStatus: 'libre',
+    price: 350,
+    origin: 'Ambo',
+    destination: 'Mercado Mayorista Puelles',
+    date: 'Hoy, 08:00 AM'
   },
   {
     id: 'sh2',
@@ -89,12 +114,30 @@ const INITIAL_SHIPMENTS: MockShipment[] = [
     farmer: 'Carlos Ramos',
     buyer: 'Exportaciones Andes',
     status: 'PENDIENTE_CARGA',
+    routeStatus: 'riesgo',
+    price: 180,
+    origin: 'Chinchao',
+    destination: 'Tingo María',
+    date: 'Mañana, 09:00 AM',
     farmerLoaded: false
+  },
+  {
+    id: 'sh3',
+    product: 'Cacao Orgánico',
+    weight: 2000,
+    farmer: 'María López',
+    buyer: 'Chocolates del Perú',
+    status: 'PENDIENTE_CARGA',
+    routeStatus: 'bloqueada',
+    price: 600,
+    origin: 'Leoncio Prado',
+    destination: 'Huánuco',
+    date: 'Hoy, 02:00 PM',
   }
 ]
 
 export const useTransporterStore = create<TransporterState>((set) => ({
-  activeTab: 'dashboard',
+  activeTab: 'rutas',
   setActiveTab: (tab) => set({ activeTab: tab }),
 
   driverStatus: 'disponible',
@@ -122,9 +165,19 @@ export const useTransporterStore = create<TransporterState>((set) => ({
   routeBlocked: false,
   setRouteBlocked: (blocked) => set({ routeBlocked: blocked }),
 
+  points: 450,
+  addPoints: (pts) => set((state) => ({ points: state.points + pts })),
+
+  tripProgress: 0,
+  tripState: 'NOT_STARTED',
+  setTripProgress: (progress) => set({ tripProgress: Math.min(100, Math.max(0, progress)) }),
+  setTripState: (tripState) => set({ tripState }),
+
+  isOffline: false,
+  setIsOffline: (isOffline) => set({ isOffline }),
+
   simulateFarmerLoaded: () => {
     set((state) => {
-      // Find the first pending shipment and mark it as loaded by farmer
       const sh = state.shipments.find(s => s.status === 'PENDIENTE_CARGA' && !s.farmerLoaded)
       if (sh) {
         return {
@@ -139,3 +192,4 @@ export const useTransporterStore = create<TransporterState>((set) => ({
     set((state) => ({ routeBlocked: !state.routeBlocked }))
   }
 }))
+

@@ -119,82 +119,82 @@ export default function RutiCopilot({ currentView }: Props) {
         {mode === 'tutorial' && (
           <div className="mt-3 flex gap-2">
             <button
-              className="flex-1 px-3 py-2 text-sm font-medium rounded-lg bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] transition-colors cursor-pointer"
-              onClick={handleTutorialNext}
-              type="button"
-            >
-              {tutorialStep < tutorialSteps.length - 1
-                ? 'Siguiente →'
-                : 'Finalizar ✓'}
-            </button>
-          </div>
-        )}
-
-        {/* Tips controls */}
-        {mode === 'tips' && (
-          <div className="mt-3 flex gap-2">
-            <button
-              className="flex-1 px-3 py-2 text-sm font-medium rounded-lg bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] transition-colors cursor-pointer"
-              onClick={handleTipsNext}
-              type="button"
-            >
-              {tipIndex < tips.length - 1
-                ? 'Siguiente tip →'
-                : 'Finalizar ✓'}
-            </button>
-          </div>
-        )}
-
-        {/* FAQ list */}
-        {mode === 'faq' && (
-          <div className="mt-3 flex flex-col gap-2">
-            {faqItems.map((item) => (
-              <button
-                key={item.q}
-                className="text-left px-3 py-2 text-sm rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
-                onClick={() => handleFaqSelect(item.a)}
+                className="flex-1 px-3 py-2 text-sm font-medium rounded-[2px] bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] transition-colors cursor-pointer"
+                onClick={handleTutorialNext}
                 type="button"
               >
-                {item.q}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Default controls */}
-        {mode === 'idle' && (
-          <div className="mt-3 flex flex-col gap-2">
-            <div className="flex gap-2">
-              <button
-                className="flex-1 px-3 py-2 text-sm font-medium rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
-                onClick={handleTutorial}
-                type="button"
-              >
-                📖 Tutorial
-              </button>
-              <button
-                className="flex-1 px-3 py-2 text-sm font-medium rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
-                onClick={handleTips}
-                type="button"
-              >
-                💡 Tips
-              </button>
-              <button
-                className="flex-1 px-3 py-2 text-sm font-medium rounded-lg bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
-                onClick={handleFaq}
-                type="button"
-              >
-                💬 Preguntas
+                {tutorialStep < tutorialSteps.length - 1
+                  ? 'Siguiente →'
+                  : 'Finalizar ✓'}
               </button>
             </div>
-            <RutiInput onSubmit={handleQuestion} />
-            <button
-              className="w-full px-3 py-2 text-sm font-medium rounded-lg bg-[#25d366] text-white hover:bg-[#1da851] transition-colors cursor-pointer"
-              onClick={handleWhatsApp}
-              type="button"
-            >
-              📱 Contactar por WhatsApp
-            </button>
+          )}
+
+          {/* Tips controls */}
+          {mode === 'tips' && (
+            <div className="mt-3 flex gap-2">
+              <button
+                className="flex-1 px-3 py-2 text-sm font-medium rounded-[2px] bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-light)] transition-colors cursor-pointer"
+                onClick={handleTipsNext}
+                type="button"
+              >
+                {tipIndex < tips.length - 1
+                  ? 'Siguiente tip →'
+                  : 'Finalizar ✓'}
+              </button>
+            </div>
+          )}
+
+          {/* FAQ list */}
+          {mode === 'faq' && (
+            <div className="mt-3 flex flex-col gap-2">
+              {faqItems.map((item) => (
+                <button
+                  key={item.q}
+                  className="text-left px-3 py-2 text-sm rounded-[2px] bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
+                  onClick={() => handleFaqSelect(item.a)}
+                  type="button"
+                >
+                  {item.q}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Default controls */}
+          {mode === 'idle' && (
+            <div className="mt-3 flex flex-col gap-2">
+              <div className="flex gap-2">
+                <button
+                  className="flex-1 px-3 py-2 text-sm font-medium rounded-[2px] bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
+                  onClick={handleTutorial}
+                  type="button"
+                >
+                  📖 Tutorial
+                </button>
+                <button
+                  className="flex-1 px-3 py-2 text-sm font-medium rounded-[2px] bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
+                  onClick={handleTips}
+                  type="button"
+                >
+                  💡 Tips
+                </button>
+                <button
+                  className="flex-1 px-3 py-2 text-sm font-medium rounded-[2px] bg-[var(--color-bg)] border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors cursor-pointer"
+                  onClick={handleFaq}
+                  type="button"
+                >
+                  💬 Preguntas
+                </button>
+              </div>
+              <RutiInput onSubmit={handleQuestion} />
+              <button
+                className="w-full px-3 py-2 text-sm font-medium rounded-[2px] bg-[#25d366] text-white hover:bg-[#1da851] transition-colors cursor-pointer"
+                onClick={handleWhatsApp}
+                type="button"
+              >
+                📱 Contactar por WhatsApp
+              </button>
           </div>
         )}
       </RutiPanel>

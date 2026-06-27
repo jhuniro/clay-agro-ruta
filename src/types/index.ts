@@ -15,6 +15,7 @@ export interface Order {
   id: string
   product: string
   emoji: string
+  categoryId?: string
   quantity: number
   unit: string
   price: number
@@ -30,6 +31,15 @@ export interface Order {
   truckPlate?: string
   truckCoord?: Coordinate
   distanceKm: number
+  reports?: { time: string; msg: string }[]
+  rating?: number
+  ratingComment?: string
+  images?: string[]
+  deliverySchedule?: string
+  paymentMethods?: string[]
+  reviews?: Review[]
+  description?: string
+  driverName?: string
 }
 
 export interface WeatherData {
@@ -54,4 +64,45 @@ export interface Category {
   id: string
   name: string
   emoji: string
+}
+
+export interface BuyerProfile {
+  id: string
+  name: string
+  avatar: string
+  memberSince: string
+  totalPurchases: number
+  totalSpent: number
+  activeSuppliers: number
+  avgPurchase: number
+  topProduct: string
+  email: string
+  type: string
+  favoriteProducts: string[]
+  preferredZone: string
+}
+
+export interface BuyerConfig {
+  notifications: boolean
+  darkMode: boolean
+  language: 'es' | 'en'
+  currency: 'PEN' | 'USD'
+  units: 'kg' | 'lb'
+}
+
+export interface Review {
+  id: string
+  author: string
+  rating: number
+  comment: string
+  date: string
+}
+
+export interface AppNotification {
+  id: string
+  title: string
+  message: string
+  date: string
+  read: boolean
+  type: 'info' | 'success' | 'warning' | 'error'
 }

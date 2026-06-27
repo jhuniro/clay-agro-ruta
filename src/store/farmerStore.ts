@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type FarmerTab = 'dashboard' | 'harvests' | 'search_transport' | 'reports' | 'sales'
+export type FarmerTab = 'dashboard' | 'harvests' | 'marketplace' | 'reports' | 'sales'
 
 export interface HarvestShipment {
   id: string

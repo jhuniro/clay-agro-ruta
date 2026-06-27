@@ -11,7 +11,7 @@ export default function FarmerSidebar({ onBack }: Props) {
   const navItems: { id: FarmerTab, label: string, icon: string }[] = [
     { id: 'dashboard', label: 'Inicio', icon: '🏠' },
     { id: 'harvests', label: 'Mis Cosechas', icon: '📦' },
-    { id: 'search_transport', label: 'Buscar Transporte', icon: '🚛' },
+    { id: 'marketplace', label: 'Marketplace', icon: '🛒' },
     { id: 'reports', label: 'Reportar', icon: '⚠️' },
     { id: 'sales', label: 'Mis Ventas', icon: '📊' },
   ]

@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import FarmerMap from './FarmerMap'
 import { useFarmerStore } from '../store/farmerStore'
 
 export default function FarmerDashboardView() {
   const setActiveTab = useFarmerStore(s => s.setActiveTab)
+  const [focusType, setFocusType] = useState<'BLOQUEADA' | 'RIESGO' | null>(null)
 
   return (
     <div className="fd-dashboard">
@@ -35,27 +37,17 @@ export default function FarmerDashboardView() {
           </div>
         </div>
 
-        {/* Alert Banner */}
-        <div className="fd-alert-box">
-          <span style={{ fontSize: '1.2rem' }}>⚠️</span>
-          <span>Bloqueo en Tingo María – La Molina. Desvío por Llacuabamba.</span>
-        </div>
-
         {/* Stats Row */}
         <div className="fd-stats">
           <div className="fd-stat fd-stat--green" onClick={() => setActiveTab('harvests')} style={{ cursor: 'pointer' }}>
             <span className="fd-stat__num">3</span>
             <span className="fd-stat__label">Envíos activos</span>
           </div>
-          <div className="fd-stat fd-stat--blue">
-            <span className="fd-stat__num">1</span>
-            <span className="fd-stat__label">Ruta libre</span>
-          </div>
-          <div className="fd-stat fd-stat--yellow">
-            <span className="fd-stat__num">1</span>
+          <div className="fd-stat fd-stat--yellow" onClick={() => setFocusType('RIESGO')} style={{ cursor: 'pointer' }}>
+            <span className="fd-stat__num">3</span>
             <span className="fd-stat__label">En riesgo</span>
           </div>
-          <div className="fd-stat fd-stat--red">
+          <div className="fd-stat fd-stat--red" onClick={() => setFocusType('BLOQUEADA')} style={{ cursor: 'pointer' }}>
             <span className="fd-stat__num">1</span>
             <span className="fd-stat__label">Bloqueada</span>
           </div>
@@ -63,8 +55,33 @@ export default function FarmerDashboardView() {
       </div>
 
       {/* ─── Bottom: Mapa GPS ─── */}
-      <div className="fd-bottom-map">
-        <FarmerMap />
+      <div className="fd-bottom-map" style={{ marginTop: 24 }}>
+        {focusType !== null && (
+          <div style={{
+            background: focusType === 'BLOQUEADA' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(234, 179, 8, 0.1)',
+            border: `1px solid ${focusType === 'BLOQUEADA' ? '#ef4444' : '#eab308'}`,
+            padding: '12px 16px',
+            borderRadius: '8px 8px 0 0',
+            color: focusType === 'BLOQUEADA' ? '#ef4444' : '#eab308',
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8
+          }}>
+            <span>⚠️</span>
+            {focusType === 'BLOQUEADA' 
+              ? 'ALERTA CRÍTICA: Huaico interrumpiendo el paso en el tramo Huánuco-Pasco.' 
+              : 'PRECAUCIÓN: Lluvias intensas y riesgo de derrumbe en la vía.'}
+          </div>
+        )}
+        <div style={{ 
+          border: focusType !== null ? `1px solid ${focusType === 'BLOQUEADA' ? '#ef4444' : '#eab308'}` : 'none', 
+          borderTop: focusType !== null ? 'none' : undefined, 
+          borderRadius: focusType !== null ? '0 0 8px 8px' : '12px', 
+          overflow: 'hidden' 
+        }}>
+          <FarmerMap focusType={focusType} />
+        </div>
       </div>
     </div>
   )

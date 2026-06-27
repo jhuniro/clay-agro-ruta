@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTransporterStore } from '../store/transporterStore'
-
-
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -25,7 +24,6 @@ function createCustomIcon(emoji: string, color: string): L.DivIcon {
   })
 }
 
-// Simulated routes (we hardcode for demo purposes, representing Huánuco roads)
 const ROUTE_ORIGIN: L.LatLngTuple = [-9.9833, -76.2167]
 const ROUTE_DEST: L.LatLngTuple = [-9.9333, -76.25]
 const NORMAL_WAYPOINTS: L.LatLngTuple[] = [
@@ -36,10 +34,9 @@ const NORMAL_WAYPOINTS: L.LatLngTuple[] = [
   [-9.938, -76.245],
 ]
 
-// Alternate route (Simulates going around the blockage)
 const ALT_WAYPOINTS: L.LatLngTuple[] = [
   [-9.975, -76.218],
-  [-9.970, -76.205], // Detour east
+  [-9.970, -76.205],
   [-9.950, -76.210],
   [-9.940, -76.230],
   [-9.938, -76.245],
@@ -75,10 +72,19 @@ export default function TransporterDashboardView() {
   const setRouteBlocked = useTransporterStore(s => s.setRouteBlocked)
   const alerts = useTransporterStore(s => s.alerts)
   const setIncidentModalOpen = useTransporterStore(s => s.setIncidentModalOpen)
+  const tripProgress = useTransporterStore(s => s.tripProgress)
+  const setTripProgress = useTransporterStore(s => s.setTripProgress)
+  const tripState = useTransporterStore(s => s.tripState)
+  const setTripState = useTransporterStore(s => s.setTripState)
+  const addPoints = useTransporterStore(s => s.addPoints)
   
   const [altDrawerOpen, setAltDrawerOpen] = useState(false)
   const [usingAltRoute, setUsingAltRoute] = useState(false)
   const [distance, setDistance] = useState(0)
+  
+  const [showFinalSignature, setShowFinalSignature] = useState(false)
+  const [showVictory, setShowVictory] = useState(false)
+  const [isSigning, setIsSigning] = useState(false)
 
   // Initialization
   useEffect(() => {
@@ -96,9 +102,7 @@ export default function TransporterDashboardView() {
 
     L.marker(ROUTE_ORIGIN, { icon: createCustomIcon('🌱', '#2d7a3a') }).addTo(map)
     L.marker(ROUTE_DEST, { icon: createCustomIcon('🛒', '#f5a623') }).addTo(map)
-    L.marker(ROUTE_ORIGIN, { icon: createCustomIcon('🚛', '#2563eb') }).addTo(map)
 
-    // Render alerts
     alerts.forEach(alert => {
       let emoji = '⚠️'
       let color = '#dc3545'
@@ -143,10 +147,11 @@ export default function TransporterDashboardView() {
     drawRoute()
   }, [usingAltRoute])
 
-  // Watch for block trigger
+  // Block Trigger
   useEffect(() => {
     if (routeBlocked && !usingAltRoute) {
       setAltDrawerOpen(true)
+      setTripState('VIAJE_PAUSADO')
     } else {
       setAltDrawerOpen(false)
     }
@@ -155,33 +160,94 @@ export default function TransporterDashboardView() {
   const acceptAltRoute = () => {
     setUsingAltRoute(true)
     setAltDrawerOpen(false)
-    setRouteBlocked(false) // consume the event
+    setRouteBlocked(false)
+    setTripState('EN_RUTA')
   }
 
-  const rejectAltRoute = () => {
-    setAltDrawerOpen(false)
-    setRouteBlocked(false)
+  const handleFinishTrip = () => {
+    setIsSigning(true)
+    setTimeout(() => {
+      setIsSigning(false)
+      setShowFinalSignature(false)
+      setShowVictory(true)
+    }, 1500)
   }
 
   const formatDist = (m: number) => m > 1000 ? `${(m/1000).toFixed(1)} km` : `${Math.round(m)} m`
+  const is100 = tripProgress >= 100
 
   return (
     <div className="ts-dashboard">
       <div ref={mapContainer} className="ts-map-container" />
       
-      <div className="ts-bottom-bar">
-        <div className="ts-bottom-bar__stat">
-          <span className="ts-bottom-bar__stat-label">Distancia</span>
-          <span className="ts-bottom-bar__stat-value">{formatDist(distance)}</span>
+      {/* Botones Flotantes de Progreso de Demo */}
+      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 400, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <button onClick={() => setTripState(tripState === 'EN_RUTA' ? 'VIAJE_PAUSADO' : 'EN_RUTA')} style={{ padding: '8px 12px', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)', borderRadius: 8, color: 'white', fontWeight: 'bold' }}>
+          {tripState === 'EN_RUTA' ? '⏸️ Pausar' : '▶️ Reanudar'}
+        </button>
+        <button onClick={() => setTripProgress(tripProgress + 20)} style={{ padding: '8px 12px', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)', borderRadius: 8, color: 'white' }}>
+          +20%
+        </button>
+        {tripState === 'VIAJE_PAUSADO' && routeBlocked && (
+          <button onClick={() => { setRouteBlocked(false); setTripState('EN_RUTA') }} style={{ padding: '8px 12px', background: '#f59e0b', border: '1px solid #d97706', borderRadius: 8, color: 'white', fontWeight: 'bold' }}>
+            ✅ Ruta Despejada
+          </button>
+        )}
+      </div>
+      
+      <div className="ts-bottom-bar" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* Progreso del Viaje */}
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: tripState === 'VIAJE_PAUSADO' ? '#ef4444' : '#a8e6b0' }}>
+              {tripState === 'VIAJE_PAUSADO' ? 'Viaje Pausado (Emergencia)' : 'Progreso del viaje'}
+            </span>
+            <span style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{tripProgress}%</span>
+          </div>
+          <div style={{ width: '100%', height: 12, background: 'rgba(255,255,255,0.1)', borderRadius: 6, overflow: 'hidden' }}>
+            <div style={{ 
+              width: `${tripProgress}%`, 
+              height: '100%', 
+              background: tripState === 'VIAJE_PAUSADO' ? '#ef4444' : '#22c55e',
+              transition: 'width 0.3s ease-out'
+            }} />
+          </div>
         </div>
-        <div className="ts-bottom-bar__stat">
-          <span className="ts-bottom-bar__stat-label">ETA</span>
-          <span className="ts-bottom-bar__stat-value">{usingAltRoute ? '45 min' : '30 min'}</span>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="ts-bottom-bar__stat">
+            <span className="ts-bottom-bar__stat-label">Distancia</span>
+            <span className="ts-bottom-bar__stat-value">{formatDist(distance)}</span>
+          </div>
+          <div className="ts-bottom-bar__stat">
+            <span className="ts-bottom-bar__stat-label">ETA</span>
+            <span className="ts-bottom-bar__stat-value">{tripState === 'VIAJE_PAUSADO' ? '-- min' : (usingAltRoute ? '45 min' : '30 min')}</span>
+          </div>
+          <div className="ts-bottom-bar__stat">
+            <span className="ts-bottom-bar__stat-label">Flete</span>
+            <span className="ts-bottom-bar__stat-value">S/ 350</span>
+          </div>
         </div>
-        <div className="ts-bottom-bar__stat">
-          <span className="ts-bottom-bar__stat-label">Ganancia</span>
-          <span className="ts-bottom-bar__stat-value">S/ 250</span>
-        </div>
+
+        <button 
+          disabled={!is100 || tripState === 'VIAJE_PAUSADO'}
+          onClick={() => setShowFinalSignature(true)}
+          style={{ 
+            width: '100%', 
+            padding: 16, 
+            borderRadius: 8, 
+            background: is100 ? '#1d9bf0' : 'rgba(255,255,255,0.1)', 
+            color: is100 ? 'white' : '#888',
+            border: 'none',
+            fontWeight: 'bold',
+            fontSize: '1.1rem',
+            cursor: is100 ? 'pointer' : 'not-allowed',
+            opacity: is100 ? 1 : 0.5,
+            transition: 'all 0.3s'
+          }}
+        >
+          {is100 ? 'Confirmar Entrega y Cobrar' : 'En camino...'}
+        </button>
       </div>
 
       <button className="ts-fab" onClick={() => setIncidentModalOpen(true)}>
@@ -204,11 +270,118 @@ export default function TransporterDashboardView() {
           <button className="ts-btn ts-btn--success" style={{ flex: 1 }} onClick={acceptAltRoute}>
             Usar ruta alternativa
           </button>
-          <button className="ts-btn ts-btn--secondary" style={{ flex: 1 }} onClick={rejectAltRoute}>
+          <button className="ts-btn ts-btn--secondary" style={{ flex: 1 }} onClick={() => setAltDrawerOpen(false)}>
             Ignorar
           </button>
         </div>
       </div>
+
+      {/* Firma Final Modal */}
+      {showFinalSignature && (
+        <div className="modal-overlay" onClick={isSigning ? undefined : () => setShowFinalSignature(false)}>
+          <motion.div 
+            className="modal-card" 
+            onClick={e => e.stopPropagation()}
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+          >
+            <div style={{ textAlign: 'center', marginBottom: 16 }}>
+              <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.1)', padding: '4px 12px', borderRadius: 16, fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                Guía de Remisión Electrónica N° 001-49281
+              </div>
+            </div>
+            
+            <h2 style={{ margin: '0 0 16px 0', borderBottom: '1px solid var(--color-border)', paddingBottom: 16 }}>
+              Confirmación de Recepción
+            </h2>
+
+            <div style={{ fontSize: '0.9rem', marginBottom: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div><strong>Carga:</strong> Papa Amarilla Tumbay</div>
+              <div><strong>Peso Recibido:</strong> 1500 kg</div>
+              <div><strong>Receptor:</strong> Supermercados Metro (Sede Huánuco)</div>
+            </div>
+
+            <div style={{ background: 'var(--color-bg)', padding: 16, borderRadius: 8, marginBottom: 24 }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 8 }}>
+                Firma del receptor (Comprador)
+              </div>
+              <div style={{ 
+                height: 120, 
+                border: '2px dashed #1d9bf0', 
+                borderRadius: 8, 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                color: '#1d9bf0',
+                background: 'rgba(29, 155, 240, 0.05)'
+              }}>
+                [ Dibuja tu firma aquí ]
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button 
+                className="action-btn action-btn--secondary" 
+                onClick={() => setShowFinalSignature(false)} 
+                disabled={isSigning}
+              >
+                Cancelar
+              </button>
+              <button 
+                className="action-btn action-btn--primary" 
+                onClick={handleFinishTrip}
+                disabled={isSigning}
+              >
+                {isSigning ? 'Procesando...' : '✍️ Firmar y Entregar'}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Modal de Victoria (Gamificación) */}
+      <AnimatePresence>
+        {showVictory && (
+          <div className="modal-overlay">
+            <motion.div 
+              className="modal-card"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', bounce: 0.5 }}
+              style={{ textAlign: 'center', background: 'linear-gradient(135deg, #1e3a8a, #0f172a)', border: '1px solid #3b82f6' }}
+            >
+              <div style={{ fontSize: '5rem', marginBottom: 16 }}>🎉</div>
+              <h1 style={{ margin: '0 0 8px 0', color: '#60a5fa' }}>¡Viaje Completado!</h1>
+              <p style={{ color: '#94a3b8', marginBottom: 24 }}>El cliente ha recibido la carga con éxito y el pago ha sido liberado.</p>
+              
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 24 }}>
+                <div style={{ background: 'rgba(255,255,255,0.05)', padding: 16, borderRadius: 12, flex: 1 }}>
+                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Impacto Económico</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#22c55e' }}>S/ 1,200</div>
+                  <div style={{ fontSize: '0.75rem', color: '#22c55e' }}>salvados de pérdida</div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.05)', padding: 16, borderRadius: 12, flex: 1 }}>
+                  <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Experiencia CLAY</div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#eab308' }}>+50 XP</div>
+                  <div style={{ fontSize: '0.75rem', color: '#eab308' }}>Rango actualizado</div>
+                </div>
+              </div>
+
+              <button 
+                className="action-btn action-btn--primary"
+                onClick={() => {
+                  addPoints(50)
+                  setTripProgress(0)
+                  setTripState('NOT_STARTED')
+                  setShowVictory(false)
+                }}
+              >
+                Genial, volver al inicio
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

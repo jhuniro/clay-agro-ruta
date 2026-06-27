@@ -151,3 +151,171 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/* Modals & Buy Flow */
+.buyer-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+.buyer-modal-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+.buyer-modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Market Chips / Filters */
+.buyer-chips-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+}
+.buyer-chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.buyer-chip.active {
+  background: #1d9bf0;
+  color: white;
+  border-color: #1d9bf0;
+}
+
+/* Timeline */
+.buyer-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding-left: 20px;
+  margin-top: 16px;
+}
+.buyer-timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+}
+.buyer-timeline-item {
+  position: relative;
+}
+.buyer-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1d9bf0;
+  border: 2px solid var(--color-bg-elevated);
+}
+.buyer-timeline-time {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+.buyer-timeline-msg {
+  font-size: 0.95rem;
+}
+
+/* Toggles */
+.buyer-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.buyer-toggle.active {
+  background: #1d9bf0;
+}
+.buyer-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+.buyer-toggle.active::after {
+  transform: translateX(20px);
+}
+
+/* Buttons */
+.buyer-btn-primary {
+  background: #1d9bf0;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+.buyer-btn-primary:hover {
+  opacity: 0.9;
+}
+.buyer-btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s;
+}
+.buyer-btn-secondary:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Rating Stars */
+.buyer-star {
+  color: #fbbf24;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.buyer-star.inactive {
+  color: var(--color-border);
+}

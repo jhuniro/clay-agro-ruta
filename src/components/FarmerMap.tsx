@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { startTracking, stopTracking, subscribeGps, type GpsState } from '@/offline/gpsTracker'
+import { useTransporterStore } from '../store/transporterStore'
 
 // ─── Fix Leaflet default marker icon path for Vite ────────────────────────────
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
@@ -23,23 +24,20 @@ const HUANUCO_CENTER: L.LatLngTuple = [-9.9333, -76.25]
 const ROUTE_ORIGIN: L.LatLngTuple = [-9.9833, -76.2167]
 const ROUTE_DEST: L.LatLngTuple = [-9.9333, -76.25]
 
-// ─── Waypoints between origin and dest (real Huánuco roads) ──────────────────
-// These help OSRM follow the actual highway through the valley
 const WAYPOINTS: L.LatLngTuple[] = [
-  [-9.975, -76.218],  // Just after origin
-  [-9.965, -76.225],  // Turn onto main road
-  [-9.955, -76.230],  // Along valley
-  [-9.945, -76.238],  // Approaching city
-  [-9.938, -76.245],  // Near destination
+  [-9.975, -76.218],
+  [-9.965, -76.225],
+  [-9.955, -76.230],
+  [-9.945, -76.238],
+  [-9.938, -76.245],
 ]
 
-// ─── OSRM free routing engine ────────────────────────────────────────────────
 const OSRM_BASE = 'https://router.project-osrm.org'
 
 interface OsrmRoute {
-  geometry: [number, number][]  // [lng, lat] pairs
-  distance: number              // meters
-  duration: number              // seconds
+  geometry: [number, number][]
+  distance: number
+  duration: number
 }
 
 async function fetchOsrmRoute(
@@ -48,7 +46,6 @@ async function fetchOsrmRoute(
   waypoints: L.LatLngTuple[],
 ): Promise<OsrmRoute | null> {
   try {
-    // Build coordinates string: origin;waypoints;dest
     const allPts = [origin, ...waypoints, dest]
     const coordsStr = allPts.map(([lat, lng]) => `${lng},${lat}`).join(';')
 
@@ -61,7 +58,7 @@ async function fetchOsrmRoute(
 
     const route = data.routes[0]
     return {
-      geometry: route.geometry.coordinates, // GeoJSON: [lng, lat]
+      geometry: route.geometry.coordinates,
       distance: route.distance,
       duration: route.duration,
     }
@@ -82,7 +79,6 @@ function formatDuration(seconds: number): string {
   return `${mins} min`
 }
 
-// ─── Marker Icons ────────────────────────────────────────────────────────────
 function createMarkerIcon(color: string, label: string): L.DivIcon {
   return L.divIcon({
     className: '',
@@ -103,18 +99,19 @@ function createMarkerIcon(color: string, label: string): L.DivIcon {
   })
 }
 
-function createTruckIcon(): L.DivIcon {
+function createTruckIcon(color = '#2563eb'): L.DivIcon {
   return L.divIcon({
     className: '',
     html: `
       <div style="
         width:42px;height:42px;
-        background:#2563eb;
+        background:${color};
         border-radius:50%;
         border:3px solid #fff;
-        box-shadow:0 0 12px rgba(37,99,235,.6);
+        box-shadow:0 0 12px ${color}90;
         display:flex;align-items:center;justify-content:center;
         font-size:18px;
+        transition: all 0.3s;
       ">🚛</div>
     `,
     iconSize: [42, 42],
@@ -122,19 +119,20 @@ function createTruckIcon(): L.DivIcon {
   })
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
 interface FarmerMapProps {
   compact?: boolean
   className?: string
+  focusType?: 'BLOQUEADA' | 'RIESGO' | null
 }
 
-export default function FarmerMap({ compact = false, className = '' }: FarmerMapProps) {
+export default function FarmerMap({ compact = false, className = '', focusType = null }: FarmerMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<L.Map | null>(null)
   const truckMarker = useRef<L.Marker | null>(null)
   const roadLine = useRef<L.Polyline | null>(null)
   const gpsTrail = useRef<L.Polyline | null>(null)
   const gpsHistory = useRef<L.LatLngTuple[]>([])
+  const routeLatLngs = useRef<L.LatLngTuple[]>([])
 
   const [gpsState, setGpsState] = useState<GpsState>({
     lat: HUANUCO_CENTER[0],
@@ -148,6 +146,10 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
   const [routeInfo, setRouteInfo] = useState<{ distance: number; duration: number } | null>(null)
   const [routeLoading, setRouteLoading] = useState(true)
 
+  // ─── Efecto Espejo (Sincronización con TransporterStore) ───────────────────
+  const tripProgress = useTransporterStore(s => s.tripProgress)
+  const tripState = useTransporterStore(s => s.tripState)
+
   // ─── Initialize map & fetch OSRM route ─────────────────────────────────────
   useEffect(() => {
     if (!mapRef.current || mapInstance.current) return
@@ -159,29 +161,16 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
     })
 
     L.control.zoom({ position: 'bottomright' }).addTo(map)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map)
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap',
-      maxZoom: 19,
-    }).addTo(map)
+    L.marker(ROUTE_ORIGIN, { icon: createMarkerIcon('#2d7a3a', '🌱') }).addTo(map)
+    L.marker(ROUTE_DEST, { icon: createMarkerIcon('#f5a623', '🛒') }).addTo(map)
 
-    // Origin marker
-    L.marker(ROUTE_ORIGIN, { icon: createMarkerIcon('#2d7a3a', '🌱') })
-      .bindPopup('<b>Origen</b><br>Zone Agrícola')
-      .addTo(map)
-
-    // Destination marker
-    L.marker(ROUTE_DEST, { icon: createMarkerIcon('#f5a623', '🛒') })
-      .bindPopup('<b>Destino</b><br>Huánuco Centro')
-      .addTo(map)
-
-    // Truck marker at origin
     const truck = L.marker(ROUTE_ORIGIN, { icon: createTruckIcon() })
-      .bindPopup('<b>📍 Mi ubicación</b><br>GPS activo')
+      .bindPopup('<b>📍 Transportista Asignado</b><br>GPS Sincronizado')
       .addTo(map)
     truckMarker.current = truck
 
-    // GPS trail (green line behind truck when tracking)
     const trail = L.polyline([], {
       color: '#4ade80',
       weight: 3,
@@ -191,31 +180,25 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
 
     mapInstance.current = map
 
-    // ─── Fetch real road route from OSRM ─────────────────────────────────────
     fetchOsrmRoute(ROUTE_ORIGIN, ROUTE_DEST, WAYPOINTS).then((route) => {
       setRouteLoading(false)
       if (!route) return
 
-      // Convert GeoJSON [lng, lat] → Leaflet [lat, lng]
-      const latLngs: L.LatLngTuple[] = route.geometry.map(
-        ([lng, lat]) => [lat, lng],
-      )
+      const latLngs: L.LatLngTuple[] = route.geometry.map(([lng, lat]) => [lat, lng])
+      routeLatLngs.current = latLngs
 
-      // Draw road-following polyline
       const road = L.polyline(latLngs, {
         color: '#2d7a3a',
         weight: 5,
         opacity: 0.75,
-        lineJoin: 'round',
-        lineCap: 'round',
       }).addTo(map)
       roadLine.current = road
 
-      // Set route info
       setRouteInfo({ distance: route.distance, duration: route.duration })
 
-      // Fit map to route bounds
-      map.fitBounds(road.getBounds(), { padding: [40, 40] })
+      if (!focusType) {
+        map.fitBounds(road.getBounds(), { padding: [40, 40] })
+      }
     })
 
     return () => {
@@ -224,39 +207,71 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
     }
   }, [compact])
 
-  // ─── Handle GPS updates ────────────────────────────────────────────────────
-  const handleGpsUpdate = useCallback(
-    (state: GpsState) => {
-      setGpsState(state)
+  // ─── Update Truck marker on Progress change (Efecto Espejo) ────────────────
+  useEffect(() => {
+    if (!truckMarker.current || routeLatLngs.current.length === 0) return
 
-      if (!mapInstance.current) return
+    // Si el viaje está pausado, lo mostramos en rojo
+    truckMarker.current.setIcon(createTruckIcon(tripState === 'VIAJE_PAUSADO' ? '#ef4444' : '#2563eb'))
 
-      const pos: L.LatLngTuple = [state.lat, state.lng]
+    // Interpolar la posición en el arreglo de coords
+    const index = Math.floor((tripProgress / 100) * (routeLatLngs.current.length - 1))
+    const currentPos = routeLatLngs.current[index]
 
-      // Move truck marker
-      if (truckMarker.current) {
-        truckMarker.current.setLatLng(pos)
-        truckMarker.current.setPopupContent(
-          `<b>📍 Mi ubicación</b><br>
-           Lat: ${state.lat.toFixed(4)}<br>
-           Lng: ${state.lng.toFixed(4)}<br>
-           ${state.isOnline ? '🟢 En línea' : '🔴 Sin conexión'}<br>
-           Pendientes: ${state.pendingCount}`,
-        )
-      }
-
-      // Build GPS trail
-      gpsHistory.current.push(pos)
+    if (currentPos) {
+      truckMarker.current.setLatLng(currentPos)
+      
+      // Añadir al trail
+      gpsHistory.current.push(currentPos)
       if (gpsTrail.current) {
         gpsTrail.current.setLatLngs(gpsHistory.current)
       }
+    }
+  }, [tripProgress, tripState])
 
-      mapInstance.current.panTo(pos)
+  useEffect(() => {
+    if (!mapInstance.current) return
+    const map = mapInstance.current
+
+    if (focusType) {
+      const ALERTAS = [
+        { id: 1, lat: -9.945, lng: -76.238, type: 'BLOQUEADA' },
+        { id: 2, lat: -9.955, lng: -76.230, type: 'RIESGO' },
+        { id: 3, lat: -9.965, lng: -76.225, type: 'RIESGO' },
+        { id: 4, lat: -9.975, lng: -76.218, type: 'RIESGO' },
+      ]
+      const targetAlert = ALERTAS.find(a => a.type === focusType)
+      if (targetAlert) {
+        map.flyTo([targetAlert.lat, targetAlert.lng], 15, { animate: true, duration: 1 })
+      }
+    }
+  }, [focusType])
+
+  useEffect(() => {
+    if (!mapInstance.current) return
+    const map = mapInstance.current
+    
+    const ALERTAS: { id: number; lat: number; lng: number; type: 'BLOQUEADA' | 'RIESGO'; color: string; label: string }[] = [
+      { id: 1, lat: -9.945, lng: -76.238, type: 'BLOQUEADA', color: '#ef4444', label: '⚠️' },
+      { id: 2, lat: -9.955, lng: -76.230, type: 'RIESGO', color: '#eab308', label: '⚠️' },
+      { id: 3, lat: -9.965, lng: -76.225, type: 'RIESGO', color: '#eab308', label: '⚠️' },
+      { id: 4, lat: -9.975, lng: -76.218, type: 'RIESGO', color: '#eab308', label: '⚠️' },
+    ]
+
+    ALERTAS.forEach(alerta => {
+      L.marker([alerta.lat, alerta.lng], { icon: createMarkerIcon(alerta.color, alerta.label) })
+        .bindPopup(`<b>Alerta: ${alerta.type}</b><br>Tramo afectado`)
+        .addTo(map)
+    })
+  }, [])
+
+  const handleGpsUpdate = useCallback(
+    (state: GpsState) => {
+      setGpsState(state)
     },
     [],
   )
 
-  // ─── Start/stop GPS ────────────────────────────────────────────────────────
   const toggleTracking = useCallback(() => {
     if (trackingActive) {
       stopTracking()
@@ -267,7 +282,6 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
     }
   }, [trackingActive])
 
-  // ─── Subscribe to GPS ──────────────────────────────────────────────────────
   useEffect(() => {
     const unsub = subscribeGps(handleGpsUpdate)
     return unsub
@@ -277,7 +291,6 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
     return () => { stopTracking() }
   }, [])
 
-  // ─── Helpers ───────────────────────────────────────────────────────────────
   const timeSince = (ts: number) => {
     const secs = Math.floor((Date.now() - ts) / 1000)
     if (secs < 60) return `${secs}s`
@@ -287,155 +300,139 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
   const wrapperClass = `farmer-map ${compact ? 'farmer-map--compact' : ''} ${className}`.trim()
 
   return (
-    <div className={wrapperClass} style={{ position: 'relative', width: '100%' }}>
-      {/* GPS Status Bar */}
-      <div
-        className="farmer-map__statusbar"
-        style={{
-          position: 'absolute',
-          top: compact ? 6 : 8,
-          left: compact ? 6 : 8,
-          right: compact ? 6 : 8,
-          zIndex: 1000,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          background: gpsState.isOnline
-            ? 'rgba(45,122,58,0.92)'
-            : 'rgba(180,40,40,0.92)',
-          color: 'white',
-          borderRadius: compact ? 8 : 10,
-          padding: compact ? '6px 10px' : '8px 12px',
-          fontSize: compact ? 11 : 12,
-          fontFamily: 'system-ui, sans-serif',
-          boxShadow: '0 2px 8px rgba(0,0,0,.3)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: compact ? 12 : 14 }}>{gpsState.isOnline ? '🟢' : '🔴'}</span>
-          <span style={{ fontWeight: 600 }}>
-            {gpsState.isOnline ? 'En línea' : 'Sin conexión — GPS activo'}
-          </span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {gpsState.pendingCount > 0 && (
-            <span style={{ background: 'rgba(255,255,255,0.2)', borderRadius: 6, padding: '2px 6px', fontSize: 11 }}>
-              📦 {gpsState.pendingCount} pendiente{gpsState.pendingCount > 1 ? 's' : ''}
-            </span>
-          )}
-          {!compact && (
-            <span style={{ fontSize: 11, opacity: 0.8 }}>
-              hace {timeSince(gpsState.timestamp)}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Map container */}
-      <div
-        ref={mapRef}
-        style={{
-          width: '100%',
-          height: compact ? '100%' : 320,
-          borderRadius: compact ? 10 : 12,
-          overflow: 'hidden',
-        }}
-      />
-
-      {/* Route Info Card — below map */}
+    <div className={wrapperClass} style={{ position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      
       {!compact && (
-        <div style={{
-          marginTop: 8,
-          display: 'flex',
-          gap: 8,
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-        }}>
-          {routeLoading ? (
-            <span style={{ fontSize: 11, color: '#888', fontFamily: 'monospace' }}>
-              🔄 Calculando ruta por carretera...
-            </span>
-          ) : routeInfo ? (
-            <>
-              <span style={{
-                background: 'rgba(45,122,58,0.15)',
-                border: '1px solid rgba(45,122,58,0.3)',
-                borderRadius: 8,
-                padding: '5px 12px',
-                fontSize: 12,
-                fontWeight: 700,
-                color: '#a8e6b0',
-                fontFamily: 'monospace',
-              }}>
-                🛣️ {formatDistance(routeInfo.distance)}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+          <div style={{
+            display: 'flex',
+            gap: 8,
+            flexWrap: 'wrap',
+          }}>
+            {routeLoading ? (
+              <span style={{ fontSize: 11, color: '#888', fontFamily: 'monospace' }}>
+                🔄 Calculando ruta por carretera...
               </span>
-              <span style={{
-                background: 'rgba(37,99,235,0.15)',
-                border: '1px solid rgba(37,99,235,0.3)',
-                borderRadius: 8,
-                padding: '5px 12px',
-                fontSize: 12,
-                fontWeight: 700,
-                color: '#90caf9',
-                fontFamily: 'monospace',
-              }}>
-                ⏱️ {formatDuration(routeInfo.duration)}
+            ) : routeInfo ? (
+              <>
+                <span style={{
+                  background: 'rgba(45,122,58,0.15)',
+                  border: '1px solid rgba(45,122,58,0.3)',
+                  borderRadius: 8,
+                  padding: '5px 12px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: '#a8e6b0',
+                  fontFamily: 'monospace',
+                }}>
+                  🛣️ {formatDistance(routeInfo.distance)}
+                </span>
+                <span style={{
+                  background: 'rgba(37,99,235,0.15)',
+                  border: '1px solid rgba(37,99,235,0.3)',
+                  borderRadius: 8,
+                  padding: '5px 12px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: '#90caf9',
+                  fontFamily: 'monospace',
+                }}>
+                  ⏱️ {formatDuration(routeInfo.duration)}
+                </span>
+                <span style={{
+                  background: 'rgba(245,166,35,0.15)',
+                  border: '1px solid rgba(245,166,35,0.3)',
+                  borderRadius: 8,
+                  padding: '5px 12px',
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: '#f5c86a',
+                  fontFamily: 'monospace',
+                }}>
+                  🌐 Sincronizado con Transportista
+                </span>
+              </>
+            ) : (
+              <span style={{ fontSize: 11, color: '#f5a0a8', fontFamily: 'monospace' }}>
+                ⚠️ No se pudo calcular la ruta. Usando línea recta.
               </span>
-              <span style={{
-                background: 'rgba(245,166,35,0.15)',
-                border: '1px solid rgba(245,166,35,0.3)',
-                borderRadius: 8,
-                padding: '5px 12px',
-                fontSize: 12,
-                fontWeight: 700,
-                color: '#f5c86a',
-                fontFamily: 'monospace',
-              }}>
-                🌐 OSRM · Carretera real
-              </span>
-            </>
-          ) : (
-            <span style={{ fontSize: 11, color: '#f5a0a8', fontFamily: 'monospace' }}>
-              ⚠️ No se pudo calcular la ruta. Usando línea recta.
-            </span>
-          )}
+            )}
+          </div>
+
+          <button
+            className="farmer-map__toggle"
+            onClick={toggleTracking}
+            type="button"
+            style={{
+              background: trackingActive ? '#dc3545' : '#2d7a3a',
+              color: 'white',
+              border: '2px solid transparent',
+              borderRadius: 20,
+              padding: '6px 16px',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+              fontFamily: 'system-ui, sans-serif',
+            }}
+          >
+            {trackingActive ? '⏹ Detener GPS' : '▶ Iniciar GPS'}
+          </button>
         </div>
       )}
 
-      {/* Toggle GPS button */}
-      {!compact && (
-        <button
-          className="farmer-map__toggle"
-          onClick={toggleTracking}
-          type="button"
+      <div style={{ position: 'relative', width: '100%', flexGrow: 1 }}>
+        <div
+          className="farmer-map__statusbar"
           style={{
             position: 'absolute',
-            bottom: 12,
-            left: '50%',
-            transform: 'translateX(-50%)',
+            top: compact ? 6 : 8,
+            left: compact ? 6 : 8,
+            right: compact ? 6 : 8,
             zIndex: 1000,
-            background: trackingActive ? '#dc3545' : '#2d7a3a',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: tripState === 'VIAJE_PAUSADO' 
+              ? 'rgba(239,68,68,0.92)' 
+              : gpsState.isOnline
+                ? 'rgba(45,122,58,0.92)'
+                : 'rgba(180,40,40,0.92)',
             color: 'white',
-            border: '2px solid white',
-            borderRadius: 20,
-            padding: '8px 20px',
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0,0,0,.3)',
+            borderRadius: compact ? 8 : 10,
+            padding: compact ? '6px 10px' : '8px 12px',
+            fontSize: compact ? 11 : 12,
             fontFamily: 'system-ui, sans-serif',
+            boxShadow: '0 2px 8px rgba(0,0,0,.3)',
           }}
         >
-          {trackingActive ? '⏹ Detener GPS' : '▶ Iniciar GPS'}
-        </button>
-      )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: compact ? 12 : 14 }}>
+              {tripState === 'VIAJE_PAUSADO' ? '⚠️' : (gpsState.isOnline ? '🟢' : '🔴')}
+            </span>
+            <span style={{ fontWeight: 600 }}>
+              {tripState === 'VIAJE_PAUSADO' 
+                ? 'El camión se ha detenido por un incidente' 
+                : (gpsState.isOnline ? `Carga en Movimiento: ${tripProgress}%` : 'Sin conexión — GPS activo')}
+            </span>
+          </div>
+        </div>
 
-      {/* Coordinates footer — only full mode */}
+        <div
+          ref={mapRef}
+          style={{
+            width: '100%',
+            height: compact ? '100%' : 'calc(100vh - 350px)',
+            minHeight: compact ? undefined : 450,
+            borderRadius: compact ? 10 : 12,
+            overflow: 'hidden',
+          }}
+        />
+      </div>
+
       {!compact && (
         <div
           className="farmer-map__coords"
           style={{
-            marginTop: 6,
             fontSize: 11,
             color: '#888',
             textAlign: 'center',

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import type { Order } from '../types'
+import { useBuyerStore } from '../store/buyerStore'
+import { BUYER_PROFILE } from '../data/mockData'
 
 interface Props {
   product: Order
@@ -10,106 +12,133 @@ type BuyStep = 'confirm' | 'processing' | 'success'
 
 export default function BuyerBuyFlow({ product, onClose }: Props) {
   const [step, setStep] = useState<BuyStep>('confirm')
+  const [selectedPayment, setSelectedPayment] = useState(product.paymentMethods?.[0] || 'Efectivo')
+  
+  const addPurchase = useBuyerStore(s => s.addPurchase)
+  const setActiveTab = useBuyerStore(s => s.setActiveTab)
 
-  if (step === 'processing') {
-    return (
-      <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-card" onClick={e => e.stopPropagation()}>
-          <div className="modal-spinner" />
-          <p className="modal-processing-text">Conectando con el agricultor...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (step === 'success') {
-    return (
-      <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-card" onClick={e => e.stopPropagation()}>
-          <svg className="modal-card__bg" fill="none" viewBox="0 0 342 350" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="url(#grad_success)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V334C342 342.84 342 346.42 338.42 348.21C334.84 350 327.68 350 313.36 350H28.64C14.32 350 7.16 350 3.58 348.21C0 346.42 0 342.84 0 334V16Z"/>
-            <defs>
-              <linearGradient gradientUnits="userSpaceOnUse" y2="175" x2="342" y1="175" x1="0">
-                <stop stop-color="#2d7a3a"/>
-                <stop stop-color="#1e5528" offset="1"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div className="modal-success-header">
-            <span className="modal-success-icon">✅</span>
-            <h2 className="modal-title">¡Lote Separado!</h2>
-          </div>
-          <p className="modal-subtitle">Contacta al agricultor para coordinar el pago.</p>
-
-          <div className="modal-farmer">
-            <span className="modal-farmer__name">🌱 {product.farmerName}</span>
-            <span className="modal-farmer__phone">📞 {product.farmerPhone}</span>
-          </div>
-
-          <div className="modal-contact-btns">
-            <a
-              className="modal-btn modal-btn--whatsapp"
-              href={`https://wa.me/${product.farmerPhone}?text=Hola ${product.farmerName}, separé tu lote de ${product.product}. Coordinamos el pago.`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              📱 WhatsApp
-            </a>
-            <a className="modal-btn modal-btn--call" href={`tel:${product.farmerPhone}`}>
-              📞 Llamar
-            </a>
-          </div>
-
-          <button className="action-btn action-btn--secondary" onClick={onClose} type="button">
-            Volver al Marketplace
-          </button>
-        </div>
-      </div>
-    )
+  const handleConfirm = () => {
+    setStep('processing')
+    setTimeout(() => {
+      // Registrar la compra en el store
+      addPurchase({
+        ...product,
+        status: 'VENDIDO_ESPERANDO_TRANSPORTE',
+        routeStatus: 'libre',
+        reports: [{ time: new Date().toLocaleTimeString(), msg: 'Compra confirmada, buscando transportista.' }]
+      })
+      setStep('success')
+    }, 1500)
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-card" onClick={e => e.stopPropagation()}>
-        <svg className="modal-card__bg" fill="none" viewBox="0 0 342 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill="url(#grad_confirm)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V304C342 312.84 342 316.42 338.42 318.21C334.84 320 327.68 320 313.36 320H28.64C14.32 320 7.16 320 3.58 318.21C0 316.42 0 312.84 0 304V16Z"/>
-          <defs>
-            <linearGradient gradientUnits="userSpaceOnUse" y2="160" x2="342" y1="160" x1="0">
-              <stop stop-color="#1a6b9a"/>
-              <stop stop-color="#0d4f6e" offset="1"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <h2 className="modal-title">🤝 Confirmar Compra</h2>
+    <div className="buyer-modal-overlay" onClick={step !== 'processing' ? onClose : undefined}>
+      <div className="buyer-modal-card" onClick={e => e.stopPropagation()}>
+        {step !== 'processing' && (
+          <button className="buyer-modal-close" onClick={onClose}>✕</button>
+        )}
 
-        <div className="modal-product">
-          <span className="modal-product__emoji">{product.emoji}</span>
-          <div className="modal-product__info">
-            <span className="modal-product__name">{product.product}</span>
-            <span className="modal-product__qty">{product.quantity} {product.unit}</span>
-            <span className="modal-product__price">S/ {product.price.toLocaleString()}</span>
+        {step === 'processing' && (
+          <div style={{ textAlign: 'center', padding: '48px 24px' }}>
+            <div style={{ 
+              width: 48, height: 48, border: '4px solid var(--color-border)', 
+              borderTopColor: '#1d9bf0', borderRadius: '50%', margin: '0 auto 24px auto',
+              animation: 'spin 1s linear infinite' 
+            }} />
+            <h3 style={{ margin: '0 0 8px 0' }}>Conectando con el agricultor...</h3>
+            <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>Buscando mejores rutas de transporte...</p>
+            <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
           </div>
-        </div>
+        )}
 
-        <p className="modal-question">
-          ¿Seguro que deseas separar este lote por <strong>S/ {product.price.toLocaleString()}</strong>?
-        </p>
+        {step === 'success' && (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '4rem', marginBottom: 16 }}>✅</div>
+            <h2 style={{ margin: '0 0 8px 0', color: '#22c55e' }}>¡Compra registrada!</h2>
+            <p style={{ color: 'var(--color-text-muted)', marginBottom: 24 }}>Tu pedido ha sido procesado exitosamente.</p>
 
-        <div className="modal-actions">
-          <button className="action-btn action-btn--secondary" onClick={onClose} type="button">
-            Cancelar
-          </button>
-          <button
-            className="action-btn action-btn--primary"
-            onClick={() => {
-              setStep('processing')
-              setTimeout(() => setStep('success'), 1500)
-            }}
-            type="button"
-          >
-            Sí, Separar ✓
-          </button>
-        </div>
+            <div style={{ background: 'var(--color-bg)', padding: 16, borderRadius: 8, marginBottom: 24, textAlign: 'left' }}>
+              <div style={{ fontWeight: 'bold', marginBottom: 4 }}>👨‍🌾 {product.farmerName}</div>
+              <div style={{ color: 'var(--color-text-muted)' }}>📞 {product.farmerPhone}</div>
+            </div>
+
+            <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+              <button className="buyer-btn-secondary" style={{ flex: 1, borderColor: '#25D366', color: '#25D366' }} onClick={() => window.open(`https://wa.me/${product.farmerPhone}`, '_blank')}>
+                💬 WhatsApp
+              </button>
+              <button className="buyer-btn-secondary" style={{ flex: 1 }} onClick={() => window.open(`tel:${product.farmerPhone}`)}>
+                📞 Llamar
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <button className="buyer-btn-primary" onClick={() => { onClose(); setActiveTab('purchases') }}>
+                Ver en Mis Compras
+              </button>
+              <button className="buyer-btn-secondary" style={{ border: 'none' }} onClick={onClose}>
+                Volver al Mercado
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 'confirm' && (
+          <div>
+            <h2 style={{ margin: '0 0 24px 0' }}>Confirmar Compra</h2>
+            
+            {/* Resumen del producto */}
+            <div style={{ display: 'flex', gap: 16, alignItems: 'center', background: 'var(--color-bg)', padding: 16, borderRadius: 8, marginBottom: 16 }}>
+              <div style={{ fontSize: '3rem' }}>{product.emoji}</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{product.product}</div>
+                <div style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>{product.quantity}{product.unit} a S/ {product.pricePerKg}/kg</div>
+              </div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#1d9bf0' }}>
+                S/ {product.price.toLocaleString()}
+              </div>
+            </div>
+
+            {/* Agricultor */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 4 }}>Vendedor</div>
+              <div style={{ fontWeight: '500' }}>👨‍🌾 {product.farmerName} ({product.origin})</div>
+              <div style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>📞 {product.farmerPhone}</div>
+            </div>
+
+            {/* Dirección de entrega */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 4 }}>Dirección de Entrega</div>
+              <div style={{ fontWeight: '500' }}>📍 {BUYER_PROFILE.preferredZone}</div>
+            </div>
+
+            {/* Método de pago */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 8 }}>Método de Pago</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {['Efectivo', 'Yape', 'Plin'].map(pm => (
+                  <button 
+                    key={pm}
+                    style={{ 
+                      padding: '8px 16px', 
+                      borderRadius: 8, 
+                      border: `1px solid ${selectedPayment === pm ? '#1d9bf0' : 'var(--color-border)'}`,
+                      background: selectedPayment === pm ? 'rgba(29, 155, 240, 0.1)' : 'transparent',
+                      color: selectedPayment === pm ? '#1d9bf0' : 'white',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => setSelectedPayment(pm)}
+                  >
+                    {pm}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button className="buyer-btn-primary" style={{ width: '100%' }} onClick={handleConfirm}>
+              Confirmar Compra
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

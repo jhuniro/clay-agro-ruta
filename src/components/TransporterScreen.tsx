@@ -2,6 +2,7 @@ import { useTransporterStore } from '../store/transporterStore'
 import TransporterSidebar from './TransporterSidebar'
 import TransporterHeader from './TransporterHeader'
 import TransporterDashboardView from './TransporterDashboardView'
+import TransporterMarketplaceView from './TransporterMarketplaceView'
 import TransporterAlertsView from './TransporterAlertsView'
 import TransporterShipmentsView from './TransporterShipmentsView'
 import TransporterProfileView from './TransporterProfileView'
@@ -18,6 +19,7 @@ export default function TransporterScreen({ onBack }: Props) {
   const incidentModalOpen = useTransporterStore(s => s.incidentModalOpen)
   const setIncidentModalOpen = useTransporterStore(s => s.setIncidentModalOpen)
   const addAlert = useTransporterStore(s => s.addAlert)
+  const isOffline = useTransporterStore(s => s.isOffline)
 
   const handleIncidentSubmit = (data: { type: string, description: string }) => {
     addAlert({
@@ -34,7 +36,7 @@ export default function TransporterScreen({ onBack }: Props) {
   }
 
   return (
-    <div className="transporter-layout">
+    <div className={`transporter-layout ${isOffline ? 'is-offline' : ''}`}>
       {/* Sidebar for navigation */}
       <TransporterSidebar onBack={onBack} />
 
@@ -43,15 +45,17 @@ export default function TransporterScreen({ onBack }: Props) {
         {/* Header */}
         <TransporterHeader />
 
+        {/* Offline Banner */}
+        {isOffline && (
+          <div style={{ background: '#ef4444', color: 'white', padding: '8px 16px', textAlign: 'center', fontWeight: 'bold', display: 'flex', justifyContent: 'center', gap: 8, alignItems: 'center' }}>
+            <span>📡 Señal perdida. Trabajando en modo sin conexión. Los datos se guardan en caché.</span>
+          </div>
+        )}
+
         {/* Content Area (Views) */}
-        <div className="transporter-content">
+        <div className="transporter-content" style={{ filter: isOffline ? 'grayscale(100%) opacity(0.8)' : 'none', pointerEvents: isOffline ? 'none' : 'auto', transition: 'all 0.3s' }}>
           {activeTab === 'dashboard' && <TransporterDashboardView />}
-          {activeTab === 'rutas' && (
-            <div style={{ padding: 24 }}>
-              <h2>Bolsa de cargas y rutas disponibles</h2>
-              <p>Funcionalidad en desarrollo. Por ahora usa "Mis Envíos".</p>
-            </div>
-          )}
+          {activeTab === 'rutas' && <TransporterMarketplaceView />}
           {activeTab === 'envios' && <TransporterShipmentsView />}
           {activeTab === 'alertas' && <TransporterAlertsView />}
           {activeTab === 'historial' && (
