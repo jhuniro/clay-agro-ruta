@@ -1,5 +1,5 @@
 /* =============================================
-   RoleScreens.css — Weather Card Style
+   RoleScreens.css — Transporter: Amber Road Pattern
    ============================================= */
 
 /* ---- Role Screen Container ---- */
@@ -9,7 +9,13 @@
   flex-direction: column;
   padding: var(--space-md);
   padding-bottom: 100px;
-  background: var(--color-bg);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(245,166,35,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(245,166,35,0.02) 4px 8px),
+    linear-gradient(180deg, #12100a 0%, #0f0d08 100%);
+  background-size: 64px 64px, 64px 64px, 100% 100%;
+  position: relative;
+  z-index: 1;
   animation: fadeIn 0.3s ease both;
 }
 
@@ -31,9 +37,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  border-radius: 2px;
   padding: var(--space-xs) var(--space-md);
   color: var(--color-text-muted);
   font-size: 0.75rem;
@@ -43,7 +49,7 @@
 }
 
 .role-topbar__back:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(245, 166, 35, 0.08);
   color: var(--color-text);
 }
 
@@ -63,13 +69,13 @@
   margin-bottom: var(--space-xs);
 }
 
-.role-greeting--farmer { color: #a8e6b0; }
-.role-greeting--buyer  { color: #90caf9; }
-.role-greeting--transporter { color: #ce93d8; }
+.role-greeting--farmer { color: #00ba7c; }
+.role-greeting--buyer  { color: #1d9bf0; }
+.role-greeting--transporter { color: #f5a623; }
 
 .role-subtitle {
   font-size: 0.75rem;
-  color: rgba(235, 235, 245, 0.5);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-lg);
 }
 
@@ -80,7 +86,7 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 14px 16px;
-  border-radius: 14px;
+  border-radius: 2px;
   margin-bottom: var(--space-md);
   font-size: 0.78rem;
   font-weight: 600;
@@ -89,23 +95,37 @@
 }
 
 .alert-banner__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 
 .alert-banner--warning {
-  color: #fff;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(245,166,35,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(245,166,35,0.02) 4px 8px),
+    #15120c;
+  background-size: 64px 64px;
+  border: 1px solid rgba(245, 166, 35, 0.12);
+  color: #f5c86a;
 }
 
 .alert-banner--danger {
-  color: #fff;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(220,53,69,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(220,53,69,0.02) 4px 8px),
+    #15120c;
+  background-size: 64px 64px;
+  border: 1px solid rgba(220, 53, 69, 0.12);
+  color: #f5a0a8;
 }
 
 .alert-banner--info {
-  color: #fff;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
+    #15120c;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.12);
+  color: #00d68f;
 }
 
 .alert-banner__icon {
@@ -120,7 +140,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(235, 235, 245, 0.4);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-md);
 }
 
@@ -132,7 +152,7 @@
   gap: var(--space-sm);
   width: 100%;
   padding: 14px var(--space-lg);
-  border-radius: 14px;
+  border-radius: 2px;
   border: none;
   font-family: var(--font-body);
   font-size: 0.85rem;
@@ -143,52 +163,53 @@
 }
 
 .action-btn--primary {
-  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
-  color: #e8f5e9;
+  background: #f5a623;
+  color: #12100a;
 }
 
 .action-btn--primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(45, 122, 58, 0.3);
+  background: #f5c86a;
 }
 
 .action-btn--secondary {
-  background: rgba(255, 255, 255, 0.06);
+  background: #12100a;
   color: var(--color-text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(245, 166, 35, 0.15);
 }
 
 .action-btn--secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(245, 166, 35, 0.06);
   color: var(--color-text);
 }
 
 .action-btn--danger {
-  background: rgba(220, 53, 69, 0.15);
+  background: rgba(220, 53, 69, 0.06);
   color: #f5a0a8;
-  border: 1px solid rgba(220, 53, 69, 0.3);
+  border: 1px solid rgba(220, 53, 69, 0.15);
 }
 
 .action-btn--danger:hover {
-  background: rgba(220, 53, 69, 0.25);
+  background: rgba(220, 53, 69, 0.12);
 }
 
 /* ---- Product / Shipment Card ---- */
 .item-card {
   position: relative;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 2px;
   margin-bottom: 12px;
   overflow: hidden;
   color: var(--color-text);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(245,166,35,0.04) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(245,166,35,0.025) 4px 8px),
+    #15120c;
+  background-size: 64px 64px;
+  border: 1px solid rgba(245, 166, 35, 0.08);
 }
 
 .item-card__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 
 .item-card__header {
@@ -196,6 +217,8 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .item-card__product {
@@ -207,23 +230,23 @@
   font-size: 0.65rem;
   font-weight: 600;
   padding: 3px 8px;
-  border-radius: var(--radius-full);
+  border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .item-card__status--libre {
-  background: rgba(45, 122, 58, 0.2);
-  color: #a8e6b0;
+  background: rgba(0, 186, 124, 0.12);
+  color: #00ba7c;
 }
 
 .item-card__status--riesgo {
-  background: rgba(245, 166, 35, 0.2);
+  background: rgba(245, 166, 35, 0.12);
   color: #f5c86a;
 }
 
 .item-card__status--bloqueada {
-  background: rgba(220, 53, 69, 0.2);
+  background: rgba(220, 53, 69, 0.12);
   color: #f5a0a8;
 }
 
@@ -232,8 +255,10 @@
   flex-wrap: wrap;
   gap: var(--space-xs) var(--space-md);
   font-size: 0.75rem;
-  color: rgba(235, 235, 245, 0.7);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .item-card__detail {
@@ -246,6 +271,8 @@
   display: flex;
   gap: var(--space-sm);
   margin-top: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .item-card__actions .action-btn {
@@ -263,23 +290,23 @@
   font-size: 0.65rem;
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: var(--radius-full);
+  border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .route-badge--libre {
-  background: rgba(45, 122, 58, 0.2);
-  color: #a8e6b0;
+  background: rgba(0, 186, 124, 0.12);
+  color: #00ba7c;
 }
 
 .route-badge--riesgo {
-  background: rgba(245, 166, 35, 0.2);
+  background: rgba(245, 166, 35, 0.12);
   color: #f5c86a;
 }
 
 .route-badge--bloqueada {
-  background: rgba(220, 53, 69, 0.2);
+  background: rgba(220, 53, 69, 0.12);
   color: #f5a0a8;
 }
 
@@ -287,7 +314,7 @@
 .empty-state {
   text-align: center;
   padding: var(--space-2xl) var(--space-md);
-  color: rgba(235, 235, 245, 0.4);
+  color: var(--color-text-dim);
 }
 
 .empty-state__icon {
@@ -301,30 +328,24 @@
   line-height: 1.5;
 }
 
-/* ---- Farmer Content ---- */
-.farmer-content {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: var(--space-md);
-}
-
 /* ---- Active Trip Card ---- */
 .trip-card {
   position: relative;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 2px;
   margin-bottom: var(--space-md);
   overflow: hidden;
   color: var(--color-text);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(120,86,255,0.04) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(120,86,255,0.025) 4px 8px),
+    #15120c;
+  background-size: 64px 64px;
+  border: 1px solid rgba(120, 86, 255, 0.1);
 }
 
 .trip-card__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 
 .trip-card__header {
@@ -334,16 +355,22 @@
   margin-bottom: var(--space-sm);
   font-weight: 700;
   font-size: 0.9rem;
-  color: #ce93d8;
+  color: #7856ff;
+  position: relative;
+  z-index: 1;
 }
 
 .trip-card__route {
   font-size: 0.78rem;
-  color: rgba(235, 235, 245, 0.7);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .trip-card__product {
   font-size: 0.75rem;
-  color: rgba(235, 235, 245, 0.5);
+  color: var(--color-text-dim);
+  position: relative;
+  z-index: 1;
 }

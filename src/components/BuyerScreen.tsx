@@ -39,9 +39,15 @@ export default function BuyerScreen({ onBack }: Props) {
         <span className="role-topbar__title" style={{ color: '#90caf9' }}>🛒 Comprador</span>
       </div>
 
-      <h1 className="role-greeting role-greeting--buyer">
-        Hola, Carlos 👋
-      </h1>
+      <div style={{ position: 'relative' }}>
+        <svg style={{ position: 'absolute', right: 0, top: -10, pointerEvents: 'none' }} width="100" height="50" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 25 Q25 15 50 28 Q75 41 100 25" stroke="rgba(29,155,240,0.08)" strokeWidth="1.5" fill="none"/>
+          <path d="M0 35 Q30 25 55 36 Q80 47 100 35" stroke="rgba(29,155,240,0.05)" strokeWidth="1" fill="none"/>
+        </svg>
+        <h1 className="role-greeting role-greeting--buyer">
+          Hola, Carlos 👋
+        </h1>
+      </div>
       <p className="role-subtitle">Busca productos y verifica rutas antes de comprar</p>
 
       {/* Contenido */}

@@ -311,7 +311,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
             ? 'rgba(45,122,58,0.92)'
             : 'rgba(180,40,40,0.92)',
           color: 'white',
-          borderRadius: compact ? 8 : 10,
+          borderRadius: 2,
           padding: compact ? '6px 10px' : '8px 12px',
           fontSize: compact ? 11 : 12,
           fontFamily: 'system-ui, sans-serif',
@@ -326,7 +326,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {gpsState.pendingCount > 0 && (
-            <span style={{ background: 'rgba(255,255,255,0.2)', borderRadius: 6, padding: '2px 6px', fontSize: 11 }}>
+            <span style={{ background: 'rgba(255,255,255,0.2)', borderRadius: 2, padding: '2px 6px', fontSize: 11 }}>
               📦 {gpsState.pendingCount} pendiente{gpsState.pendingCount > 1 ? 's' : ''}
             </span>
           )}
@@ -344,7 +344,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
         style={{
           width: '100%',
           height: compact ? '100%' : 320,
-          borderRadius: compact ? 10 : 12,
+          borderRadius: 2,
           overflow: 'hidden',
         }}
       />
@@ -367,7 +367,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
               <span style={{
                 background: 'rgba(45,122,58,0.15)',
                 border: '1px solid rgba(45,122,58,0.3)',
-                borderRadius: 8,
+                borderRadius: 2,
                 padding: '5px 12px',
                 fontSize: 12,
                 fontWeight: 700,
@@ -379,7 +379,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
               <span style={{
                 background: 'rgba(37,99,235,0.15)',
                 border: '1px solid rgba(37,99,235,0.3)',
-                borderRadius: 8,
+                borderRadius: 2,
                 padding: '5px 12px',
                 fontSize: 12,
                 fontWeight: 700,
@@ -391,7 +391,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
               <span style={{
                 background: 'rgba(245,166,35,0.15)',
                 border: '1px solid rgba(245,166,35,0.3)',
-                borderRadius: 8,
+                borderRadius: 2,
                 padding: '5px 12px',
                 fontSize: 12,
                 fontWeight: 700,
@@ -424,7 +424,7 @@ export default function FarmerMap({ compact = false, className = '' }: FarmerMap
             background: trackingActive ? '#dc3545' : '#2d7a3a',
             color: 'white',
             border: '2px solid white',
-            borderRadius: 20,
+            borderRadius: 2,
             padding: '8px 20px',
             fontSize: 13,
             fontWeight: 600,

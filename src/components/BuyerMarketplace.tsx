@@ -53,15 +53,6 @@ export default function BuyerMarketplace({ onBuyProduct }: Props) {
       <div className="marketplace-feed">
         {filtered.map(product => (
           <div key={product.id} className="product-card">
-            <svg className="product-card__bg" fill="none" viewBox="0 0 342 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="url(#grad_product)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V144C342 152.84 342 156.42 338.42 158.21C334.84 160 327.68 160 313.36 160H28.64C14.32 160 7.16 160 3.58 158.21C0 156.42 0 152.84 0 144V16Z"/>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" y2="80" x2="342" y1="80" x1="0">
-                  <stop stop-color="#1a6b9a"/>
-                  <stop stop-color="#0d4f6e" offset="1"/>
-                </linearGradient>
-              </defs>
-            </svg>
             <div className="product-card__top">
               <span className="product-card__emoji">{product.emoji}</span>
               <span className={`route-badge route-badge--${product.routeStatus}`}>

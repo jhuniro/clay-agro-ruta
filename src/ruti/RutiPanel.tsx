@@ -31,7 +31,7 @@ export default function RutiPanel({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed bottom-24 right-5 z-50 w-[min(360px,calc(100vw-2.5rem))] rounded-2xl bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow-[var(--shadow-card)] overflow-hidden"
+          className="fixed bottom-24 right-5 z-50 w-[min(360px,calc(100vw-2.5rem))] rounded-[2px] bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow-[var(--shadow-card)] overflow-hidden"
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -51,7 +51,7 @@ export default function RutiPanel({
             </span>
             <div className="flex gap-1">
               <button
-                className="h-8 w-8 flex items-center justify-center rounded-lg text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
+                className="h-8 w-8 flex items-center justify-center rounded-[2px] text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
                 onClick={onTutorial}
                 title="Tutorial"
                 type="button"
@@ -59,7 +59,7 @@ export default function RutiPanel({
                 📖
               </button>
               <button
-                className="h-8 w-8 flex items-center justify-center rounded-lg text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
+                className="h-8 w-8 flex items-center justify-center rounded-[2px] text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
                 onClick={onFaq}
                 title="Preguntar"
                 type="button"
@@ -67,7 +67,7 @@ export default function RutiPanel({
                 💬
               </button>
               <button
-                className="h-8 w-8 flex items-center justify-center rounded-lg text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
+                className="h-8 w-8 flex items-center justify-center rounded-[2px] text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
                 onClick={onTips}
                 title="Tips"
                 type="button"
@@ -75,7 +75,7 @@ export default function RutiPanel({
                 💡
               </button>
               <button
-                className="h-8 w-8 flex items-center justify-center rounded-lg text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
+                className="h-8 w-8 flex items-center justify-center rounded-[2px] text-sm hover:bg-[var(--color-bg-card)] text-[var(--color-text-muted)] cursor-pointer"
                 onClick={onMinimize}
                 title="Minimizar"
                 type="button"
@@ -83,7 +83,7 @@ export default function RutiPanel({
                 —
               </button>
               <button
-                className="h-8 w-8 flex items-center justify-center rounded-lg text-sm hover:bg-red-900/30 text-[var(--color-text-muted)] cursor-pointer"
+                className="h-8 w-8 flex items-center justify-center rounded-[2px] text-sm hover:bg-red-900/30 text-[var(--color-text-muted)] cursor-pointer"
                 onClick={onClose}
                 title="Cerrar"
                 type="button"

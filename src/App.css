@@ -1,6 +1,6 @@
 /* =============================================
    App.css — AgroRuta Huánuco
-   Weather Card Style Adaptation
+   Welcome Card: Neutral pattern
    ============================================= */
 
 /* ---- Layout: Full screen centered column ---- */
@@ -12,7 +12,12 @@
   justify-content: center;
   padding: var(--space-lg) var(--space-md);
   position: relative;
-  background: var(--color-bg);
+  z-index: 1;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.015) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(255,255,255,0.01) 4px 8px),
+    linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+  background-size: 64px 64px, 64px 64px, 100% 100%;
 }
 
 /* ---- Card wrapper ---- */
@@ -28,6 +33,13 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.02) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(255,255,255,0.015) 4px 8px),
+    #141414;
+  background-size: 64px 64px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
   animation: cardEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
@@ -42,13 +54,18 @@
   }
 }
 
-/* ---- SVG Background ---- */
+/* ---- SVG Background (hidden) ---- */
 .welcome-card__bg {
+  display: none;
+}
+
+/* ---- Topographic decoration ---- */
+.welcome-card__topo {
   position: absolute;
   inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
 }
 
 /* ---- Decorative icon ---- */
@@ -57,7 +74,7 @@
   right: 10px;
   top: -8px;
   font-size: 5rem;
-  opacity: 0.12;
+  opacity: 0.08;
   pointer-events: none;
 }
 
@@ -68,10 +85,13 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  background: rgba(0, 186, 124, 0.08);
+  border: 1px solid rgba(0, 186, 124, 0.15);
   font-size: 1.8rem;
   margin-bottom: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- Title ---- */
@@ -83,6 +103,8 @@
   line-height: 1.1;
   color: var(--color-text);
   margin-bottom: var(--space-xs);
+  position: relative;
+  z-index: 1;
 }
 
 .welcome-card__subtitle {
@@ -91,8 +113,10 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(235, 235, 245, 0.6);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-md);
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- Description ---- */
@@ -102,8 +126,11 @@
   line-height: 1.5;
   margin-bottom: var(--space-md);
   padding: var(--space-sm) var(--space-md);
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-sm);
+  background: rgba(0, 186, 124, 0.03);
+  border: 1px solid rgba(0, 186, 124, 0.08);
+  border-radius: 2px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ---- Divider ---- */
@@ -112,6 +139,8 @@
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
+  position: relative;
+  z-index: 1;
 }
 
 .welcome-card__divider::before,
@@ -119,7 +148,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .welcome-card__divider-text {
@@ -127,7 +156,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(235, 235, 245, 0.5);
+  color: var(--color-text-muted);
   white-space: nowrap;
 }
 
@@ -136,6 +165,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
 .role-btn {
@@ -144,8 +175,8 @@
   gap: var(--space-md);
   width: 100%;
   padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-md);
-  border: 1.5px solid transparent;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.9rem;
@@ -154,46 +185,50 @@
   position: relative;
   overflow: hidden;
   transition: all var(--transition-base);
-  background: rgba(255, 255, 255, 0.05);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.015) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(255,255,255,0.01) 4px 8px),
+    #141414;
+  background-size: 64px 64px;
+  color: var(--color-text);
 }
 
 .role-btn:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .role-btn:active {
-  transform: translateY(0) scale(0.98);
+  transform: scale(0.98);
 }
 
 /* Farmer */
 .role-btn--farmer {
-  border-color: rgba(45, 122, 58, 0.4);
-  color: #a8e6b0;
+  border-color: rgba(0, 186, 124, 0.2);
+  color: #00d68f;
 }
 .role-btn--farmer:hover {
-  border-color: var(--color-farmer);
-  background: rgba(45, 122, 58, 0.15);
+  border-color: rgba(0, 186, 124, 0.4);
+  background: rgba(0, 186, 124, 0.04);
 }
 
 /* Buyer */
 .role-btn--buyer {
-  border-color: rgba(26, 107, 154, 0.4);
-  color: #90caf9;
+  border-color: rgba(29, 155, 240, 0.2);
+  color: #1d9bf0;
 }
 .role-btn--buyer:hover {
-  border-color: var(--color-buyer);
-  background: rgba(26, 107, 154, 0.15);
+  border-color: rgba(29, 155, 240, 0.4);
+  background: rgba(29, 155, 240, 0.04);
 }
 
 /* Transporter */
 .role-btn--transporter {
-  border-color: rgba(123, 63, 160, 0.4);
-  color: #ce93d8;
+  border-color: rgba(245, 166, 35, 0.2);
+  color: #f5a623;
 }
 .role-btn--transporter:hover {
-  border-color: var(--color-transporter);
-  background: rgba(123, 63, 160, 0.15);
+  border-color: rgba(245, 166, 35, 0.4);
+  background: rgba(245, 166, 35, 0.04);
 }
 
 /* Staggered entrance */
@@ -215,8 +250,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .role-btn__content {
@@ -233,19 +268,19 @@
   display: block;
   font-size: 0.7rem;
   font-weight: 400;
-  opacity: 0.6;
+  color: var(--color-text-muted);
   margin-top: 2px;
 }
 
 .role-btn__arrow {
   font-size: 0.9rem;
-  opacity: 0.4;
-  transition: opacity var(--transition-base), transform var(--transition-base);
+  color: var(--color-text-dim);
+  transition: color var(--transition-base), transform var(--transition-base);
   flex-shrink: 0;
 }
 
 .role-btn:hover .role-btn__arrow {
-  opacity: 1;
+  color: var(--color-text);
   transform: translateX(4px);
 }
 
@@ -254,8 +289,10 @@
   margin-top: var(--space-md);
   text-align: center;
   font-size: 0.65rem;
-  color: rgba(235, 235, 245, 0.4);
+  color: var(--color-text-dim);
   letter-spacing: 0.03em;
+  position: relative;
+  z-index: 1;
 }
 
 .welcome-card__footer span {

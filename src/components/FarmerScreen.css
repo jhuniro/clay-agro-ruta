@@ -7,7 +7,13 @@
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  background: var(--color-bg);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
+    linear-gradient(180deg, #0a0f0c 0%, #080c09 100%);
+  background-size: 64px 64px, 64px 64px, 100% 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .farmer-scroll {
@@ -25,14 +31,15 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-sm) var(--space-md);
-  border-bottom: 1px solid rgba(45, 122, 58, 0.15);
+  border-bottom: 1px solid rgba(0, 186, 124, 0.12);
+  background: rgba(10, 15, 12, 0.9);
 }
 
 .farmer-topbar__back {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-sm);
-  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid rgba(0, 186, 124, 0.2);
+  border-radius: 2px;
+  padding: 6px 14px;
   color: var(--color-text-muted);
   font-size: 0.72rem;
   font-weight: 600;
@@ -40,7 +47,7 @@
   transition: all var(--transition-base);
 }
 .farmer-topbar__back:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 186, 124, 0.08);
   color: var(--color-text);
 }
 
@@ -54,15 +61,16 @@
   font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 800;
-  color: #a8e6b0;
+  color: #00ba7c;
 }
 
 .farmer-topbar__avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #2d7a3a, #1e5528);
-  color: #e8f5e9;
+  border-radius: 2px;
+  background: rgba(0, 186, 124, 0.1);
+  border: 1px solid rgba(0, 186, 124, 0.2);
+  color: #00d68f;
   font-size: 0.7rem;
   font-weight: 800;
   display: flex;
@@ -77,9 +85,8 @@
   left: 0;
   right: 0;
   display: flex;
-  background: rgba(10, 21, 11, 0.95);
-  border-top: 1px solid rgba(45, 122, 58, 0.2);
-  backdrop-filter: blur(12px);
+  background: rgba(10, 15, 12, 0.95);
+  border-top: 1px solid rgba(0, 186, 124, 0.12);
   z-index: 100;
 }
 
@@ -99,7 +106,7 @@
   transition: color var(--transition-fast);
 }
 .farmer-nav__btn--active {
-  color: #a8e6b0;
+  color: #1d9bf0;
 }
 .farmer-nav__icon { font-size: 1.2rem; }
 .farmer-nav__label { font-family: var(--font-body); }
@@ -118,13 +125,21 @@
 
 /* ─── Greeting ─── */
 .fd-greeting {
+  position: relative;
   margin-bottom: var(--space-md);
+}
+.fd-greeting__deco {
+  position: absolute;
+  right: 0;
+  top: -10px;
+  pointer-events: none;
+  opacity: 1;
 }
 .fd-greeting__title {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 900;
-  color: #a8e6b0;
+  color: var(--color-text);
   line-height: 1.1;
 }
 .fd-greeting__sub {
@@ -140,7 +155,7 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: 2px;
   margin-bottom: var(--space-md);
   overflow: hidden;
   font-size: 0.78rem;
@@ -171,9 +186,15 @@
   flex-direction: column;
   align-items: center;
   padding: 14px 8px 12px;
-  border-radius: 14px;
+  border-radius: 2px;
   overflow: hidden;
   text-align: center;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.05) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.1);
 }
 .fd-stat__num {
   font-family: var(--font-display);
@@ -191,23 +212,23 @@
 }
 
 .fd-stat--green {
-  background: linear-gradient(135deg, rgba(45,122,58,0.25), rgba(45,122,58,0.1));
-  border: 1px solid rgba(45,122,58,0.3);
-  color: #a8e6b0;
+  background: rgba(0, 186, 124, 0.08);
+  border-color: rgba(0, 186, 124, 0.2);
+  color: #00ba7c;
 }
 .fd-stat--blue {
-  background: linear-gradient(135deg, rgba(37,99,235,0.25), rgba(37,99,235,0.1));
-  border: 1px solid rgba(37,99,235,0.3);
-  color: #90caf9;
+  background: rgba(29, 155, 240, 0.08);
+  border-color: rgba(29, 155, 240, 0.2);
+  color: #1d9bf0;
 }
 .fd-stat--yellow {
-  background: linear-gradient(135deg, rgba(245,166,35,0.25), rgba(245,166,35,0.1));
-  border: 1px solid rgba(245,166,35,0.3);
+  background: rgba(245, 166, 35, 0.08);
+  border-color: rgba(245, 166, 35, 0.2);
   color: #f5c86a;
 }
 .fd-stat--red {
-  background: linear-gradient(135deg, rgba(220,53,69,0.25), rgba(220,53,69,0.1));
-  border: 1px solid rgba(220,53,69,0.3);
+  background: rgba(220, 53, 69, 0.08);
+  border-color: rgba(220, 53, 69, 0.2);
   color: #f5a0a8;
 }
 
@@ -226,14 +247,14 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(235, 235, 245, 0.4);
+  color: var(--color-text-muted);
   margin-bottom: var(--space-sm);
 }
 
 .fd-link-btn {
   background: none;
   border: none;
-  color: #a8e6b0;
+  color: #1d9bf0;
   font-size: 0.7rem;
   font-weight: 600;
   cursor: pointer;
@@ -242,9 +263,9 @@
 
 /* ─── Map Preview Card ─── */
 .fd-map-preview {
-  background: var(--color-bg-card);
-  border: 1px solid rgba(45, 122, 58, 0.15);
-  border-radius: 16px;
+  background: #0a0f0c;
+  border: 1px solid rgba(0, 186, 124, 0.12);
+  border-radius: 2px;
   padding: var(--space-md);
   overflow: hidden;
 }
@@ -257,10 +278,10 @@
 }
 
 .fd-map-preview__box {
-  border-radius: 12px;
+  border-radius: 2px;
   overflow: hidden;
   height: 220px;
-  border: 1px solid rgba(45, 122, 58, 0.2);
+  border: 1px solid rgba(0, 186, 124, 0.15);
 }
 
 /* ─── Sidebar ─── */
@@ -273,8 +294,9 @@
 /* ─── Weather Widget ─── */
 .fd-weather {
   position: relative;
-  border-radius: 16px;
+  border-radius: 2px;
   overflow: hidden;
+  border: 1px solid var(--color-border);
 }
 .fd-weather__bg {
   position: absolute;
@@ -339,16 +361,18 @@
   justify-content: center;
   gap: 6px;
   padding: 14px 8px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: var(--color-bg-card);
+  border-radius: 2px;
+  border: 1px solid rgba(0, 186, 124, 0.08);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
   cursor: pointer;
   transition: all var(--transition-base);
 }
 .fd-action-card:hover {
-  background: rgba(45, 122, 58, 0.12);
-  border-color: rgba(45, 122, 58, 0.3);
-  transform: translateY(-2px);
+  border-color: rgba(0, 186, 124, 0.2);
 }
 .fd-action-card__icon { font-size: 1.4rem; }
 .fd-action-card__txt {
@@ -368,15 +392,17 @@
 
 .fd-ship {
   position: relative;
-  border-radius: 16px;
+  border-radius: 2px;
   overflow: hidden;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.08);
 }
 .fd-ship__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 .fd-ship__inner {
   position: relative;
@@ -415,7 +441,7 @@
 .fd-ship__eta {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #a8e6b0;
+  color: #00ba7c;
 }
 .fd-ship__eta--red { color: #f5a0a8; }
 
@@ -431,15 +457,15 @@
   flex-shrink: 0;
 }
 .fd-badge--green {
-  background: rgba(45, 122, 58, 0.25);
-  color: #a8e6b0;
+  background: rgba(0, 186, 124, 0.12);
+  color: #00ba7c;
 }
 .fd-badge--yellow {
-  background: rgba(245, 166, 35, 0.25);
+  background: rgba(245, 166, 35, 0.12);
   color: #f5c86a;
 }
 .fd-badge--red {
-  background: rgba(220, 53, 69, 0.25);
+  background: rgba(220, 53, 69, 0.12);
   color: #f5a0a8;
 }
 
@@ -447,13 +473,13 @@
 .fd-ship__progress {
   margin-top: 10px;
   height: 4px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--color-bg-surface);
   border-radius: 2px;
   overflow: hidden;
 }
 .fd-ship__progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #2d7a3a, #a8e6b0);
+  background: linear-gradient(90deg, #00ba7c, #00ba7c);
   border-radius: 2px;
   transition: width 0.5s ease;
 }
@@ -548,7 +574,7 @@
   right: 6px;
   padding: 6px 10px;
   font-size: 11px;
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 .farmer-map--compact .farmer-map__toggle {
@@ -576,10 +602,10 @@
 }
 
 .fa-send-btn {
-  background: linear-gradient(135deg, #2d7a3a, #1e5528);
-  color: #e8f5e9;
+  background: #00ba7c;
+  color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 2px;
   padding: 8px 16px;
   font-size: 0.72rem;
   font-weight: 700;
@@ -587,23 +613,24 @@
   transition: all var(--transition-base);
 }
 .fa-send-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(45,122,58,0.3);
+  background: #00d68f;
 }
 
 /* ─── Form ─── */
 .fa-form {
   position: relative;
-  border-radius: 16px;
+  border-radius: 2px;
   overflow: hidden;
   margin-bottom: var(--space-md);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.08);
 }
 .fa-form__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 .fa-form__inner {
   position: relative;
@@ -613,7 +640,7 @@
   font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 800;
-  color: #a8e6b0;
+  color: #1d9bf0;
   margin-bottom: 4px;
 }
 .fa-form__desc {
@@ -641,17 +668,17 @@
 .fa-field__input {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(0,0,0,0.3);
-  color: #fff;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 186, 124, 0.15);
+  background: #0a0f0c;
+  color: var(--color-text);
   font-size: 0.8rem;
   font-family: var(--font-body);
   outline: none;
   transition: border-color var(--transition-fast);
 }
 .fa-field__input:focus {
-  border-color: rgba(45,122,58,0.5);
+  border-color: #00ba7c;
 }
 .fa-field__input::placeholder {
   color: rgba(255,255,255,0.3);
@@ -664,16 +691,16 @@ select.fa-field__input {
   padding-right: 32px;
 }
 select.fa-field__input option {
-  background: #1a2e1a;
+  background: #16181c;
   color: #fff;
 }
 
 .fa-form__submit {
   width: 100%;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 2px;
   border: none;
-  background: linear-gradient(135deg, #2563eb, #1a4fa0);
+  background: #00ba7c;
   color: #fff;
   font-size: 0.82rem;
   font-weight: 700;
@@ -681,8 +708,7 @@ select.fa-field__input option {
   transition: all var(--transition-base);
 }
 .fa-form__submit:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(37,99,235,0.4);
+  background: #00d68f;
 }
 .fa-form__submit:disabled {
   opacity: 0.4;
@@ -699,15 +725,17 @@ select.fa-field__input option {
 
 .fa-alert-card {
   position: relative;
-  border-radius: 16px;
+  border-radius: 2px;
   overflow: hidden;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.08);
 }
 .fa-alert-card__bg {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 .fa-alert-card__inner {
   position: relative;
@@ -738,13 +766,13 @@ select.fa-field__input option {
   text-transform: uppercase;
 }
 .fa-alert-card__status--broadcasting {
-  background: rgba(37,99,235,0.3);
-  color: #90caf9;
+  background: rgba(0, 186, 124, 0.12);
+  color: #00d68f;
   animation: pulse-badge 1.5s infinite;
 }
 .fa-alert-card__status--matched {
-  background: rgba(45,122,58,0.3);
-  color: #a8e6b0;
+  background: rgba(0, 186, 124, 0.15);
+  color: #00ba7c;
 }
 
 @keyframes pulse-badge {
@@ -767,7 +795,7 @@ select.fa-field__input option {
   background: rgba(220,53,69,0.15);
   border: 1px solid rgba(220,53,69,0.3);
   color: #f5a0a8;
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 6px 12px;
   font-size: 0.68rem;
   font-weight: 600;
@@ -785,14 +813,14 @@ select.fa-field__input option {
   gap: 6px;
   margin-top: 10px;
   padding: 8px 12px;
-  background: rgba(37,99,235,0.1);
-  border-radius: 8px;
+  background: rgba(29, 155, 240, 0.08);
+  border-radius: 2px;
 }
 .fa-broadcasting__dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #90caf9;
+  background: #1d9bf0;
   animation: broadcast-dot 1.4s infinite;
 }
 .fa-broadcasting__dot:nth-child(2) { animation-delay: 0.2s; }
@@ -816,16 +844,17 @@ select.fa-field__input option {
   gap: 10px;
   margin-top: 12px;
   padding: 10px 12px;
-  background: rgba(45,122,58,0.15);
-  border: 1px solid rgba(45,122,58,0.3);
-  border-radius: 10px;
+  background: rgba(0, 186, 124, 0.06);
+  border: 1px solid rgba(0, 186, 124, 0.15);
+  border-radius: 2px;
 }
 .fa-match__avatar {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #2d7a3a, #1e5528);
-  color: #fff;
+  border-radius: 2px;
+  background: rgba(0, 186, 124, 0.1);
+  border: 1px solid rgba(0, 186, 124, 0.2);
+  color: #00d68f;
   font-size: 0.8rem;
   font-weight: 800;
   display: flex;
@@ -842,17 +871,17 @@ select.fa-field__input option {
 .fa-match__name {
   font-weight: 700;
   font-size: 0.8rem;
-  color: #a8e6b0;
+  color: #00ba7c;
 }
 .fa-match__detail {
   font-size: 0.65rem;
   color: rgba(255,255,255,0.6);
 }
 .fa-match__call {
-  background: #2563eb;
+  background: #00ba7c;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 8px 14px;
   font-size: 0.72rem;
   font-weight: 700;
@@ -862,7 +891,7 @@ select.fa-field__input option {
   transition: background var(--transition-fast);
 }
 .fa-match__call:hover {
-  background: #1a4fa0;
+  background: #00d68f;
 }
 
 /* ─── Nearby Truckers ─── */
@@ -880,20 +909,25 @@ select.fa-field__input option {
   align-items: center;
   gap: 10px;
   padding: 12px 14px;
-  background: var(--color-bg-card);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.08);
+  border-radius: 2px;
   transition: all var(--transition-base);
 }
 .fa-trucker:hover {
-  border-color: rgba(45,122,58,0.3);
+  border-color: rgba(0, 186, 124, 0.2);
 }
 .fa-trucker__avatar {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1a5276, #0e3a5a);
-  color: #90caf9;
+  border-radius: 2px;
+  background: rgba(0, 186, 124, 0.08);
+  border: 1px solid rgba(0, 186, 124, 0.15);
+  color: #00d68f;
   font-size: 0.8rem;
   font-weight: 800;
   display: flex;
@@ -918,10 +952,10 @@ select.fa-field__input option {
 }
 
 .fa-trucker__btn {
-  background: linear-gradient(135deg, #2563eb, #1a4fa0);
+  background: #00ba7c;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 8px 12px;
   font-size: 0.7rem;
   font-weight: 700;
@@ -932,17 +966,18 @@ select.fa-field__input option {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 .fa-trucker__btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(37,99,235,0.4);
+  background: #00d68f;
 }
 .fa-trucker__btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 .fa-trucker__btn--sending {
-  background: rgba(37,99,235,0.3);
+  background: rgba(29, 155, 240, 0.2);
 }
 
 .fa-trucker__spinner {
@@ -1027,8 +1062,8 @@ select.fa-field__input option {
     gap: 12px;
     padding: var(--space-md);
     padding-top: var(--space-sm);
-    background: rgba(10, 21, 11, 0.6);
-    border-right: 1px solid rgba(45, 122, 58, 0.15);
+    background: rgba(10, 15, 12, 0.9);
+    border-right: 1px solid rgba(0, 186, 124, 0.1);
     overflow-y: auto;
     grid-row: 2;
     grid-column: 1;
@@ -1037,9 +1072,13 @@ select.fa-field__input option {
 
 /* ─── Ruti Tutorial Card ─── */
 .fsb-ruti {
-  background: var(--color-bg-card);
-  border: 1px solid rgba(45, 122, 58, 0.2);
-  border-radius: 14px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.1);
+  border-radius: 2px;
   overflow: hidden;
 }
 
@@ -1052,15 +1091,15 @@ select.fa-field__input option {
   transition: background var(--transition-fast);
 }
 .fsb-ruti__header:hover {
-  background: rgba(45, 122, 58, 0.08);
+  background: rgba(29, 155, 240, 0.05);
 }
 
 .fsb-ruti__avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--color-primary);
-  background: var(--color-bg);
+  border-radius: 2px;
+  border: 2px solid #00ba7c;
+  background: #0a0f0c;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -1074,7 +1113,7 @@ select.fa-field__input option {
   font-family: var(--font-display);
   font-size: 0.8rem;
   font-weight: 800;
-  color: #a8e6b0;
+  color: var(--color-text);
 }
 .fsb-ruti__role {
   font-size: 0.6rem;
@@ -1101,9 +1140,9 @@ select.fa-field__input option {
   line-height: 1.5;
   margin: 10px 0;
   padding: 8px 10px;
-  background: rgba(45, 122, 58, 0.08);
-  border-radius: 8px;
-  border-left: 3px solid var(--color-primary);
+  background: rgba(0, 186, 124, 0.04);
+  border-radius: 2px;
+  border-left: 3px solid #00ba7c;
 }
 
 .fsb-ruti__actions {
@@ -1115,7 +1154,7 @@ select.fa-field__input option {
 .fsb-ruti__btn {
   flex: 1;
   padding: 7px 10px;
-  border-radius: 8px;
+  border-radius: 2px;
   border: none;
   font-size: 0.65rem;
   font-weight: 700;
@@ -1123,8 +1162,8 @@ select.fa-field__input option {
   transition: all var(--transition-fast);
 }
 .fsb-ruti__btn--primary {
-  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
-  color: #e8f5e9;
+  background: #00ba7c;
+  color: #fff;
 }
 .fsb-ruti__btn--primary:hover {
   transform: translateY(-1px);
@@ -1145,7 +1184,7 @@ select.fa-field__input option {
 .fsb-ruti__link {
   flex: 1;
   padding: 5px 8px;
-  border-radius: 6px;
+  border-radius: 2px;
   border: 1px solid rgba(255,255,255,0.08);
   background: transparent;
   color: rgba(255,255,255,0.5);
@@ -1168,7 +1207,7 @@ select.fa-field__input option {
 .fsb-ruti__faq-q {
   text-align: left;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 2px;
   border: 1px solid rgba(255,255,255,0.08);
   background: transparent;
   color: rgba(255,255,255,0.6);
@@ -1177,16 +1216,20 @@ select.fa-field__input option {
   transition: all var(--transition-fast);
 }
 .fsb-ruti__faq-q:hover {
-  background: rgba(45, 122, 58, 0.1);
-  color: #a8e6b0;
-  border-color: rgba(45, 122, 58, 0.3);
+  background: rgba(0, 186, 124, 0.06);
+  color: #00d68f;
+  border-color: rgba(0, 186, 124, 0.25);
 }
 
 /* ─── Sidebar Sections ─── */
 .fsb-section {
-  background: var(--color-bg-card);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
+    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.015) 4px 8px),
+    #0d120f;
+  background-size: 64px 64px;
+  border: 1px solid rgba(0, 186, 124, 0.06);
+  border-radius: 2px;
   padding: 12px 14px;
 }
 
@@ -1212,7 +1255,7 @@ select.fa-field__input option {
   align-items: center;
   gap: 8px;
   padding: 6px 8px;
-  border-radius: 6px;
+  border-radius: 2px;
   background: rgba(255,255,255,0.03);
 }
 .fsb-item__dot {
@@ -1243,7 +1286,7 @@ select.fa-field__input option {
   align-items: center;
   justify-content: space-between;
   padding: 5px 8px;
-  border-radius: 6px;
+  border-radius: 2px;
   background: rgba(255,255,255,0.03);
 }
 .fsb-route__name {
@@ -1281,17 +1324,17 @@ select.fa-field__input option {
 }
 .fsb-gps__btn {
   background: none;
-  border: 1px solid rgba(45, 122, 58, 0.3);
-  color: #a8e6b0;
-  border-radius: 6px;
-  padding: 4px 8px;
+  border: 1px solid rgba(0, 186, 124, 0.2);
+  color: #00ba7c;
+  border-radius: 2px;
+  padding: 4px 10px;
   font-size: 0.58rem;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 .fsb-gps__btn:hover {
-  background: rgba(45, 122, 58, 0.15);
+  background: rgba(0, 186, 124, 0.08);
 }
 
 /* ─── Quick Actions ─── */
@@ -1306,7 +1349,7 @@ select.fa-field__input option {
   align-items: center;
   gap: 4px;
   padding: 8px 4px;
-  border-radius: 8px;
+  border-radius: 2px;
   border: 1px solid rgba(255,255,255,0.06);
   background: transparent;
   color: rgba(255,255,255,0.6);
@@ -1316,8 +1359,8 @@ select.fa-field__input option {
   transition: all var(--transition-fast);
 }
 .fsb-action:hover {
-  background: rgba(45, 122, 58, 0.1);
-  border-color: rgba(45, 122, 58, 0.3);
+  background: rgba(0, 186, 124, 0.06);
+  border-color: rgba(0, 186, 124, 0.2);
   color: var(--color-text);
 }
 .fsb-action span {

@@ -58,15 +58,13 @@ function App() {
       {view === 'home' && (
         <main className="app" aria-label="AgroRuta Huánuco — Selección de rol">
           <div className="welcome-card" role="region" aria-labelledby="app-title">
-            {/* SVG Background */}
-            <svg className="welcome-card__bg" fill="none" viewBox="0 0 342 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="url(#paint0_linear)" d="M0 66.44C0 31.65 0 14.25 11.33 5.24C22.65 -3.77 39.6 0.15 73.5 7.98L307.9 62.12C324.26 65.9 332.44 67.79 337.22 73.8C342 79.82 342 88.21 342 105V370C342 386.57 342 394.85 335.56 397.43C329.11 400 318.74 400 298 400H44C23.26 400 12.89 400 6.44 397.43C0 394.85 0 386.57 0 370V66.44Z"/>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" y2="200" x2="342" y1="200" x1="0">
-                  <stop stop-color="#2d7a3a"/>
-                  <stop stop-color="#1e5528" offset="1"/>
-                </linearGradient>
-              </defs>
+            {/* Decorative topographic lines */}
+            <svg className="welcome-card__topo" width="342" height="400" viewBox="0 0 342 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M-20 120 Q80 100 160 130 Q240 160 342 140" stroke="rgba(0,186,124,0.06)" strokeWidth="1" fill="none"/>
+              <path d="M-20 160 Q60 140 140 170 Q220 200 342 180" stroke="rgba(0,186,124,0.04)" strokeWidth="1" fill="none"/>
+              <path d="M-20 200 Q100 180 180 210 Q260 240 342 220" stroke="rgba(0,186,124,0.03)" strokeWidth="1" fill="none"/>
+              <path d="M-20 240 Q70 220 150 250 Q230 280 342 260" stroke="rgba(0,186,124,0.025)" strokeWidth="1" fill="none"/>
+              <path d="M-20 280 Q90 260 170 290 Q250 320 342 300" stroke="rgba(0,186,124,0.02)" strokeWidth="1" fill="none"/>
             </svg>
 
             {/* Decorative icon */}

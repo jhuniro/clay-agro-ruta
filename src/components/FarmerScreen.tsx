@@ -69,6 +69,10 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
     <div className="fd">
       {/* ─── Greeting ─── */}
       <div className="fd-greeting">
+        <svg className="fd-greeting__deco" width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 30 Q30 20 60 35 Q90 50 120 30" stroke="rgba(0,186,124,0.08)" strokeWidth="1.5" fill="none"/>
+          <path d="M0 40 Q40 30 70 42 Q100 54 120 40" stroke="rgba(0,186,124,0.05)" strokeWidth="1" fill="none"/>
+        </svg>
         <div>
           <h1 className="fd-greeting__title">Hola, Juan 👋</h1>
           <p className="fd-greeting__sub">Gestiona tus cosechas y revisa las rutas</p>
@@ -77,15 +81,6 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
 
       {/* ─── Alert Banner ─── */}
       <div className="fd-alert">
-        <svg className="fd-alert__bg" fill="none" viewBox="0 0 342 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill="url(#alert_w)" d="M0 10C0 4.48 0 1.76 2.88 0.88C5.76 0 11.52 0 23 0H319C330.48 0 336.24 0 339.12 0.88C342 1.76 342 4.48 342 10V50C342 55.52 342 58.24 339.12 59.12C336.24 60 330.48 60 319 60H23C11.52 60 5.76 60 2.88 59.12C0 58.24 0 55.52 0 50V10Z"/>
-          <defs>
-            <linearGradient gradientUnits="userSpaceOnUse" y2="30" x2="342" y1="30" x1="0">
-              <stop stopColor="#f5a623"/>
-              <stop offset="1" stopColor="#c97d0a"/>
-            </linearGradient>
-          </defs>
-        </svg>
         <span className="fd-alert__icon">⚠️</span>
         <span className="fd-alert__txt">Bloqueo en Tingo María – La Molina. Desvío por Llacuabamba.</span>
       </div>
@@ -127,15 +122,6 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
         <div className="fd-sidebar">
           {/* Weather Widget */}
           <div className="fd-weather">
-            <svg className="fd-weather__bg" fill="none" viewBox="0 0 300 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="url(#weather_g)" d="M0 14C0 6.27 0 3.13 3.13 1.57C6.27 0 12.53 0 25.07 0H274.93C287.47 0 293.73 0 296.87 1.57C300 3.13 300 6.27 300 14V106C300 113.73 300 116.87 296.87 118.43C293.73 120 287.47 120 274.93 120H25.07C12.53 120 6.27 120 3.13 118.43C0 116.87 0 113.73 0 106V14Z"/>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" y2="60" x2="300" y1="60" x1="0">
-                  <stop stopColor="#1a5276"/>
-                  <stop offset="1" stopColor="#154360"/>
-                </linearGradient>
-              </defs>
-            </svg>
             <div className="fd-weather__content">
               <div className="fd-weather__left">
                 <span className="fd-weather__temp">18°</span>

@@ -1,0 +1,109 @@
+/* =============================================
+   Pattern.css — Crosshatch pattern backgrounds
+   Module-specific colors: farmer=green, buyer=blue, transporter=amber
+   ============================================= */
+
+/* ─── Base pattern mixin (45deg + -45deg crosshatch) ─── */
+
+/* Farmer: Agriculture green */
+.pattern-farmer {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 4px,
+      rgba(0, 186, 124, 0.06) 4px 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 4px,
+      rgba(0, 186, 124, 0.04) 4px 8px
+    ),
+    #0a0f0c;
+  background-size: 64px 64px;
+}
+
+/* Buyer: Commerce blue */
+.pattern-buyer {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 4px,
+      rgba(29, 155, 240, 0.06) 4px 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 4px,
+      rgba(29, 155, 240, 0.04) 4px 8px
+    ),
+    #0a0c12;
+  background-size: 64px 64px;
+}
+
+/* Transporter: Road amber */
+.pattern-transporter {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 4px,
+      rgba(245, 166, 35, 0.06) 4px 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 4px,
+      rgba(245, 166, 35, 0.04) 4px 8px
+    ),
+    #12100a;
+  background-size: 64px 64px;
+}
+
+/* Neutral (welcome, shared) */
+.pattern-neutral {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 4px,
+      rgba(255, 255, 255, 0.03) 4px 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 4px,
+      rgba(255, 255, 255, 0.02) 4px 8px
+    ),
+    #0e0e0e;
+  background-size: 64px 64px;
+}
+
+/* ─── Card base: shared structure ─── */
+.card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Module-specific card borders */
+.card--farmer {
+  border-color: rgba(0, 186, 124, 0.15);
+}
+.card--farmer:hover {
+  border-color: rgba(0, 186, 124, 0.3);
+}
+
+.card--buyer {
+  border-color: rgba(29, 155, 240, 0.15);
+}
+.card--buyer:hover {
+  border-color: rgba(29, 155, 240, 0.3);
+}
+
+.card--transporter {
+  border-color: rgba(245, 166, 35, 0.15);
+}
+.card--transporter:hover {
+  border-color: rgba(245, 166, 35, 0.3);
+}
