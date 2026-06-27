@@ -3,7 +3,7 @@
    ============================================= */
 
 /* ---- Buyer Screen Container ---- */
-.buyer-screen {
+.buyer-layout {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -490,126 +490,108 @@
   color: var(--color-text-muted);
 }
 
-/* ---- Bottom Navigation ---- */
-.buyer-bottomnav {
+/* =============================================
+   Buyer Sidebar + Bottom Nav
+   ============================================= */
+
+/* ─── Sidebar (desktop only) ─── */
+.buyer-layout .fsb {
+  display: none;
+}
+
+/* ─── Bottom Nav (mobile only) ─── */
+.buyer-layout .fsb-bottomnav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 50;
   display: flex;
   background: rgba(10, 12, 18, 0.95);
   border-top: 1px solid rgba(29, 155, 240, 0.1);
-  padding: var(--space-sm) 0;
-  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+  z-index: 100;
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
 }
 
-.buyer-bottomnav__btn {
+.buyer-layout .fsb-bottomnav__btn {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: var(--space-xs);
+  padding: 10px 0;
   background: none;
   border: none;
   color: var(--color-text-dim);
   font-size: 0.65rem;
   font-weight: 600;
   cursor: pointer;
-  transition: color var(--transition-base);
+  transition: color var(--transition-fast);
 }
-
-.buyer-bottomnav__btn--active {
-  color: #1d9bf0;
+.buyer-layout .fsb-bottomnav__btn--active {
+  color: var(--fsb-accent, #1d9bf0);
 }
+.buyer-layout .fsb-bottomnav__icon { font-size: 1.2rem; }
+.buyer-layout .fsb-bottomnav__label { font-family: var(--font-body); }
 
-.buyer-bottomnav__icon {
-  font-size: 1.2rem;
-}
-
-.buyer-bottomnav__label {
-  font-size: 0.65rem;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* =============================================
-   Sidebar Layout — Mobile Drawer + Desktop Grid
-   ============================================= */
-.buyer-main {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 var(--space-md);
-  padding-bottom: 80px;
-}
-
-/* ─── Menu button (buyer blue) ─── */
-.buyer-screen .role-topbar__menu {
+/* ─── Topbar ─── */
+.buyer-topbar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(29, 155, 240, 0.08);
-  border: 1px solid rgba(29, 155, 240, 0.15);
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid rgba(29, 155, 240, 0.1);
+  background: rgba(10, 12, 18, 0.9);
+}
+.buyer-topbar__back {
+  background: transparent;
+  border: 1px solid rgba(29, 155, 240, 0.2);
   border-radius: 2px;
-  color: #1d9bf0;
-  font-size: 1.1rem;
+  padding: 6px 14px;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background var(--transition-fast);
-  flex-shrink: 0;
 }
-.role-topbar__menu:hover {
-  background: rgba(29, 155, 240, 0.15);
-}
-
-/* ─── Sidebar: buyer blue brick ─── */
-.buyer-screen .fsb {
-  background:
-    linear-gradient(135deg, transparent 20.5%, #0a1622 0 29.5%, transparent 0) 0 16px,
-    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%) 32px 0,
-    linear-gradient(135deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0),
-    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0 83%, #0a1622 0 92%, transparent 0),
-    #080a10;
-  background-size: 64px 64px;
-  border-right: 1px solid rgba(29, 155, 240, 0.1);
+.buyer-topbar__title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #90caf9;
 }
 
-/* ─── Desktop: sidebar in grid ─── */
+/* ─── Desktop: sidebar grid ─── */
 @media (min-width: 960px) {
-  .fsb-overlay {
-    display: none;
-  }
-  .fsb-wrapper--buyer {
-    position: static;
-    transform: none;
-    width: auto;
-    z-index: auto;
-  }
-  .role-topbar__menu {
+  .buyer-layout .fsb-bottomnav {
     display: none;
   }
 
-  .buyer-screen {
+  .buyer-layout .fsb {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: var(--space-md);
+    padding-top: var(--space-sm);
+    background:
+      linear-gradient(135deg, transparent 20.5%, #0a1622 0 29.5%, transparent 0) 0 16px,
+      linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%) 32px 0,
+      linear-gradient(135deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0),
+      linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0 83%, #0a1622 0 92%, transparent 0),
+      #080a10;
+    background-size: 64px 64px;
+    border-right: 1px solid rgba(29, 155, 240, 0.1);
+    overflow-y: auto;
+    height: 100%;
+  }
+
+  .buyer-layout {
     display: grid;
     grid-template-columns: 280px 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
     height: 100dvh;
   }
 
-  .buyer-screen .role-topbar {
+  .buyer-layout .buyer-topbar {
     grid-column: 1 / -1;
-  }
-
-  .buyer-screen .fsb {
-    height: 100%;
-    overflow-y: auto;
-    grid-row: 2;
-    grid-column: 1;
   }
 
   .buyer-main {
@@ -617,9 +599,5 @@
     overflow-y: auto;
     padding: var(--space-lg);
     padding-bottom: 24px;
-  }
-
-  .buyer-screen .buyer-bottomnav {
-    grid-column: 1 / -1;
   }
 }

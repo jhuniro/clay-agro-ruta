@@ -2,13 +2,11 @@
    RoleScreens.css — Transporter: Amber Road Pattern
    ============================================= */
 
-/* ---- Role Screen Container ---- */
-.role-screen {
+/* ---- Transporter Layout Container ---- */
+.transporter-layout {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding: var(--space-md);
-  padding-bottom: 100px;
   background:
     linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
     linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
@@ -388,79 +386,115 @@
 }
 
 /* =============================================
-   Transporter Sidebar Layout — Mobile Drawer + Desktop Grid
+   Transporter Sidebar + Bottom Nav
    ============================================= */
+
+/* ─── Topbar ─── */
+.transporter-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid rgba(245, 166, 35, 0.1);
+  background: rgba(15, 13, 8, 0.9);
+}
+.transporter-topbar__back {
+  background: transparent;
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  border-radius: 2px;
+  padding: 6px 14px;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.transporter-topbar__title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ce93d8;
+}
+
+/* ─── Sidebar (desktop only) ─── */
+.transporter-layout .fsb {
+  display: none;
+}
+
+/* ─── Bottom Nav (mobile only) ─── */
+.transporter-layout .fsb-bottomnav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: rgba(15, 13, 8, 0.95);
+  border-top: 1px solid rgba(245, 166, 35, 0.12);
+  z-index: 100;
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+.transporter-layout .fsb-bottomnav__btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  color: var(--color-text-dim);
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+.transporter-layout .fsb-bottomnav__btn--active {
+  color: var(--fsb-accent, #f5a623);
+}
+.transporter-layout .fsb-bottomnav__icon { font-size: 1.2rem; }
+.transporter-layout .fsb-bottomnav__label { font-family: var(--font-body); }
+
+/* ─── Main content ─── */
 .transporter-main {
   flex: 1;
   overflow-y: auto;
-  padding: 0;
+  padding: 0 var(--space-md);
   padding-bottom: 100px;
 }
 
-/* ─── Menu button ─── */
-.transporter-screen .role-topbar__menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(245, 166, 35, 0.08);
-  border: 1px solid rgba(245, 166, 35, 0.15);
-  border-radius: 2px;
-  color: #f5a623;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-  flex-shrink: 0;
-}
-.transporter-screen .role-topbar__menu:hover {
-  background: rgba(245, 166, 35, 0.15);
-}
-
-/* ─── Sidebar: transporter amber brick ─── */
-.transporter-screen .fsb {
-  background:
-    linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
-    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
-    linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
-    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
-    #0f0d08;
-  background-size: 64px 64px;
-  border-right: 1px solid rgba(245, 166, 35, 0.1);
-}
-
-/* ─── Desktop: sidebar in grid ─── */
+/* ─── Desktop: sidebar grid ─── */
 @media (min-width: 960px) {
-  .fsb-overlay {
-    display: none;
-  }
-  .fsb-wrapper--transporter {
-    position: static;
-    transform: none;
-    width: auto;
-    z-index: auto;
-  }
-  .transporter-screen .role-topbar__menu {
+  .transporter-layout .fsb-bottomnav {
     display: none;
   }
 
-  .transporter-screen {
+  .transporter-layout .fsb {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: var(--space-md);
+    padding-top: var(--space-sm);
+    background:
+      linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
+      linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
+      linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
+      linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
+      #0f0d08;
+    background-size: 64px 64px;
+    border-right: 1px solid rgba(245, 166, 35, 0.1);
+    overflow-y: auto;
+    height: 100%;
+  }
+
+  .transporter-layout {
     display: grid;
     grid-template-columns: 280px 1fr;
     grid-template-rows: auto 1fr;
     height: 100dvh;
-    padding-bottom: 0;
   }
 
-  .transporter-screen .role-topbar {
+  .transporter-layout .transporter-topbar {
     grid-column: 1 / -1;
-  }
-
-  .transporter-screen .fsb {
-    height: 100%;
-    overflow-y: auto;
-    grid-row: 2;
-    grid-column: 1;
   }
 
   .transporter-main {

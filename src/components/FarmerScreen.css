@@ -3,7 +3,7 @@
    ============================================= */
 
 /* ─── Shell ─── */
-.farmer {
+.farmer-layout {
   display: flex;
   flex-direction: column;
   height: 100dvh;
@@ -18,7 +18,7 @@
   z-index: 1;
 }
 
-.farmer-scroll {
+.farmer-main {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1037,92 +1037,76 @@ select.fa-field__input option {
 }
 
 /* =============================================
-   FARMER SIDEBAR — fsb-* prefix
+   FARMER SIDEBAR + BOTTOM NAV
    ============================================= */
 
-/* ─── Overlay (mobile drawer backdrop) ─── */
-.fsb-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(2px);
-}
-
-/* ─── Wrapper — drawer on mobile ─── */
-.fsb-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 280px;
-  z-index: 95;
-  transform: translateX(-100%);
-  transition: transform 0.25s ease;
-  overflow-y: auto;
-}
-.fsb-wrapper--open {
-  transform: translateX(0);
-}
-
-/* ─── Sidebar base ─── */
+/* ─── Sidebar (desktop only) ─── */
 .fsb {
+  display: none;
+}
+
+/* ─── Bottom Nav (mobile only) ─── */
+.fsb-bottomnav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: rgba(10, 15, 12, 0.95);
+  border-top: 1px solid rgba(0, 186, 124, 0.12);
+  z-index: 100;
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+.fsb-bottomnav__btn {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: var(--space-md);
-  padding-top: var(--space-sm);
-  background:
-    linear-gradient(135deg, transparent 20.5%, #0a1a10 0 29.5%, transparent 0) 0 16px,
-    linear-gradient(45deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%) 32px 0,
-    linear-gradient(135deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%, #0a1a10 0 67%, transparent 0),
-    linear-gradient(45deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%, #0a1a10 0 67%, transparent 0 83%, #0a1a10 0 92%, transparent 0),
-    #080c09;
-  background-size: 64px 64px;
-  border-right: 1px solid rgba(0, 186, 124, 0.1);
-  min-height: 100%;
-  width: 280px;
-}
-
-/* ─── Hamburger menu button ─── */
-.farmer-topbar__menu {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: rgba(0, 186, 124, 0.08);
-  border: 1px solid rgba(0, 186, 124, 0.15);
-  border-radius: 2px;
-  color: #00ba7c;
-  font-size: 1.1rem;
+  gap: 2px;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  color: var(--color-text-dim);
+  font-size: 0.65rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background var(--transition-fast);
-  flex-shrink: 0;
+  transition: color var(--transition-fast);
 }
-.farmer-topbar__menu:hover {
-  background: rgba(0, 186, 124, 0.15);
+.fsb-bottomnav__btn--active {
+  color: var(--fsb-accent, #00ba7c);
 }
+.fsb-bottomnav__icon { font-size: 1.2rem; }
+.fsb-bottomnav__label { font-family: var(--font-body); }
 
-/* ─── Desktop: static sidebar in grid ─── */
+/* ─── Desktop: sidebar grid ─── */
 @media (min-width: 960px) {
-  .fsb-overlay {
-    display: none;
-  }
-  .fsb-wrapper {
-    position: static;
-    transform: none;
-    width: auto;
-    z-index: auto;
-  }
-  .farmer-topbar__menu {
+  .fsb-bottomnav {
     display: none;
   }
 
-  .farmer {
+  .fsb {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: var(--space-md);
+    padding-top: var(--space-sm);
+    background:
+      linear-gradient(135deg, transparent 20.5%, #0a1a10 0 29.5%, transparent 0) 0 16px,
+      linear-gradient(45deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%) 32px 0,
+      linear-gradient(135deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%, #0a1a10 0 67%, transparent 0),
+      linear-gradient(45deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%, #0a1a10 0 67%, transparent 0 83%, #0a1a10 0 92%, transparent 0),
+      #080c09;
+    background-size: 64px 64px;
+    border-right: 1px solid rgba(0, 186, 124, 0.1);
+    overflow-y: auto;
+    height: 100%;
+  }
+
+  .farmer-layout {
     display: grid;
     grid-template-columns: 280px 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
     height: 100dvh;
   }
 
@@ -1130,20 +1114,11 @@ select.fa-field__input option {
     grid-column: 1 / -1;
   }
 
-  .farmer-scroll {
+  .farmer-main {
     grid-column: 2;
     overflow-y: auto;
     padding: var(--space-lg);
     padding-bottom: 24px;
-  }
-
-  .farmer-nav {
-    grid-column: 1 / -1;
-  }
-
-  .fsb {
-    height: 100%;
-    overflow-y: auto;
   }
 }
 
@@ -1449,13 +1424,6 @@ select.fa-field__input option {
   font-size: 1rem;
 }
 
-/* ─── Mobile sidebar toggle ─── */
-@media (max-width: 959px) {
-  .fsb {
-    display: none;
-  }
-}
-
 /* ─── Trip Card (Transporter sidebar) ─── */
 .fsb-trip {
   padding: 10px;
@@ -1498,20 +1466,17 @@ select.fa-field__input option {
   margin-bottom: 6px;
 }
 
-/* ─── Adjust dashboard grid when sidebar is present ─── */
+/* ─── Dashboard grid adjustments ─── */
 @media (min-width: 960px) {
   .fd {
     max-width: 100%;
   }
-
   .fd-stats {
     grid-template-columns: repeat(4, 1fr);
   }
-
   .fd-grid {
     grid-template-columns: 1.2fr 1fr;
   }
-
   .fd-shipments__grid {
     grid-template-columns: repeat(3, 1fr);
   }

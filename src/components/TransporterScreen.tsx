@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import AppSidebar from './AppSidebar'
+import { useTransporterStore } from '@/stores/transporterStore'
 import './RoleScreens.css'
 
 interface Props {
@@ -7,28 +7,22 @@ interface Props {
 }
 
 export default function TransporterScreen({ onBack }: Props) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { tab, setTab } = useTransporterStore()
 
   return (
-    <div className="role-screen transporter-screen" aria-label="Pantalla del Transportista">
-      <div className="role-topbar">
-        <button className="role-topbar__back" onClick={onBack} type="button">
+    <div className="transporter-layout" aria-label="Pantalla del Transportista">
+      <div className="transporter-topbar">
+        <button className="transporter-topbar__back" onClick={onBack} type="button">
           ← Volver
         </button>
-        <span className="role-topbar__title" style={{ color: '#ce93d8' }}>🚛 Transportista</span>
-        <button className="role-topbar__menu" onClick={() => setSidebarOpen(!sidebarOpen)} type="button">
-          ☰
-        </button>
+        <span className="transporter-topbar__title">🚛 Transportista</span>
       </div>
 
-      {/* Sidebar */}
-      {sidebarOpen && <div className="fsb-overlay" onClick={() => setSidebarOpen(false)} />}
-      <div className={`fsb-wrapper fsb-wrapper--transporter ${sidebarOpen ? 'fsb-wrapper--open' : ''}`}>
-        <AppSidebar module="transporter" />
-      </div>
+      {/* Sidebar + Bottom Nav (unified) */}
+      <AppSidebar module="transporter" activeTab={tab} onTabChange={setTab} />
 
       {/* Main content */}
-      <div className="transporter-main">
+      <main className="transporter-main">
         <h1 className="role-greeting role-greeting--transporter">
           Hola, transportista 👋
         </h1>
@@ -119,7 +113,7 @@ export default function TransporterScreen({ onBack }: Props) {
         <button className="action-btn action-btn--danger" type="button">
           🚨 Reportar incidencia vial
         </button>
-      </div>
+      </main>
     </div>
   )
 }

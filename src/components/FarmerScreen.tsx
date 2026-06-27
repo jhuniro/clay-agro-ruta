@@ -1,23 +1,20 @@
-import { useState } from 'react'
 import FarmerMap from './FarmerMap'
 import FarmerAlerts from './FarmerAlerts'
 import AppSidebar from './AppSidebar'
+import { useFarmerStore } from '@/stores/farmerStore'
 import './FarmerScreen.css'
 
 interface Props {
   onBack: () => void
 }
 
-type SubView = 'dashboard' | 'map'
-
 export default function FarmerScreen({ onBack }: Props) {
-  const [subView, setSubView] = useState<SubView>('dashboard')
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { tab, setTab } = useFarmerStore()
 
-  const handleGoMap = () => setSubView('map')
+  const handleGoMap = () => setTab('mapa')
 
   return (
-    <div className="farmer" aria-label="Pantalla del Agricultor">
+    <div className="farmer-layout" aria-label="Pantalla del Agricultor">
       {/* ─── Top Bar ─── */}
       <header className="farmer-topbar">
         <button className="farmer-topbar__back" onClick={onBack} type="button">
@@ -27,43 +24,17 @@ export default function FarmerScreen({ onBack }: Props) {
           <span className="farmer-topbar__icon">🌱</span>
           <span className="farmer-topbar__name">Agricultor</span>
         </div>
-        <button className="farmer-topbar__menu" onClick={() => setSidebarOpen(!sidebarOpen)} type="button">
-          ☰
-        </button>
         <div className="farmer-topbar__avatar">JG</div>
       </header>
 
-      {/* ─── Sidebar ─── */}
-      {sidebarOpen && <div className="fsb-overlay" onClick={() => setSidebarOpen(false)} />}
-      <div className={`fsb-wrapper ${sidebarOpen ? 'fsb-wrapper--open' : ''}`}>
-        <AppSidebar module="farmer" onGoMap={handleGoMap} />
-      </div>
+      {/* ─── Sidebar + Bottom Nav (unified) ─── */}
+      <AppSidebar module="farmer" activeTab={tab} onTabChange={setTab} onGoMap={handleGoMap} />
 
       {/* ─── Content ─── */}
-      <div className="farmer-scroll">
-        {subView === 'dashboard' && <FarmerDashboard onGoMap={handleGoMap} />}
-        {subView === 'map' && <FarmerMap />}
-      </div>
-
-      {/* ─── Bottom Nav ─── */}
-      <nav className="farmer-nav">
-        <button
-          className={`farmer-nav__btn ${subView === 'dashboard' ? 'farmer-nav__btn--active' : ''}`}
-          onClick={() => setSubView('dashboard')}
-          type="button"
-        >
-          <span className="farmer-nav__icon">🏠</span>
-          <span className="farmer-nav__label">Inicio</span>
-        </button>
-        <button
-          className={`farmer-nav__btn ${subView === 'map' ? 'farmer-nav__btn--active' : ''}`}
-          onClick={() => setSubView('map')}
-          type="button"
-        >
-          <span className="farmer-nav__icon">🗺️</span>
-          <span className="farmer-nav__label">Mapa GPS</span>
-        </button>
-      </nav>
+      <main className="farmer-main">
+        {tab === 'inicio' && <FarmerDashboard onGoMap={handleGoMap} />}
+        {tab === 'mapa' && <FarmerMap />}
+      </main>
     </div>
   )
 }
@@ -114,7 +85,6 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
 
       {/* ─── Main Grid: Map + Sidebar ─── */}
       <div className="fd-grid">
-        {/* Left: Map preview */}
         <div className="fd-map-preview">
           <div className="fd-map-preview__header">
             <h2 className="fd-section-title">📍 Ruta activa</h2>
@@ -124,10 +94,7 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
             <FarmerMap compact />
           </div>
         </div>
-
-        {/* Right: Sidebar */}
         <div className="fd-sidebar">
-          {/* Weather Widget */}
           <div className="fd-weather">
             <div className="fd-weather__content">
               <div className="fd-weather__left">
@@ -142,8 +109,6 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
               </div>
             </div>
           </div>
-
-          {/* Quick Actions */}
           <div className="fd-actions">
             <h2 className="fd-section-title">Acciones</h2>
             <div className="fd-actions__grid">
@@ -175,17 +140,7 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
       <div className="fd-shipments">
         <h2 className="fd-section-title">Mis Envíos</h2>
         <div className="fd-shipments__grid">
-
-          {/* Card 1 — En tránsito */}
           <div className="fd-ship">
-            <svg className="fd-ship__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="url(#ship_g)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
-                  <stop stopColor="#2d7a3a"/><stop offset="1" stopColor="#1e5528"/>
-                </linearGradient>
-              </defs>
-            </svg>
             <div className="fd-ship__inner">
               <div className="fd-ship__row fd-ship__row--top">
                 <span className="fd-ship__emoji">🥔</span>
@@ -202,23 +157,13 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
                 <span className="fd-ship__driver">🚛 Carlos M.</span>
                 <span className="fd-ship__eta">ETA: 2h</span>
               </div>
-              {/* Progress bar */}
               <div className="fd-ship__progress">
                 <div className="fd-ship__progress-bar" style={{ width: '62%' }} />
               </div>
             </div>
           </div>
 
-          {/* Card 2 — Pendiente */}
           <div className="fd-ship">
-            <svg className="fd-ship__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="url(#ship_y)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
-                  <stop stopColor="#f5a623"/><stop offset="1" stopColor="#c97d0a"/>
-                </linearGradient>
-              </defs>
-            </svg>
             <div className="fd-ship__inner">
               <div className="fd-ship__row fd-ship__row--top">
                 <span className="fd-ship__emoji">🌽</span>
@@ -240,16 +185,7 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
             </div>
           </div>
 
-          {/* Card 3 — Retrasado */}
           <div className="fd-ship">
-            <svg className="fd-ship__bg" fill="none" viewBox="0 0 342 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill="url(#ship_r)" d="M0 16C0 7.16 0 3.58 3.58 1.79C7.16 0 14.32 0 28.64 0H313.36C327.68 0 334.84 0 338.42 1.79C342 3.58 342 7.16 342 16V124C342 132.84 342 136.42 338.42 138.21C334.84 140 327.68 140 313.36 140H28.64C14.32 140 7.16 140 3.58 138.21C0 136.42 0 132.84 0 124V16Z"/>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" y2="70" x2="342" y1="70" x1="0">
-                  <stop stopColor="#dc3545"/><stop offset="1" stopColor="#a71d2a"/>
-                </linearGradient>
-              </defs>
-            </svg>
             <div className="fd-ship__inner">
               <div className="fd-ship__row fd-ship__row--top">
                 <span className="fd-ship__emoji">☕</span>
@@ -271,7 +207,6 @@ function FarmerDashboard({ onGoMap }: { onGoMap: () => void }) {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

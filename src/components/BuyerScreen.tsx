@@ -5,21 +5,19 @@ import BuyerMarketplace from './BuyerMarketplace'
 import BuyerBuyFlow from './BuyerBuyFlow'
 import BuyerMap from './BuyerMap'
 import AppSidebar from './AppSidebar'
+import { useBuyerStore } from '@/stores/buyerStore'
 import './BuyerScreen.css'
 
 interface Props {
   onBack: () => void
 }
 
-type SubView = 'dashboard' | 'marketplace'
-
 export default function BuyerScreen({ onBack }: Props) {
-  const [subView, setSubView] = useState<SubView>('dashboard')
+  const { tab, setTab } = useBuyerStore()
   const [showBuyModal, setShowBuyModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Order | null>(null)
   const [showMap, setShowMap] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleBuy = (product: Order) => {
     setSelectedProduct(product)
@@ -32,26 +30,20 @@ export default function BuyerScreen({ onBack }: Props) {
   }
 
   return (
-    <div className="buyer-screen" aria-label="Pantalla del Comprador">
+    <div className="buyer-layout" aria-label="Pantalla del Comprador">
       {/* Header */}
-      <div className="role-topbar">
-        <button className="role-topbar__back" onClick={onBack} type="button">
+      <div className="buyer-topbar">
+        <button className="buyer-topbar__back" onClick={onBack} type="button">
           ← Volver
         </button>
-        <span className="role-topbar__title" style={{ color: '#90caf9' }}>🛒 Comprador</span>
-        <button className="role-topbar__menu" onClick={() => setSidebarOpen(!sidebarOpen)} type="button">
-          ☰
-        </button>
+        <span className="buyer-topbar__title">🛒 Comprador</span>
       </div>
 
-      {/* Sidebar */}
-      {sidebarOpen && <div className="fsb-overlay" onClick={() => setSidebarOpen(false)} />}
-      <div className={`fsb-wrapper fsb-wrapper--buyer ${sidebarOpen ? 'fsb-wrapper--open' : ''}`}>
-        <AppSidebar module="buyer" />
-      </div>
+      {/* Sidebar + Bottom Nav (unified) */}
+      <AppSidebar module="buyer" activeTab={tab} onTabChange={setTab} />
 
       {/* Main content */}
-      <div className="buyer-main">
+      <main className="buyer-main">
         <div style={{ position: 'relative' }}>
           <svg style={{ position: 'absolute', right: 0, top: -10, pointerEvents: 'none' }} width="100" height="50" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M0 25 Q25 15 50 28 Q75 41 100 25" stroke="rgba(29,155,240,0.08)" strokeWidth="1.5" fill="none"/>
@@ -63,36 +55,15 @@ export default function BuyerScreen({ onBack }: Props) {
         </div>
         <p className="role-subtitle">Busca productos y verifica rutas antes de comprar</p>
 
-        {/* Contenido */}
         <div className="buyer-content">
-          {subView === 'dashboard' && (
+          {tab === 'inicio' && (
             <BuyerDashboard onShowMap={handleShowMap} />
           )}
-          {subView === 'marketplace' && (
+          {tab === 'mercado' && (
             <BuyerMarketplace onBuyProduct={handleBuy} />
           )}
         </div>
-      </div>
-
-      {/* Bottom Navigation */}
-      <nav className="buyer-bottomnav">
-        <button
-          className={`buyer-bottomnav__btn ${subView === 'dashboard' ? 'buyer-bottomnav__btn--active' : ''}`}
-          onClick={() => setSubView('dashboard')}
-          type="button"
-        >
-          <span className="buyer-bottomnav__icon">🏠</span>
-          <span className="buyer-bottomnav__label">Inicio</span>
-        </button>
-        <button
-          className={`buyer-bottomnav__btn ${subView === 'marketplace' ? 'buyer-bottomnav__btn--active' : ''}`}
-          onClick={() => setSubView('marketplace')}
-          type="button"
-        >
-          <span className="buyer-bottomnav__icon">🛒</span>
-          <span className="buyer-bottomnav__label">Mercado</span>
-        </button>
-      </nav>
+      </main>
 
       {/* Modales */}
       {showBuyModal && selectedProduct && (
