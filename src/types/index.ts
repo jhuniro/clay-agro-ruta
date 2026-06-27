@@ -106,3 +106,31 @@ export interface AppNotification {
   read: boolean
   type: 'info' | 'success' | 'warning' | 'error'
 }
+
+export type UserRole = 'farmer' | 'buyer' | 'transporter'
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  phone: string
+  address: string
+  birthDate: string
+  role: UserRole
+  password?: string
+}
+
+export interface AuthState {
+  user: User | null
+  selectedRole: UserRole | null
+  isAuthenticated: boolean
+  loginError: string | null
+  registerError: string | null
+  registerSuccess: string | null
+  setSelectedRole: (role: UserRole | null) => void
+  login: (email: string, pass: string) => boolean
+  register: (userData: Omit<User, 'id'>) => boolean
+  logout: () => void
+  clearErrors: () => void
+  clearRegisterSuccess: () => void
+}

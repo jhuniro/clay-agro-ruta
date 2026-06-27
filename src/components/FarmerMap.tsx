@@ -221,8 +221,8 @@ export default function FarmerMap({ compact = false, className = '', focusType =
     if (currentPos) {
       truckMarker.current.setLatLng(currentPos)
       
-      // Añadir al trail
-      gpsHistory.current.push(currentPos)
+      // Añadir todo el trayecto hasta el punto actual para seguir las curvas exactas
+      gpsHistory.current = routeLatLngs.current.slice(0, index + 1)
       if (gpsTrail.current) {
         gpsTrail.current.setLatLngs(gpsHistory.current)
       }
