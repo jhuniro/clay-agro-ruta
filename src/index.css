@@ -102,3 +102,166 @@ body {
   white-space: nowrap;
   border: 0;
 }
+/* =========================================================
+   AGRORUTA - UNIFIED PREMIUM DESIGN SYSTEM (GLASSMORPHISM)
+   ========================================================= */
+
+body {
+  background-color: #0a0a0a !important;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(255,255,255,0.02) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255,255,255,0.02) 0%, transparent 50%) !important;
+  color: #f3f4f6 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+/* Role Dynamic Ambient Glow */
+body.role-farmer {
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(34, 197, 94, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(21, 128, 61, 0.1) 0%, transparent 40%) !important;
+}
+body.role-buyer {
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(29, 78, 216, 0.1) 0%, transparent 40%) !important;
+}
+body.role-transporter {
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(126, 34, 206, 0.1) 0%, transparent 40%) !important;
+}
+
+/* Global Glassmorphism Overrides to strip old backgrounds */
+.role-screen,
+.transporter-screen,
+.farmer-screen,
+.buyer-screen,
+.fsb-wrapper,
+.bsb-wrapper {
+  background: transparent !important; 
+}
+
+/* Remove old brick backgrounds */
+.role-screen, .alert-banner, .item-card, .trip-card, .fsb {
+  background-image: none !important;
+}
+
+/* Sidebar Overrides */
+.fsb {
+  background: rgba(15, 20, 25, 0.7) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Cards & Modals */
+.item-card,
+.trip-card,
+.modal-card,
+.buyer-card,
+.stat-card {
+  background: rgba(20, 25, 30, 0.5) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+.item-card:hover, .trip-card:hover, .buyer-card:hover {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Action Buttons */
+.action-btn, 
+.ts-btn, 
+.fh-btn,
+.bs-btn {
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+  transition: all 0.2s ease, transform 0.1s !important;
+}
+.action-btn:active, .ts-btn:active, .fh-btn:active {
+  transform: scale(0.97) !important;
+}
+
+/* Dynamic Buttons based on Role */
+body.role-farmer .action-btn--primary, body.role-farmer .fh-btn-primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3) !important;
+}
+
+body.role-buyer .action-btn--primary, body.role-buyer .bs-btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3) !important;
+}
+
+body.role-transporter .action-btn--primary, body.role-transporter .ts-btn--primary {
+  background: linear-gradient(135deg, #a855f7, #9333ea) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Secondary Buttons */
+.action-btn--secondary, .ts-btn--secondary {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #d1d5db !important;
+}
+.action-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+/* Alerts / Banners */
+.alert-banner {
+  border-radius: 12px !important;
+  backdrop-filter: blur(8px) !important;
+}
+.alert-banner--warning {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1px solid rgba(245, 158, 11, 0.4) !important;
+  color: #fcd34d !important;
+}
+.alert-banner--danger {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  color: #fca5a5 !important;
+}
+.alert-banner--info {
+  background: rgba(59, 130, 246, 0.15) !important;
+  border: 1px solid rgba(59, 130, 246, 0.4) !important;
+  color: #93c5fd !important;
+}
+
+/* Remove gradient overlays in cards */
+.item-card__bg, .trip-card__bg, .alert-banner__bg {
+  display: none !important;
+}
+
+/* Typography Enhancements */
+.role-greeting {
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+body.role-farmer .role-greeting { color: #4ade80 !important; }
+body.role-buyer .role-greeting { color: #60a5fa !important; }
+body.role-transporter .role-greeting { color: #c084fc !important; }
+
+/* Route Badges */
+.route-badge, .item-card__status, .ts-badge {
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
