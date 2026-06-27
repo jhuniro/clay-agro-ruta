@@ -14,10 +14,12 @@
   position: relative;
   z-index: 1;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.015) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(255,255,255,0.01) 4px 8px),
-    linear-gradient(180deg, #111 0%, #0a0a0a 100%);
-  background-size: 64px 64px, 64px 64px, 100% 100%;
+    linear-gradient(135deg, transparent 20.5%, #1a1a1a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0 83%, #1a1a1a 0 92%, transparent 0),
+    #111111;
+  background-size: 64px 64px;
 }
 
 /* ---- Card wrapper ---- */
@@ -34,8 +36,10 @@
   justify-content: space-between;
   overflow: hidden;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.02) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(255,255,255,0.015) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #1a1a1a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0 83%, #1a1a1a 0 92%, transparent 0),
     #141414;
   background-size: 64px 64px;
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -186,8 +190,10 @@
   overflow: hidden;
   transition: all var(--transition-base);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.015) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(255,255,255,0.01) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #1a1a1a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #1a1a1a 0 17%, transparent 0 58%, #1a1a1a 0 67%, transparent 0 83%, #1a1a1a 0 92%, transparent 0),
     #141414;
   background-size: 64px 64px;
   color: var(--color-text);

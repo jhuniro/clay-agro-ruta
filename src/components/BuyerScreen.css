@@ -8,10 +8,12 @@
   display: flex;
   flex-direction: column;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(29,155,240,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(29,155,240,0.02) 4px 8px),
-    linear-gradient(180deg, #0a0c12 0%, #080a10 100%);
-  background-size: 64px 64px, 64px 64px, 100% 100%;
+    linear-gradient(135deg, transparent 20.5%, #0c1a2a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0c1a2a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0c1a2a 0 17%, transparent 0 58%, #0c1a2a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0c1a2a 0 17%, transparent 0 58%, #0c1a2a 0 67%, transparent 0 83%, #0c1a2a 0 92%, transparent 0),
+    #080a10;
+  background-size: 64px 64px;
   position: relative;
   z-index: 1;
 }
@@ -32,9 +34,11 @@
   overflow: hidden;
   color: var(--color-text);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(29,155,240,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(29,155,240,0.025) 4px 8px),
-    #0d0f14;
+    linear-gradient(135deg, transparent 20.5%, #0a1622 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0 83%, #0a1622 0 92%, transparent 0),
+    #0b1118;
   background-size: 64px 64px;
   border: 1px solid rgba(29, 155, 240, 0.1);
 }
@@ -94,9 +98,11 @@
   border-radius: 2px;
   border: 1px solid rgba(29, 155, 240, 0.1);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(29,155,240,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(29,155,240,0.02) 4px 8px),
-    #0d0f14;
+    linear-gradient(135deg, transparent 20.5%, #0a1622 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0 83%, #0a1622 0 92%, transparent 0),
+    #0b1118;
   background-size: 64px 64px;
   color: var(--color-text);
   font-size: 0.85rem;
@@ -127,9 +133,11 @@
   border-radius: 2px;
   border: 1px solid rgba(29, 155, 240, 0.1);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(29,155,240,0.025) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(29,155,240,0.015) 4px 8px),
-    #0d0f14;
+    linear-gradient(135deg, transparent 20.5%, #091420 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #091420 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #091420 0 17%, transparent 0 58%, #091420 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #091420 0 17%, transparent 0 58%, #091420 0 67%, transparent 0 83%, #091420 0 92%, transparent 0),
+    #0a0f16;
   background-size: 64px 64px;
   color: var(--color-text-muted);
   font-size: 0.75rem;
@@ -158,9 +166,11 @@
   overflow: hidden;
   color: var(--color-text);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(29,155,240,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(29,155,240,0.025) 4px 8px),
-    #0d0f14;
+    linear-gradient(135deg, transparent 20.5%, #0a1622 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0 83%, #0a1622 0 92%, transparent 0),
+    #0b1118;
   background-size: 64px 64px;
   border: 1px solid rgba(29, 155, 240, 0.1);
 }
@@ -247,9 +257,11 @@
   color: var(--color-text);
   overflow: hidden;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(29,155,240,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(29,155,240,0.025) 4px 8px),
-    #0d0f14;
+    linear-gradient(135deg, transparent 20.5%, #0a1622 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1622 0 17%, transparent 0 58%, #0a1622 0 67%, transparent 0 83%, #0a1622 0 92%, transparent 0),
+    #0b1118;
   background-size: 64px 64px;
   border: 1px solid rgba(29, 155, 240, 0.15);
 }
@@ -431,7 +443,7 @@
   max-width: 400px;
   border-radius: 2px;
   overflow: hidden;
-  background: #0a0c12;
+  background: #080a10;
   border: 1px solid rgba(29, 155, 240, 0.1);
   color: var(--color-text);
 }

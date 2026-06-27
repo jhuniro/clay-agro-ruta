@@ -8,10 +8,12 @@
   flex-direction: column;
   height: 100dvh;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
-    linear-gradient(180deg, #0a0f0c 0%, #080c09 100%);
-  background-size: 64px 64px, 64px 64px, 100% 100%;
+    linear-gradient(135deg, transparent 20.5%, #0d2818 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0d2818 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0d2818 0 17%, transparent 0 58%, #0d2818 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0d2818 0 17%, transparent 0 58%, #0d2818 0 67%, transparent 0 83%, #0d2818 0 92%, transparent 0),
+    #080c09;
+  background-size: 64px 64px;
   position: relative;
   z-index: 1;
 }
@@ -190,9 +192,11 @@
   overflow: hidden;
   text-align: center;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.05) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.1);
 }
@@ -364,9 +368,11 @@
   border-radius: 2px;
   border: 1px solid rgba(0, 186, 124, 0.08);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -395,9 +401,11 @@
   border-radius: 2px;
   overflow: hidden;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.08);
 }
@@ -623,9 +631,11 @@
   overflow: hidden;
   margin-bottom: var(--space-md);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.08);
 }
@@ -728,9 +738,11 @@ select.fa-field__input option {
   border-radius: 2px;
   overflow: hidden;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.08);
 }
@@ -910,9 +922,11 @@ select.fa-field__input option {
   gap: 10px;
   padding: 12px 14px;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.08);
   border-radius: 2px;
@@ -1062,7 +1076,13 @@ select.fa-field__input option {
     gap: 12px;
     padding: var(--space-md);
     padding-top: var(--space-sm);
-    background: rgba(10, 15, 12, 0.9);
+    background:
+      linear-gradient(135deg, transparent 20.5%, #0a1a10 0 29.5%, transparent 0) 0 16px,
+      linear-gradient(45deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%) 32px 0,
+      linear-gradient(135deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%, #0a1a10 0 67%, transparent 0),
+      linear-gradient(45deg, transparent 8%, #0a1a10 0 17%, transparent 0 58%, #0a1a10 0 67%, transparent 0 83%, #0a1a10 0 92%, transparent 0),
+      #080c09;
+    background-size: 64px 64px;
     border-right: 1px solid rgba(0, 186, 124, 0.1);
     overflow-y: auto;
     grid-row: 2;
@@ -1073,9 +1093,11 @@ select.fa-field__input option {
 /* ─── Ruti Tutorial Card ─── */
 .fsb-ruti {
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #0a1f12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0a1f12 0 17%, transparent 0 58%, #0a1f12 0 67%, transparent 0 83%, #0a1f12 0 92%, transparent 0),
+    #0b1410;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.1);
   border-radius: 2px;
@@ -1224,9 +1246,11 @@ select.fa-field__input option {
 /* ─── Sidebar Sections ─── */
 .fsb-section {
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.025) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.015) 4px 8px),
-    #0d120f;
+    linear-gradient(135deg, transparent 20.5%, #091a0e 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #091a0e 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #091a0e 0 17%, transparent 0 58%, #091a0e 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #091a0e 0 17%, transparent 0 58%, #091a0e 0 67%, transparent 0 83%, #091a0e 0 92%, transparent 0),
+    #0a120d;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.06);
   border-radius: 2px;

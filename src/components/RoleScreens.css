@@ -10,10 +10,12 @@
   padding: var(--space-md);
   padding-bottom: 100px;
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(245,166,35,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(245,166,35,0.02) 4px 8px),
-    linear-gradient(180deg, #12100a 0%, #0f0d08 100%);
-  background-size: 64px 64px, 64px 64px, 100% 100%;
+    linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
+    #0f0d08;
+  background-size: 64px 64px;
   position: relative;
   z-index: 1;
   animation: fadeIn 0.3s ease both;
@@ -100,8 +102,10 @@
 
 .alert-banner--warning {
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(245,166,35,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(245,166,35,0.02) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
     #15120c;
   background-size: 64px 64px;
   border: 1px solid rgba(245, 166, 35, 0.12);
@@ -110,8 +114,10 @@
 
 .alert-banner--danger {
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(220,53,69,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(220,53,69,0.02) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #2a0d12 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #2a0d12 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #2a0d12 0 17%, transparent 0 58%, #2a0d12 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #2a0d12 0 17%, transparent 0 58%, #2a0d12 0 67%, transparent 0 83%, #2a0d12 0 92%, transparent 0),
     #15120c;
   background-size: 64px 64px;
   border: 1px solid rgba(220, 53, 69, 0.12);
@@ -120,8 +126,10 @@
 
 .alert-banner--info {
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(0,186,124,0.03) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(0,186,124,0.02) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #0d2818 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #0d2818 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #0d2818 0 17%, transparent 0 58%, #0d2818 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #0d2818 0 17%, transparent 0 58%, #0d2818 0 67%, transparent 0 83%, #0d2818 0 92%, transparent 0),
     #15120c;
   background-size: 64px 64px;
   border: 1px solid rgba(0, 186, 124, 0.12);
@@ -201,8 +209,10 @@
   overflow: hidden;
   color: var(--color-text);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(245,166,35,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(245,166,35,0.025) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #2a1f0d 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #2a1f0d 0 17%, transparent 0 58%, #2a1f0d 0 67%, transparent 0 83%, #2a1f0d 0 92%, transparent 0),
     #15120c;
   background-size: 64px 64px;
   border: 1px solid rgba(245, 166, 35, 0.08);
@@ -337,8 +347,10 @@
   overflow: hidden;
   color: var(--color-text);
   background:
-    repeating-linear-gradient(45deg, transparent 0 4px, rgba(120,86,255,0.04) 4px 8px),
-    repeating-linear-gradient(-45deg, transparent 0 4px, rgba(120,86,255,0.025) 4px 8px),
+    linear-gradient(135deg, transparent 20.5%, #1a0d2a 0 29.5%, transparent 0) 0 16px,
+    linear-gradient(45deg, transparent 8%, #1a0d2a 0 17%, transparent 0 58%) 32px 0,
+    linear-gradient(135deg, transparent 8%, #1a0d2a 0 17%, transparent 0 58%, #1a0d2a 0 67%, transparent 0),
+    linear-gradient(45deg, transparent 8%, #1a0d2a 0 17%, transparent 0 58%, #1a0d2a 0 67%, transparent 0 83%, #1a0d2a 0 92%, transparent 0),
     #15120c;
   background-size: 64px 64px;
   border: 1px solid rgba(120, 86, 255, 0.1);
