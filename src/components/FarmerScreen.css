@@ -1291,6 +1291,7 @@ select.fa-field__input option {
 .fsb-item--green .fsb-item__dot { background: #4ade80; }
 .fsb-item--yellow .fsb-item__dot { background: #fbbf24; }
 .fsb-item--red .fsb-item__dot { background: #f87171; }
+.fsb-item--blue .fsb-item__dot { background: #60a5fa; }
 
 .fsb-item__txt {
   flex: 1;
@@ -1396,6 +1397,48 @@ select.fa-field__input option {
   .fsb {
     display: none;
   }
+}
+
+/* ─── Trip Card (Transporter sidebar) ─── */
+.fsb-trip {
+  padding: 10px;
+  background: rgba(120, 86, 255, 0.06);
+  border: 1px solid rgba(120, 86, 255, 0.12);
+  border-radius: 2px;
+}
+.fsb-trip__header {
+  margin-bottom: 6px;
+}
+.fsb-trip__status {
+  font-size: 0.55rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.fsb-trip__status--active {
+  background: rgba(0, 186, 124, 0.12);
+  color: #4ade80;
+}
+.fsb-trip__route {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 4px;
+}
+.fsb-trip__product {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 4px;
+}
+.fsb-trip__eta {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #7856ff;
+  margin-bottom: 6px;
 }
 
 /* ─── Adjust dashboard grid when sidebar is present ─── */

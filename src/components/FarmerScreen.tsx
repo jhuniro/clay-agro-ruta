@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import FarmerMap from './FarmerMap'
 import FarmerAlerts from './FarmerAlerts'
-import FarmerSidebar from './FarmerSidebar'
+import AppSidebar from './AppSidebar'
 import './FarmerScreen.css'
 
 interface Props {
@@ -30,7 +30,7 @@ export default function FarmerScreen({ onBack }: Props) {
       </header>
 
       {/* ─── Sidebar (desktop only) ─── */}
-      <FarmerSidebar onGoMap={handleGoMap} />
+      <AppSidebar module="farmer" onGoMap={handleGoMap} />
 
       {/* ─── Content ─── */}
       <div className="farmer-scroll">
