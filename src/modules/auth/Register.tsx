@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { useAuthStore } from '../../stores/authStore'
-import { UserRole } from '../../types'
+
 
 interface RegisterProps {
   onBack: () => void

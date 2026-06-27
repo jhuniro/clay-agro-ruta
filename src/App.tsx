@@ -38,7 +38,7 @@ function App() {
   const match = currentPath.match(/^\/tracking\/([^/]+)/)
   const trackingShipmentId = match ? match[1] : null
 
-  const handleRoleSelect = (role: UserRole) => {
+  const handleRoleSelect = (_role: UserRole) => {
     setView('login')
   }
 
